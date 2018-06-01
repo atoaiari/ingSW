@@ -1,0 +1,28 @@
+.sidebar_login {
+    -fx-background-image: url("ii.gif");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+.logo {
+    -fx-background-image: url("logo.png");
+    -fx-background-repeat: no-repeat;
+}
+
+.forgetPSW {
+    -fx-background-color: transparent;
+}
+
+.forgetPSW:hover {
+    -fx-background-color: transparent;
+    -fx-text-fill: darkgrey;
+    -fx-underline: true;
+}
+
+.sendButton {
+    -fx-background-color: darkcyan;
+    -fx-font-family: Roboto;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-font: bold;
+}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Home">
+   <children>
+      <GridPane prefHeight="1080.0" prefWidth="1920.0">
+        <columnConstraints>
+          <ColumnConstraints maxWidth="942.0" minWidth="10.0" prefWidth="370.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1768.0" minWidth="10.0" prefWidth="1550.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="346.0" minHeight="0.0" prefHeight="69.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="1031.0" minHeight="10.0" prefHeight="1011.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: darkcyan;" GridPane.rowIndex="1" />
+            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: darkcyan;">
+               <children>
+                  <ImageView fitHeight="80.0" fitWidth="308.0" layoutX="15.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../controller/logo_white.png" />
+                     </image>
+                  </ImageView>
+               </children></Pane>
+            <Pane prefHeight="29.0" prefWidth="1550.0" style="-fx-background-color: black;" GridPane.columnIndex="1" />
+            <GridPane prefWidth="1542.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="400.0" minHeight="10.0" prefHeight="400.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="917.0" minHeight="10.0" prefHeight="593.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fitHeight="400.0" fitWidth="2470.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../controller/banner.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
