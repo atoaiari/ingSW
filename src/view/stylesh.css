@@ -25,3 +25,10 @@
     -fx-font-size: 20;
     -fx-text-fill: white;
 }
+
+.sendButton:hover {
+    -fx-background-color: #008b70;
+    -fx-font-family: Roboto;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+}
