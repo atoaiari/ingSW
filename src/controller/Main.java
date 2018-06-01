@@ -54,7 +54,7 @@ public class Main extends Application {
             FXMLLoader loginLoader = new FXMLLoader(Main.class.getResource(LOGIN_FXML_PATH));
             AnchorPane loginRoot = loginLoader.load();
 
-            //creo stage e scene
+            // creo stage e scene
             Stage loginStage = new Stage();
             loginStage.setTitle("Login");
             loginStage.initModality(Modality.APPLICATION_MODAL);
@@ -62,9 +62,7 @@ public class Main extends Application {
             Scene loginMainScene = new Scene(loginRoot);
             loginStage.setScene(loginMainScene);
 
-            //Assegno controller
-
-
+            // Assegno controller
             LoginController myController = (LoginController) loginLoader.getController();
             System.out.println(myController);
             myController.setLoginStage(loginStage);
@@ -80,33 +78,33 @@ public class Main extends Application {
     }
 
 
-    private boolean registration() {
-        try {
-            FXMLLoader registrationLoader = new FXMLLoader(Main.class.getResource(REGISTRAZIONE_FXML_PATH));
-            AnchorPane registrationRoot = registrationLoader.load();
-
-            //creo stage e scene
-            Stage registrationStage = new Stage();
-            registrationStage.setTitle("Registrazione");
-            registrationStage.initModality(Modality.APPLICATION_MODAL);
-            registrationStage.initOwner(primaryStage);
-            Scene registrationMainScene = new Scene(registrationRoot);
-            registrationStage.setScene(registrationMainScene);
-
-            //Assegno controller
-            RegistrationController myController = (RegistrationController) registrationLoader.getController();
-            System.out.println(myController);
-            myController.setRegistrationStage(registrationStage);
-
-            registrationStage.showAndWait();
-            //return myController.esitoLogin();
-        } catch (IOException e) {
-            System.err.println("File " + LOGIN_FXML_PATH + " non trovato");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+//    private boolean registration() {
+//        try {
+//            FXMLLoader registrationLoader = new FXMLLoader(Main.class.getResource(REGISTRAZIONE_FXML_PATH));
+//            AnchorPane registrationRoot = registrationLoader.load();
+//
+//            //creo stage e scene
+//            Stage registrationStage = new Stage();
+//            registrationStage.setTitle("Registrazione");
+//            registrationStage.initModality(Modality.APPLICATION_MODAL);
+//            registrationStage.initOwner(primaryStage);
+//            Scene registrationMainScene = new Scene(registrationRoot);
+//            registrationStage.setScene(registrationMainScene);
+//
+//            //Assegno controller
+//            RegistrationController myController = (RegistrationController) registrationLoader.getController();
+//            System.out.println(myController);
+//            myController.setRegistrationStage(registrationStage);
+//
+//            registrationStage.showAndWait();
+//            //return myController.esitoLogin();
+//        } catch (IOException e) {
+//            System.err.println("File " + LOGIN_FXML_PATH + " non trovato");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
 
     public static void main(String[] args) {
         launch(args);

@@ -42,7 +42,7 @@
                   <Font name="Roboto Regular" size="13.0" />
                </font>
             </Label>
-            <Button fx:id="registerButton" layoutX="255.0" layoutY="588.0" mnemonicParsing="false" onAction="#registration" prefHeight="40.0" prefWidth="127.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Registrati" />
+            <Button fx:id="registerButton" layoutX="255.0" layoutY="588.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="127.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Registrati" />
             <Label fx:id="emailError" layoutX="35.0" layoutY="294.0" textFill="RED">
                <font>
                   <Font name="Roboto Regular" size="13.0" />

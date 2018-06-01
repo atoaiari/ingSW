@@ -2,6 +2,7 @@ package controller;
 
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -10,10 +11,33 @@ import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class LoginController {
+import javafx.application.Application;
+import javafx.event.Event;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class LoginController implements Initializable {
+
+    private static final String REGISTRAZIONE_FXML_PATH = "/view/registration.fxml";
+    private static final String LOGIN_FXML_PATH = "/view/login.fxml";
 
     private boolean logged = false;
     private Stage loginStage;
+    private Scene basckupScene = null;
 
     @FXML private TextField emailTextfield;
     @FXML private PasswordField pswPasswordField;
@@ -24,7 +48,6 @@ public class LoginController {
     @FXML private Label pswError;
 
     public LoginController(){
-        //loginButton.setOnAction(e -> loginClick());
     }
 
     public boolean esitoLogin() {
@@ -58,6 +81,36 @@ public class LoginController {
     }
 
     @FXML
+    public void registrationClick() {
+        System.out.println("click");
+        try {
+            FXMLLoader registrationLoader = new FXMLLoader(Main.class.getResource(REGISTRAZIONE_FXML_PATH));
+            AnchorPane registrationRoot = registrationLoader.load();
+
+            //creo stage e scene
+            loginStage.setTitle("Registrazione");
+            Scene registrationMainScene = new Scene(registrationRoot);
+            basckupScene = loginStage.getScene();
+            loginStage.setScene(registrationMainScene);
+
+            //Assegno controller
+            RegistrationController myController = (RegistrationController) registrationLoader.getController();
+            System.out.println(myController);
+            myController.setRegistrationStage(loginStage);
+            myController.setLoginController(this);
+        } catch (IOException e) {
+            System.err.println("File " + LOGIN_FXML_PATH + " non trovato");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void restoreScene(){
+        loginStage.setTitle("Login");
+        loginStage.setScene(basckupScene);
+    }
+
+    @FXML
     public void noErrorMail() {
         if (getMail() != null || getMail().length() != 0)
             emailError.setText("");
@@ -75,4 +128,8 @@ public class LoginController {
             loginButton.fire();
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        registerButton.setOnAction(e -> registrationClick());
+    }
 }
