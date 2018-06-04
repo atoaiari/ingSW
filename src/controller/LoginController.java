@@ -82,7 +82,6 @@ public class LoginController implements Initializable {
 
     @FXML
     public void registrationClick() {
-        System.out.println("click");
         try {
             FXMLLoader registrationLoader = new FXMLLoader(Main.class.getResource(REGISTRAZIONE_FXML_PATH));
             AnchorPane registrationRoot = registrationLoader.load();
@@ -99,7 +98,7 @@ public class LoginController implements Initializable {
             myController.setRegistrationStage(loginStage);
             myController.setLoginController(this);
         } catch (IOException e) {
-            System.err.println("File " + LOGIN_FXML_PATH + " non trovato");
+            System.err.println("File " + REGISTRAZIONE_FXML_PATH + " non trovato");
         } catch (Exception e) {
             e.printStackTrace();
         }

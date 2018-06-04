@@ -23,9 +23,10 @@ import javafx.stage.Stage;
 public class Main extends Application {
     private static final String LOGIN_FXML_PATH = "/view/login.fxml";
     private static final String REGISTRAZIONE_FXML_PATH = "/view/registrazione.fxml";
-    private static final String NEGOZIO_FXML_PATH = "/view/negozio.fxml";
+    private static final String STORE_FXML_PATH = "/view/store.fxml";
 
     private Stage primaryStage;
+    private StoreController myController;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -41,8 +42,27 @@ public class Main extends Application {
         if (! eseguitoLogin())
             return;
 
+        openStore();
+    }
 
-        //showMagazzino();
+    private void openStore() {
+        FXMLLoader storeLoader = new FXMLLoader();
+        storeLoader.setLocation(getClass().getResource(STORE_FXML_PATH));
+        Parent root = null;
+        try {
+            root = (Parent) storeLoader.load();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        myController = storeLoader.getController();
+        myController.setStage(primaryStage);
+
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setMaximized(true);
+        primaryStage.setOnCloseRequest(event -> chiusura(event));
+        primaryStage.show();
     }
 
     /**
@@ -105,6 +125,25 @@ public class Main extends Application {
 //        }
 //        return false;
 //    }
+
+    public void chiusura(Event event){
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Conferma");
+        alert.setHeaderText("Vuoi davvero uscire?");
+        alert.setContentText(null);
+
+        ButtonType si = new ButtonType("Si");
+        ButtonType no = new ButtonType("No");
+        ButtonType annulla = new ButtonType("Annulla", ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(si, no, annulla);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == si){
+        }
+        else if (result.get() == annulla) {
+            event.consume();
+        }
+    }
 
     public static void main(String[] args) {
         launch(args);

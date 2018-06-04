@@ -49,6 +49,13 @@ public class RegistrationController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loginButton.setOnAction(e -> loginClick());
+        registrationButton.setOnAction(e -> registrationClick());
+    }
+
+    private void registrationClick() {
+        // inserisco entry nel database
+        System.out.println("Registrazione");
+        loginController.restoreScene();
     }
 
     private void loginClick() {
