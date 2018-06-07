@@ -1,0 +1,9 @@
+{"users":[
+{"id":"1","name":"Andrea","surname":"Toaiari","email":"at@gmail.com","regDate":"23/06/2017","password":"..."},
+{"id":"2","name":"Gianni","surname":"Fantoni","email":"ilfanto@gmail.com","regDate":"30/09/2015","password":"..."},
+{"id":"3","name":"Carlo","surname":"Mantovani","email":"carlo.m@gmail.com","regDate":"15/03/2016","password":"..."},
+{"id":"4","name":"Giacomo","surname":"Sticci","email":"stcc@gmail.com","regDate":"01/02/2014","password":"..."},
+{"id":"5","name":"Dennis","surname":"Pugliaro","email":"puglia24@hotmail.com","regDate":"14/08/2014","password":"..."},
+{"id":"6","name":"Marco","surname":"Mariolo","email":"2xm@gmail.com","regDate":"15/10/2012","password":"..."},
+{"id":"7","name":"Santino","surname":"Leocaro","email":"santino.leo@gmail.com","regDate":"07/12/2017","password":"..."}
+]}
