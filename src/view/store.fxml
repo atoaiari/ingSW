@@ -5,6 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Home">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Store">
    <children>
       <GridPane layoutY="-1.0" prefHeight="1080.0" prefWidth="1920.0">
         <columnConstraints>
@@ -32,66 +33,79 @@
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints maxHeight="348.0" minHeight="0.0" prefHeight="169.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="968.0" minHeight="10.0" prefHeight="769.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="151.0" minHeight="10.0" prefHeight="133.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="357.0" minHeight="0.0" prefHeight="188.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="968.0" minHeight="10.0" prefHeight="762.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="151.0" minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Reset Filtri">
+                              <Label text="Ricerca" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Regular" size="28.0" />
+                                 </font>
                                  <VBox.margin>
-                                    <Insets left="60.0" top="150.0" />
+                                    <Insets left="40.0" top="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TextField fx:id="searchTextField" prefHeight="50.0" prefWidth="409.0">
+                                 <VBox.margin>
+                                    <Insets left="40.0" right="40.0" top="10.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label text="Seleziona tipo" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Regular" size="28.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="40.0" top="60.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <CheckBox fx:id="CDCheckBox" mnemonicParsing="false" text="CD" textFill="WHITE">
+                                 <VBox.margin>
+                                    <Insets left="60.0" top="10.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="Roboto Regular" size="22.0" />
+                                 </font>
+                              </CheckBox>
+                              <CheckBox fx:id="DVDCheckBox" mnemonicParsing="false" text="DVD" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Regular" size="22.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="60.0" top="20.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <Label text="Genere" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Regular" size="28.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="40.0" top="40.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <ChoiceBox fx:id="GenereChoiceBox" prefHeight="50.0" prefWidth="300.0">
+                                 <VBox.margin>
+                                    <Insets left="40.0" top="10.0" />
+                                 </VBox.margin>
+                              </ChoiceBox>
+                              <Button fx:id="FilterResetButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Reset Filtri">
+                                 <VBox.margin>
+                                    <Insets bottom="80.0" left="80.0" right="80.0" top="160.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="Roboto Regular" size="20.0" />
                                  </font>
                               </Button>
-                              <Label text="Seleziona tipo">
-                                 <font>
-                                    <Font name="Roboto Regular" size="28.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets left="60.0" top="40.0" />
-                                 </padding>
-                              </Label>
-                              <CheckBox mnemonicParsing="false" text="CheckBox">
-                                 <VBox.margin>
-                                    <Insets left="60.0" top="20.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="22.0" />
-                                 </font>
-                              </CheckBox>
-                              <CheckBox mnemonicParsing="false" text="CheckBox">
-                                 <font>
-                                    <Font size="22.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets left="60.0" top="20.0" />
-                                 </VBox.margin>
-                              </CheckBox>
-                              <Label text="Genere">
-                                 <font>
-                                    <Font name="Roboto Regular" size="28.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets left="60.0" top="60.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <ChoiceBox prefHeight="50.0" prefWidth="250.0">
-                                 <VBox.margin>
-                                    <Insets left="60.0" top="20.0" />
-                                 </VBox.margin>
-                              </ChoiceBox>
                            </children>
                         </VBox>
-                        <ImageView fitHeight="93.0" fitWidth="348.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="148.0" fitWidth="364.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@logo_white.png" />
                            </image>
                            <GridPane.margin>
-                              <Insets left="30.0" />
+                              <Insets left="20.0" top="-40.0" />
                            </GridPane.margin>
                         </ImageView>
                      </children>

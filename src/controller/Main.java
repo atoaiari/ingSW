@@ -47,10 +47,10 @@ public class Main extends Application {
 
     private void openStore() {
         FXMLLoader storeLoader = new FXMLLoader();
-        storeLoader.setLocation(getClass().getResource(STORE_FXML_PATH));
-        Parent root = null;
+        storeLoader.setLocation(Main.class.getResource(STORE_FXML_PATH));
+        AnchorPane root = null;
         try {
-            root = (Parent) storeLoader.load();
+            root = (AnchorPane) storeLoader.load();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
