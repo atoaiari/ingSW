@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 
 
 public class StoreController implements Initializable {
+    @FXML private Button LogoutButton;
     @FXML private TextField searchTextField;
     @FXML private CheckBox CDCheckBox;
     @FXML private CheckBox DVDCheckBox;

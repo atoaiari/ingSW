@@ -57,13 +57,12 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-        System.out.println("ciaone");
         myController = storeLoader.getController();
         myController.setStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setMaximized(true);
-        primaryStage.setOnCloseRequest(event -> chiusura(event));
+        primaryStage.setOnCloseRequest(event -> closeStore(event));
         primaryStage.show();
     }
 
@@ -128,7 +127,7 @@ public class Main extends Application {
 //        return false;
 //    }
 
-    public void chiusura(Event event){
+    public void closeStore(Event event){
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Conferma");
         alert.setHeaderText("Vuoi davvero uscire?");
