@@ -16,11 +16,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import model.Product;
 import model.Store;
 
 
+
 public class StoreController implements Initializable {
-    @FXML private Button LogoutButton;
+    @FXML private Button logoutButton;
     @FXML private TextField searchTextField;
     @FXML private CheckBox CDCheckBox;
     @FXML private CheckBox DVDCheckBox;
@@ -75,18 +77,27 @@ public class StoreController implements Initializable {
         //Adding the array of buttons to the pane
         list.addAll(products);
 
+        logoutButton.setOnAction(e -> close());
+
     }
 
     private ObservableList getProductsLayout() throws IOException {
         ObservableList result = FXCollections.observableArrayList();
-        for(product : Store.getInstance().getProducts()){
-            FXMLLoader loginLoader = new FXMLLoader(Main.class.getResource("/view/product.fxml"));
-            AnchorPane layout = loginLoader.load();
+        for(Product product : Store.getInstance().getProducts()){
+            FXMLLoader productLoader = new FXMLLoader(Main.class.getResource("/view/product.fxml"));
+            AnchorPane layout = productLoader.load();
             // ottieni controller
-
+            ProductController myController = (ProductController) productLoader.getController();
+            myController.setProduct(product);
             // controller.setProduct(product)
             result.add(layout);
         }
+        System.out.println(result);
         return result;
     }
+
+    private void close(){
+        primaryStage.close();
+    }
+
 }

@@ -63,6 +63,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setMaximized(true);
         primaryStage.setOnCloseRequest(event -> closeStore(event));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
@@ -87,6 +88,7 @@ public class Main extends Application {
             LoginController myController = (LoginController) loginLoader.getController();
             System.out.println(myController);
             myController.setLoginStage(loginStage);
+            loginStage.setResizable(false);
 
             loginStage.showAndWait();
             return myController.esitoLogin();

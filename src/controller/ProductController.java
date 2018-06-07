@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import model.Product;
 
 public class ProductController implements Initializable {
     @FXML private ImageView productImage;
@@ -20,6 +21,8 @@ public class ProductController implements Initializable {
     @FXML private Button addToCartButton;
     @FXML private Button productDetailsButton;
 
+    private Product product;
+
 
     public ProductController() {
 
@@ -29,5 +32,10 @@ public class ProductController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+        productTitleLabel.setText(product.getTitle());
     }
 }

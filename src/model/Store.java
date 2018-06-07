@@ -17,7 +17,6 @@ public class Store {
     private Store() {
         productsSet = new TreeSet<>();
         for (String document : getProductsJson()){
-            // if json.type == 'CD' else ...
             Product myProduct = new Product(document);
             productsSet.add(myProduct);
         }
@@ -28,6 +27,22 @@ public class Store {
         ArrayList result = new ArrayList<String>();
         result.add("ciao");
         result.add("cacca");
+        result.add("andrea");
+        result.add("toaiari");
+        result.add("vlad");
+        result.add("is");
+        result.add("slav");
+        result.add("gaga");
+        result.add("sgdgdg");
+        result.add("sggsg");
+        result.add("sgsgs");
+        result.add("gsgdsg");
+        result.add("dsgsdsg");
+        result.add("cjds");
+        result.add("mkmk");
+        result.add("kj");
+        result.add("po");
+        result.add("jno");
         return result;
     }
 
