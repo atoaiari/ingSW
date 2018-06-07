@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javafx.fxml.FXML;
 import model.Product;
@@ -48,16 +49,19 @@ public class StoreController implements Initializable {
     }
 
 
-
-
-
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Set<Product> products = Store.getInstance().getProducts();
+        setTilePaneChildren(products);
+
+        logoutButton.setOnAction(e -> close());
+
+    }
+
+    private void setTilePaneChildren(Set<Product> productsObj){
         ObservableList<AnchorPane> products = null;
         try {
-            products = getProductsLayout();
+            products = getProductsLayout(productsObj);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,14 +80,11 @@ public class StoreController implements Initializable {
 
         //Adding the array of buttons to the pane
         list.addAll(products);
-
-        logoutButton.setOnAction(e -> close());
-
     }
 
-    private ObservableList getProductsLayout() throws IOException {
+    private ObservableList getProductsLayout(Set<Product> prodotti) throws IOException {
         ObservableList result = FXCollections.observableArrayList();
-        for(Product product : Store.getInstance().getProducts()){
+        for(Product product : prodotti){
             FXMLLoader productLoader = new FXMLLoader(Main.class.getResource("/view/product.fxml"));
             AnchorPane layout = productLoader.load();
             // ottieni controller
