@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private static final String LOGIN_FXML_PATH = "/view/login.fxml";
-    private static final String REGISTRAZIONE_FXML_PATH = "/view/registrazione.fxml";
+    private static final String REGISTRAZIONE_FXML_PATH = "/view/registration.fxml";
     private static final String STORE_FXML_PATH = "/view/store.fxml";
 
     private Stage primaryStage;
@@ -47,15 +47,17 @@ public class Main extends Application {
 
     private void openStore() {
         FXMLLoader storeLoader = new FXMLLoader();
-        storeLoader.setLocation(Main.class.getResource(STORE_FXML_PATH));
-        AnchorPane root = null;
+        storeLoader.setLocation(getClass().getResource(STORE_FXML_PATH));
+
+        Parent root = null;
         try {
-            root = (AnchorPane) storeLoader.load();
+            root = (Parent) storeLoader.load();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
+        System.out.println("ciaone");
         myController = storeLoader.getController();
         myController.setStage(primaryStage);
 
@@ -133,9 +135,8 @@ public class Main extends Application {
         alert.setContentText(null);
 
         ButtonType si = new ButtonType("Si");
-        ButtonType no = new ButtonType("No");
         ButtonType annulla = new ButtonType("Annulla", ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(si, no, annulla);
+        alert.getButtonTypes().setAll(si, annulla);
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == si){
