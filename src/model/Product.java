@@ -1,5 +1,17 @@
 package model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.json.JSONException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+
 public class Product implements Comparable{
     //TODO costruisci la classe
     private String id;
@@ -18,9 +30,18 @@ public class Product implements Comparable{
     private String img;
 
 
-    public Product(String nome){
-        id = "" + nome.hashCode();
-        title = nome;
+    public Product(File product) throws IOException, JSONException, ParseException {
+        JSONParser parser = new JSONParser();
+
+        JSONObject prod = (JSONObject) parser.parse(new FileReader(product));
+
+        this.id = (String) prod.get("id");
+        System.out.println(id);
+
+        this.title = (String) prod.get("title");
+        System.out.println(title);
+//        id = "" + nome.hashCode();
+//        title = nome;
     }
 
     public String getTitle() {

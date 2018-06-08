@@ -19,7 +19,8 @@ import java.util.Set;
 import javafx.fxml.FXML;
 import model.Product;
 import model.Store;
-
+import org.json.JSONException;
+import org.json.simple.parser.ParseException;
 
 
 public class StoreController implements Initializable {
@@ -51,7 +52,16 @@ public class StoreController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Set<Product> products = Store.getInstance().getProducts();
+        Set<Product> products = null;
+        try {
+            products = Store.getInstance().getProducts();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         setTilePaneChildren(products);
 
         logoutButton.setOnAction(e -> close());
@@ -73,7 +83,7 @@ public class StoreController implements Initializable {
         productsTilePane.setTileAlignment(Pos.CENTER_LEFT);
 
         //Setting the preferred columns for the Tile Pane
-        productsTilePane.setPrefRows(4);
+        // productsTilePane.setPrefRows(3);
 
         //Retrieving the observable list of the Tile Pane
         ObservableList list = productsTilePane.getChildren();
