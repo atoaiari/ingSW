@@ -2,6 +2,7 @@ package controller;
 
 import javafx.fxml.Initializable;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -34,8 +35,9 @@ public class ProductController implements Initializable {
 
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(Product product) throws FileNotFoundException {
         this.product = product;
         productTitleLabel.setText(product.getTitle());
+        productImage.setImage(product.getImg());
     }
 }

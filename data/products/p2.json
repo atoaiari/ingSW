@@ -22,8 +22,5 @@
     "performers":"May, Taylor, Deacon",
     "musicalInstruments":"Chitarra",
     "type":"CD",
-    "_attachments":[
-        "10028b_small.jpg",
-        "10028b.jpg"
-    ]
+    "_attachments": "10028b.jpg"
 }
