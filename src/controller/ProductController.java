@@ -3,7 +3,6 @@ package controller;
 import javafx.fxml.Initializable;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,7 +28,6 @@ public class ProductController implements Initializable {
 
 
     public ProductController() {
-
     }
 
 
@@ -38,10 +36,14 @@ public class ProductController implements Initializable {
 
     }
 
-    public void setProduct(Product product) throws FileNotFoundException, MalformedURLException {
+    public void setProduct(Product product) throws MalformedURLException {
         this.product = product;
         productTitleLabel.setText(product.getTitle());
         File im = new File("data/products/img/" + product.getImg());
         productImage.setImage(new Image(im.toURI().toURL().toExternalForm()));
+        productTypeLabel.setText(product.getType());
+        productGenreLabel.setText(product.getCategory());
+        productArtistLabel.setText(product.getPerformer());
+        productPriceLabel.setText(product.getPrice());
     }
 }
