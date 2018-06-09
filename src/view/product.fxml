@@ -8,47 +8,50 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="330.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductController">
+<AnchorPane prefHeight="300.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductController">
    <children>
-      <ImageView fx:id="productImage" fitHeight="226.0" fitWidth="232.0" layoutX="15.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="productImage" fitHeight="225.0" fitWidth="221.0" layoutX="16.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@empty_cd.png" />
          </image>
       </ImageView>
-      <Label fx:id="productTitleLabel" layoutX="269.0" layoutY="36.0" text="Titolo">
+      <Label fx:id="productTitleLabel" layoutX="248.0" layoutY="29.0" text="Titolo">
          <font>
-            <Font name="Roboto Bold Italic" size="30.0" />
+            <Font name="Roboto Bold Italic" size="24.0" />
          </font>
          <padding>
             <Insets top="5.0" />
          </padding>
       </Label>
-      <Label fx:id="productArtistLabel" layoutX="269.0" layoutY="81.0" text="Artista">
+      <Label fx:id="productArtistLabel" layoutX="250.0" layoutY="67.0" text="Artista">
          <font>
-            <Font name="Roboto Italic" size="18.0" />
+            <Font name="Roboto Italic" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="productTypeLabel" layoutX="269.0" layoutY="124.0" text="Tipo prodotto" />
-      <Label fx:id="productGenreLabel" layoutX="269.0" layoutY="149.0" text="Genere" />
-      <Label fx:id="productPriceLabel" layoutX="288.0" layoutY="180.0" text="0.00">
+      <Label fx:id="productTypeLabel" layoutX="250.0" layoutY="112.0" text="Tipo prodotto" />
+      <Label fx:id="productGenreLabel" layoutX="250.0" layoutY="137.0" text="Genere" />
+      <Label fx:id="productPriceLabel" layoutX="269.0" layoutY="159.0" text="0.00">
          <font>
             <Font name="Roboto Bold" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="270.0" layoutY="189.0" text="€">
+      <Label layoutX="251.0" layoutY="168.0" text="€">
          <font>
             <Font name="Roboto Regular" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="addToCartButton" layoutX="264.0" layoutY="236.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Add to cart">
+      <Button fx:id="addToCartButton" layoutX="254.0" layoutY="217.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Add to cart">
          <font>
             <Font name="Roboto Regular" size="13.0" />
          </font>
       </Button>
-      <Button fx:id="productDetailsButton" layoutX="376.0" layoutY="236.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Details">
+      <Button fx:id="productDetailsButton" layoutX="358.0" layoutY="217.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Details">
          <font>
             <Font name="Roboto Regular" size="13.0" />
          </font>
       </Button>
    </children>
+   <padding>
+      <Insets left="10.0" />
+   </padding>
 </AnchorPane>

@@ -29,6 +29,7 @@ public class StoreController implements Initializable {
     @FXML private CheckBox CDCheckBox;
     @FXML private CheckBox DVDCheckBox;
     @FXML private ChoiceBox<?> GenereChoiceBox;
+    @FXML private ChoiceBox<?> orderByChoiceBox;
     @FXML private Button FilterResetButton;
     @FXML private TilePane productsTilePane;
 

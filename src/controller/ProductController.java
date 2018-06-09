@@ -2,13 +2,16 @@ package controller;
 
 import javafx.fxml.Initializable;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Product;
 
@@ -35,9 +38,10 @@ public class ProductController implements Initializable {
 
     }
 
-    public void setProduct(Product product) throws FileNotFoundException {
+    public void setProduct(Product product) throws FileNotFoundException, MalformedURLException {
         this.product = product;
         productTitleLabel.setText(product.getTitle());
-        productImage.setImage(product.getImg());
+        File im = new File("data/products/img/" + product.getImg());
+        productImage.setImage(new Image(im.toURI().toURL().toExternalForm()));
     }
 }

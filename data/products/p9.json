@@ -1,1 +1,26 @@
-{"id":"10035i","category":"Pop Rock","description":"Evolve (stilizzato ƎVOLVE) è il terzo album in studio del gruppo musicale statunitense Imagine Dragons, pubblicato il 23 giugno 2017 dalla Interscope Records.","insertDate":"30/07/2017","musicalInstruments":"Chitarra, Basso","performer":"Imagine Dragons","performers":"-","price":25.5,"title":"EVOLVE","tracks":"1.I Don't Know Why – 3:10 \n2.Whatever It Takes – 3:21\n3.Believer – 3:24 \n4.Walking the Wire – 3:52 \n5.Rise Up – 3:51 \n6.I'll Make It Up to You – 4:22 \n7.Yesterday – 3:25 \n8.Mouth of the River – 3:41 \n9.Thunder – 3:07  \n10.Start Over – 3:06 Dancing in the Dark – 3:53","type":"CD","_attachments":{"10035i_small.jpg":{"content_type":"image/jpeg","revpos":18,"digest":"md5-ln42dulTtTUXFukV7BSYLg==","length":5830,"stub":true},"10035i.jpg":{"content_type":"image/jpeg","revpos":17,"digest":"md5-N1ms7HYpinBq4kYON6QU/A==","length":765118,"stub":true}}}
+{
+    "id":"10035i",
+    "category":"Pop Rock",
+    "description":"Evolve (stilizzato ƎVOLVE) è il terzo album in studio del gruppo musicale statunitense Imagine Dragons, pubblicato il 23 giugno 2017 dalla Interscope Records.",
+    "insertDate":"30/07/2017",
+    "musicalInstruments":"Chitarra, Basso",
+    "performer":"Imagine Dragons",
+    "performers":"-",
+    "price":25.5,
+    "title":"EVOLVE",
+    "tracks":[
+        "I Don't Know Why – 3:10",
+        "Whatever It Takes – 3:21",
+        "Believer – 3:24",
+        "Walking the Wire – 3:52",
+        "Rise Up – 3:51",
+        "I'll Make It Up to You – 4:22",
+        "Yesterday – 3:25",
+        "Mouth of the River – 3:41",
+        "Thunder – 3:07",
+        "Start Over – 3:06",
+        "Dancing in the Dark – 3:53"
+    ],
+    "type":"CD",
+    "_attachments":"10035i.jpg"
+}

@@ -1,1 +1,28 @@
-{"id":"10036j","category":"House","description":"New Eyes è l'album di debutto dei Clean Bandit pubblicato il 30 maggio 2014 dall'etichetta Atlantic Records.","insertDate":"30/07/2017","musicalInstruments":"pianoforte, viola, violino","performer":"Clean Bandit","performers":"Love Ssega,  Sharna Bass,  Jess Glynne","price":21.989999999999998437,"title":"New Eyes","tracks":"1.Mozart's House – 3:50  \n2.Extraordinary – 4:17\n3.Dust Clears – 4:27\n4.Rather Be – 3:48  \n5.A+E – 4:07  \n6.Come Over – 3:43  \n7.Cologne – 4:06  \n8.Telephone Banking – 3:51  \n9.Up Again – 4:21  \n10.Heart on Fire – 4:02  \n11.New Eyes – 3:46  \n12.Birch – 4:16  \n13.Outro Movement III – 2:01","type":"CD","_attachments":{"10036j_small.jpg":{"content_type":"image/jpeg","revpos":22,"digest":"md5-qtSrEC1O8YgHS89wkn9r5w==","length":13137,"stub":true},"10036j.jpg":{"content_type":"image/jpeg","revpos":21,"digest":"md5-WLk8+56wCquDbPJMsebu/w==","length":1402565,"stub":true}}}
+{
+    "id":"10036j",
+    "category":"House",
+    "description":"New Eyes è l'album di debutto dei Clean Bandit pubblicato il 30 maggio 2014 dall'etichetta Atlantic Records.",
+    "insertDate":"30/07/2017",
+    "musicalInstruments":"pianoforte, viola, violino",
+    "performer":"Clean Bandit",
+    "performers":"Love Ssega,  Sharna Bass,  Jess Glynne",
+    "price":21.989999999999998437,
+    "title":"New Eyes",
+    "tracks":[
+        "Mozart's House – 3:50",
+        "Extraordinary – 4:17",
+        "Dust Clears – 4:27",
+        "Rather Be – 3:48",
+        "A+E – 4:07",
+        "Come Over – 3:43",
+        "Cologne – 4:06",
+        "Telephone Banking – 3:51",
+        "Up Again – 4:21",
+        "Heart on Fire – 4:02",
+        "New Eyes – 3:46",
+        "Birch – 4:16",
+        "Outro Movement III – 2:01",
+    ],
+    "type":"CD",
+    "_attachments":"10036j.jpg"
+}

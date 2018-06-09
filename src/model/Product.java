@@ -2,13 +2,10 @@ package model;
 
 import java.io.*;
 
-import javafx.scene.image.Image;
 import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import javax.swing.*;
 
 
 public class Product implements Comparable{
@@ -43,8 +40,7 @@ public class Product implements Comparable{
 //        title = nome;
 
         this.img = (String) prod.get("_attachments");
-        this.img = "data/products/img/" + this.img;
-        System.out.println("" + img);
+        System.out.println(img);
     }
 
     public String getTitle() {
@@ -61,8 +57,7 @@ public class Product implements Comparable{
         return id;
     }
 
-    public Image getImg() throws FileNotFoundException {
-        Image image = new Image(getClass().getClassLoader().getResource(this.img).toString(), true);
-        return image;
+    public String getImg() {
+        return img;
     }
 }
