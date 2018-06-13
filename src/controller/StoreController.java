@@ -8,6 +8,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
@@ -32,7 +33,12 @@ public class StoreController implements Initializable {
     @FXML private ChoiceBox<?> orderByChoiceBox;
     @FXML private Button FilterResetButton;
     @FXML private TilePane productsTilePane;
+    @FXML private Pane DetailsPane;
+    @FXML private AnchorPane FirstAnchorPane;
+    @FXML private ScrollPane ProductScrollPane;
+    @FXML private Button CartButton;
 
+    private boolean detailsOpened = false;
     private Stage primaryStage;
     //private Store store;
 
@@ -44,6 +50,9 @@ public class StoreController implements Initializable {
 
     public void setStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        DetailsPane.setVisible(false);
+        DetailsPane.setManaged(false);
+        FirstAnchorPane.setTopAnchor(ProductScrollPane, 0.0);
     }
 
     public Stage getPrimaryStage() {
@@ -60,13 +69,28 @@ public class StoreController implements Initializable {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
         setTilePaneChildren(products);
 
         logoutButton.setOnAction(e -> close());
+        CartButton.setOnAction(e -> bella());
 
+
+    }
+
+    private void bella() {
+        if(detailsOpened){
+            DetailsPane.setVisible(false);
+            DetailsPane.setManaged(false);
+            FirstAnchorPane.setTopAnchor(ProductScrollPane, 0.0);
+            detailsOpened = false;
+        }
+        else {
+            DetailsPane.setVisible(true);
+            DetailsPane.setManaged(true);
+            FirstAnchorPane.setTopAnchor(ProductScrollPane, null);
+            detailsOpened = true;
+        }
     }
 
     private void setTilePaneChildren(Set<Product> productsObj){

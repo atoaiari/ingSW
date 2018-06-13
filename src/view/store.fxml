@@ -147,7 +147,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button fx:id="logoutButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: darkcyan;" text="Logout" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                              <Button fx:id="logoutButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Logout" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                                  <font>
                                     <Font name="Roboto Regular" size="24.0" />
                                  </font>
@@ -183,7 +183,7 @@
                                      <fx:define>
                                          <Image fx:id="btnImage" url="@cart_icon.png" />
                                      </fx:define>
-                                     <Button fx:id="CartButton" accessibleRole="IMAGE_VIEW" mnemonicParsing="false" prefHeight="50.0" prefWidth="70.0" style="-fx-background-color: darkcyan;" text="" GridPane.halignment="RIGHT">
+                                     <Button fx:id="CartButton" accessibleRole="IMAGE_VIEW" mnemonicParsing="false" prefHeight="50.0" prefWidth="70.0" styleClass="sendButton" stylesheets="@stylesh.css" text="" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
                                           <Insets top="-30.0" />
                                        </GridPane.margin>
@@ -201,9 +201,10 @@
                         </GridPane>
                      </children>
                   </Pane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                  <AnchorPane fx:id="FirstAnchorPane" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <children>
-                        <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1000.0" prefWidth="1300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <Pane fx:id="DetailsPane" maxWidth="1.7976931348623157E308" prefHeight="450.0" style="-fx-background-color: green;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <ScrollPane fx:id="ProductScrollPane" fitToHeight="true" maxWidth="1.7976931348623157E308" prefHeight="565.0" prefWidth="1529.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <content>
                               <TilePane fx:id="productsTilePane" prefColumns="3">
                                  <padding>
