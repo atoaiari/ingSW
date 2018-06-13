@@ -47,7 +47,7 @@ public class Main extends Application {
 
     private void openStore() {
         FXMLLoader storeLoader = new FXMLLoader();
-        storeLoader.setLocation(getClass().getResource(STORE_FXML_PATH));
+        storeLoader.setLocation(getClass().getResource("/view/store2.fxml"));
 
         Parent root = null;
         try {

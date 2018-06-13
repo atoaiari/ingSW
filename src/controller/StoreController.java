@@ -1,7 +1,10 @@
 package controller;
 
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
@@ -16,8 +19,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javafx.fxml.FXML;
+import javafx.util.Duration;
 import model.Product;
 import model.Store;
 import org.json.JSONException;
@@ -50,9 +55,9 @@ public class StoreController implements Initializable {
 
     public void setStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        DetailsPane.setVisible(false);
-        DetailsPane.setManaged(false);
-        FirstAnchorPane.setTopAnchor(ProductScrollPane, 0.0);
+//        DetailsPane.setVisible(false);
+//        DetailsPane.setManaged(false);
+//        FirstAnchorPane.setTopAnchor(ProductScrollPane, 0.0);
     }
 
     public Stage getPrimaryStage() {
@@ -73,25 +78,52 @@ public class StoreController implements Initializable {
         setTilePaneChildren(products);
 
         logoutButton.setOnAction(e -> close());
-        CartButton.setOnAction(e -> bella());
-
+        //CartButton.setOnAction(e -> bella());
+        prepareDetailPaneAnimation();
 
     }
 
-    private void bella() {
-        if(detailsOpened){
-            DetailsPane.setVisible(false);
-            DetailsPane.setManaged(false);
-            FirstAnchorPane.setTopAnchor(ProductScrollPane, 0.0);
-            detailsOpened = false;
-        }
-        else {
-            DetailsPane.setVisible(true);
-            DetailsPane.setManaged(true);
-            FirstAnchorPane.setTopAnchor(ProductScrollPane, null);
-            detailsOpened = true;
-        }
+    private void prepareDetailPaneAnimation() {
+        TranslateTransition animDP=new TranslateTransition(new Duration(350), DetailsPane);
+        animDP.setToY(0);
+        TranslateTransition animDPclose=new TranslateTransition(new Duration(350), DetailsPane);
+        TranslateTransition animPSP=new TranslateTransition(new Duration(350), ProductScrollPane);
+        animPSP.setToY(450);
+        TranslateTransition animPSPclose=new TranslateTransition(new Duration(350), ProductScrollPane);
+        CartButton.setOnAction(e->{
+            if(DetailsPane.getTranslateY()!=0){
+                animDP.play();
+                animPSP.play();
+                animPSP.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        ProductScrollPane.prefHeightProperty().set(565.0);
+                    }
+                });
+            }else{
+                animDPclose.setToY(-(DetailsPane.getHeight()));
+                animDPclose.play();
+                animPSPclose.setToY(0);
+                animPSPclose.play();
+                ProductScrollPane.prefHeightProperty().set(1010.0);
+            }
+        });
     }
+
+//    private void bella() {
+//        if(detailsOpened){
+//            DetailsPane.setVisible(false);
+//            DetailsPane.setManaged(false);
+//            FirstAnchorPane.setTopAnchor(ProductScrollPane, 0.0);
+//            detailsOpened = false;
+//        }
+//        else {
+//            DetailsPane.setVisible(true);
+//            DetailsPane.setManaged(true);
+//            FirstAnchorPane.setTopAnchor(ProductScrollPane, null);
+//            detailsOpened = true;
+//        }
+//    }
 
     private void setTilePaneChildren(Set<Product> productsObj){
         ObservableList<AnchorPane> products = null;
