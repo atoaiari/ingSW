@@ -12,6 +12,7 @@ public class Store {
     private static Store ourInstance = null;
     // private Set<Product> productsSet;
     private List<Product> productsList;
+    private List<Product> iterableProductList;
 
     public static Store getInstance() {
         if (ourInstance == null) {
@@ -30,7 +31,7 @@ public class Store {
             Product myProduct = new Product(document);
             productsList.add(myProduct);
         }
-
+        iterableProductList = new ArrayList<>(productsList);
     }
 
     private ArrayList<File> getProductsJson() {
@@ -88,14 +89,14 @@ public class Store {
 //        return genreFilteredProducts;
 //    }
 
-    public List<Product> getFilteredProducts(String searchText, String orderByValue, String genreValue) {
-        List<Product> filteredProducts = productsList;
+    public List<Product> getFilteredProducts(String searchText, String orderByValue, String genreValue, Boolean CD, Boolean DVD) {
+        List<Product> filteredProducts = new ArrayList<>(productsList);
 
         System.out.println("Inizio filtraggio");
         for(Product p:filteredProducts)
             System.out.println(p);
 
-        for(Product prod:productsList){
+        for(Product prod:iterableProductList){
             if(!(prod.getTitle().toLowerCase().startsWith(searchText.toLowerCase()))){
                 filteredProducts.remove(prod);
             }
@@ -106,7 +107,7 @@ public class Store {
             System.out.println(p);
 
         if(genreValue != "Tutti"){
-            for(Product prod:productsList){
+            for(Product prod:iterableProductList){
                 if(genreValue.compareTo(prod.getGenre()) != 0 && filteredProducts.contains(prod)){
                     filteredProducts.remove(prod);
                 }
@@ -116,6 +117,21 @@ public class Store {
         System.out.println("Dopo genere");
         for(Product p:filteredProducts)
             System.out.println(p);
+
+        if(!CD && !DVD)
+            filteredProducts = null;
+        else if(!CD){
+            for(Product prod:iterableProductList){
+                if(prod.getType().compareTo("CD") == 0 && filteredProducts.contains(prod))
+                    filteredProducts.remove(prod);
+            }
+        }
+        else if(!DVD){
+            for(Product prod:iterableProductList){
+                if(prod.getType().compareTo("DVD") == 0 && filteredProducts.contains(prod))
+                    filteredProducts.remove(prod);
+            }
+        }
 
         switch (orderByValue) {
             case "Titolo":

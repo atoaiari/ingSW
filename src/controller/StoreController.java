@@ -109,6 +109,8 @@ public class StoreController implements Initializable {
         GenereChoiceBox.setValue("Tutti");
         orderByChoiceBox.setItems(orderByList);
         orderByChoiceBox.setValue("Titolo");
+        CDCheckBox.setSelected(true);
+        DVDCheckBox.setSelected(true);
 
         logoutButton.setOnAction(e -> close());
         prepareDetailsPaneAnimation();
@@ -117,11 +119,13 @@ public class StoreController implements Initializable {
         searchTextField.setOnKeyReleased(e -> filterProducts());
         orderByChoiceBox.setOnAction(e -> filterProducts());
         GenereChoiceBox.setOnAction(e -> filterProducts());
+        CDCheckBox.setOnAction(e -> filterProducts());
+        DVDCheckBox.setOnAction(e -> filterProducts());
     }
 
     private void filterProducts(){
         clearCds();
-        ArrayList<Product> filteredProducts = new ArrayList<>(Store.getInstance().getFilteredProducts(searchTextField.getText(), orderByChoiceBox.getValue(), GenereChoiceBox.getValue()));
+        ArrayList<Product> filteredProducts = new ArrayList<>(Store.getInstance().getFilteredProducts(searchTextField.getText(), orderByChoiceBox.getValue(), GenereChoiceBox.getValue(), CDCheckBox.isSelected(), DVDCheckBox.isSelected()));
         setTilePaneChildren(filteredProducts);
     }
 
