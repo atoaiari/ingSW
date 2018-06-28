@@ -248,7 +248,7 @@
                                 <content>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <ListView layoutX="76.0" layoutY="79.0" prefHeight="321.0" prefWidth="394.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <ListView layoutX="76.0" layoutY="79.0" prefHeight="692.0" prefWidth="875.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                 </content>
@@ -258,12 +258,12 @@
                                     <Font name="Roboto Regular" size="24.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="checkoutButton1" layoutX="245.0" layoutY="865.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="179.0" styleClass="reverseButtons" stylesheets="@stylesh.css" text="Svuota carrello" textFill="WHITE">
+                              <Button fx:id="emptyCartButton" layoutX="245.0" layoutY="865.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="179.0" styleClass="reverseButtons" stylesheets="@stylesh.css" text="Svuota carrello" textFill="WHITE">
                                  <font>
                                     <Font name="Roboto Regular" size="24.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="checkoutButton11" layoutX="777.0" layoutY="865.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="179.0" styleClass="reverseButtons" stylesheets="@stylesh.css" text="Chiudi" textFill="WHITE">
+                              <Button fx:id="closeCartButton" layoutX="777.0" layoutY="865.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="179.0" styleClass="reverseButtons" stylesheets="@stylesh.css" text="Chiudi" textFill="WHITE">
                                  <font>
                                     <Font name="Roboto Regular" size="24.0" />
                                  </font>
@@ -323,7 +323,7 @@
                                           <Insets right="20.0" />
                                        </GridPane.margin>
                                     </ImageView>
-                                    <Label text="utente" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                                    <Label fx:id="userLabel" text="utente" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                                        <GridPane.margin>
                                           <Insets right="70.0" />
                                        </GridPane.margin>

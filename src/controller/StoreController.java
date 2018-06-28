@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,15 +22,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 
 import javafx.fxml.FXML;
 import javafx.util.Duration;
 import model.Product;
 import model.Store;
-import org.json.simple.parser.ParseException;
 
 
 public class StoreController implements Initializable {
@@ -37,8 +35,8 @@ public class StoreController implements Initializable {
     @FXML private TextField searchTextField;
     @FXML private CheckBox CDCheckBox;
     @FXML private CheckBox DVDCheckBox;
-    @FXML private ChoiceBox<?> GenereChoiceBox;
-    @FXML private ChoiceBox<?> orderByChoiceBox;
+    @FXML private ChoiceBox<String> GenereChoiceBox;
+    @FXML private ChoiceBox<String> orderByChoiceBox;
     @FXML private Button FilterResetButton;
     @FXML private TilePane productsTilePane;
     @FXML private Pane DetailsPane;
@@ -78,6 +76,8 @@ public class StoreController implements Initializable {
     private TranslateTransition animCP;
     private TranslateTransition animCPclose;
 
+    private ObservableList<String> genreList = FXCollections.observableArrayList("Tutti", "Rock", "House", "Classica");
+    private ObservableList<String> orderByList = FXCollections.observableArrayList("Titolo", "Artista", "Prezzo crescente", "Prezzo descrescente");
 
     private boolean detailsOpened = false;
     private Stage primaryStage;
@@ -99,22 +99,57 @@ public class StoreController implements Initializable {
 
 
     @Override
+    @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        Set<Product> products = null;
-        try {
-            products = Store.getInstance().getProducts();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        // Set<Product> products = Store.getInstance().getProducts();
+        ArrayList<Product> products = new ArrayList(Store.getInstance().getProducts());
         setTilePaneChildren(products);
+        GenereChoiceBox.setItems(genreList);
+        GenereChoiceBox.setValue("Tutti");
+        orderByChoiceBox.setItems(orderByList);
+        orderByChoiceBox.setValue("Titolo");
 
         logoutButton.setOnAction(e -> close());
         prepareDetailsPaneAnimation();
         prepareCartPaneAnimation();
         closeDetailsButton.setOnAction(e -> closeDetailsPane());
+        searchTextField.setOnKeyReleased(e -> filteredProducts());
+        orderByChoiceBox.setOnAction(e -> orderBy());
+    }
+
+    private void orderBy() {
+        //ArrayList<Product> products = new ArrayList(Store.getInstance().getProducts());
+        // Set<Product> products = new TreeSet<>(Store.getInstance().getProducts());
+//        switch(orderByChoiceBox.getValue()) {
+//            case "Titolo":
+//                Collections.sort(products, Comparator.comparing(Product::getTitle));
+//                break;
+//            case "Prezzo crescente":
+//                Collections.sort(products, Comparator.comparing(Product::getPrice));
+//                break;
+//        }
+        //setTilePaneChildren(products);
+        System.out.println(orderByChoiceBox.getValue());
+        clearCds();
+        // Set<Product> newProducts = Store.getInstance().getFilteredProducts(searchTextField.getText());
+        ArrayList<Product> newProducts = new ArrayList<>(Store.getInstance().getOrderedProducts(orderByChoiceBox.getValue()));
+//        for (Product p : newProducts)
+//            System.out.println(p.getTitle());
+        setTilePaneChildren(newProducts);
+    }
+
+    private void filteredProducts() {
+        System.out.println(searchTextField.getText());
+        clearCds();
+        // Set<Product> newProducts = Store.getInstance().getFilteredProducts(searchTextField.getText());
+        ArrayList<Product> newProducts = new ArrayList<>(Store.getInstance().getFilteredProducts(searchTextField.getText()));
+        for (Product p : newProducts)
+            System.out.println(p.getTitle());
+        setTilePaneChildren(newProducts);
+    }
+
+    private void clearCds() {
+        productsTilePane.getChildren().clear();
     }
 
     private void closeDetailsPane() {
@@ -171,7 +206,7 @@ public class StoreController implements Initializable {
         });
     }
 
-    private void setTilePaneChildren(Set<Product> productsObj){
+    private void setTilePaneChildren(List<Product> productsObj){
         ObservableList<AnchorPane> products = null;
         try {
             products = getProductsLayout(productsObj);
@@ -195,7 +230,7 @@ public class StoreController implements Initializable {
         list.addAll(products);
     }
 
-    private ObservableList getProductsLayout(Set<Product> prodotti) throws IOException {
+    private ObservableList getProductsLayout(List<Product> prodotti) throws IOException {
         ObservableList result = FXCollections.observableArrayList();
         for(Product product : prodotti){
             FXMLLoader productLoader = new FXMLLoader(Main.class.getResource("/view/product.fxml"));

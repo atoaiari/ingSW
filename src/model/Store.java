@@ -13,9 +13,14 @@ public class Store {
     private static Store ourInstance = null;
     private Set<Product> productsSet;
 
-    public static Store getInstance() throws ParseException, IOException {
-        if (ourInstance == null)
-            ourInstance = new Store();
+    public static Store getInstance() {
+        if (ourInstance == null) {
+            try {
+                ourInstance = new Store();
+            } catch (ParseException | IOException e) {
+                e.printStackTrace();
+            }
+        }
         return ourInstance;
     }
 
@@ -45,5 +50,19 @@ public class Store {
 
     public Set<Product> getProducts(){
         return productsSet;
+    }
+
+    public Set<Product> getFilteredProducts(String text) {
+        Set<Product> pFiltered = new TreeSet<>();
+        for(Product prod:productsSet){
+            if(prod.getTitle().toLowerCase().startsWith(text.toLowerCase()) || text == ""){
+                pFiltered.add(prod);
+            }
+        }
+        return pFiltered;
+    }
+
+    public ArrayList<Product> getOrderedProducts(String value) {
+        return null;
     }
 }

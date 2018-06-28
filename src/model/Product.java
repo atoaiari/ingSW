@@ -71,7 +71,7 @@ public class Product implements Comparable{
         return performer;
     }
 
-    public String getPrice() {
+    public static String getPrice() {
         return String.valueOf(price);
     }
 
