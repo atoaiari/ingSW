@@ -10,12 +10,16 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -42,6 +46,18 @@ public class StoreController implements Initializable {
     @FXML private AnchorPane FirstAnchorPane;
     @FXML private ScrollPane ProductScrollPane;
     @FXML private Button CartButton;
+
+    @FXML private ImageView pImage;
+    @FXML private Label pTitleLabel;
+    @FXML private Label pArtistLabel;
+    @FXML private Label pDescriptionLabel;
+    @FXML private Label pPerformersLabel;
+    @FXML private Label pInstrumentsLabel;
+    @FXML private Label pPriceLabel;
+    @FXML private Label pTypeLabel;
+    @FXML private Label pGenreLabel;
+    @FXML private Label pTracksLabel;
+    @FXML private Button addToCartButton;
 
     private boolean detailsOpened = false;
     private Stage primaryStage;
@@ -75,6 +91,7 @@ public class StoreController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         setTilePaneChildren(products);
 
         logoutButton.setOnAction(e -> close());
@@ -157,6 +174,7 @@ public class StoreController implements Initializable {
             // ottieni controller
             ProductController myController = (ProductController) productLoader.getController();
             myController.setProduct(product);
+            myController.setFatherController(this);
             // controller.setProduct(product)
             result.add(layout);
         }
@@ -168,4 +186,18 @@ public class StoreController implements Initializable {
         primaryStage.close();
     }
 
+    public void setDetails(Product product) throws MalformedURLException {
+        pTitleLabel.setText(product.getTitle());
+        File im = new File("data/products/img/" + product.getImg());
+        pImage.setImage(new Image(im.toURI().toURL().toExternalForm()));
+        pArtistLabel.setText(product.getPerformer());
+        pInstrumentsLabel.setText(product.getMusicalInstruments());
+        pPriceLabel.setText(product.getPrice());
+        pPerformersLabel.setText(product.getPerformers());
+        pTypeLabel.setText(product.getType());
+        pGenreLabel.setText(product.getGenre());
+
+        pDescriptionLabel.setText(product.getDescription());
+        pTracksLabel.setText(product.getTracksString());
+    }
 }

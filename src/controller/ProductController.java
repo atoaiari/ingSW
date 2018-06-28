@@ -25,16 +25,28 @@ public class ProductController implements Initializable {
     @FXML private Button productDetailsButton;
 
     private Product product;
+    private StoreController fatherController;
 
 
     public ProductController() {
     }
 
+    public void setFatherController(StoreController controller){
+        this.fatherController = controller;
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        productDetailsButton.setOnAction(event -> {
+            try {
+                fatherController.setDetails(this.product);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        });
     }
+
 
     public void setProduct(Product product) throws MalformedURLException {
         this.product = product;
@@ -42,7 +54,7 @@ public class ProductController implements Initializable {
         File im = new File("data/products/img/" + product.getImg());
         productImage.setImage(new Image(im.toURI().toURL().toExternalForm()));
         productTypeLabel.setText(product.getType());
-        productGenreLabel.setText(product.getCategory());
+        productGenreLabel.setText(product.getGenre());
         productArtistLabel.setText(product.getPerformer());
         productPriceLabel.setText(product.getPrice());
     }
