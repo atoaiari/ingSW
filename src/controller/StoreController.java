@@ -103,6 +103,7 @@ public class StoreController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // Set<Product> products = Store.getInstance().getProducts();
         ArrayList<Product> products = new ArrayList(Store.getInstance().getProducts());
+        products.sort(Comparator.comparing(Product::getTitle));
         setTilePaneChildren(products);
         GenereChoiceBox.setItems(genreList);
         GenereChoiceBox.setValue("Tutti");
@@ -113,40 +114,48 @@ public class StoreController implements Initializable {
         prepareDetailsPaneAnimation();
         prepareCartPaneAnimation();
         closeDetailsButton.setOnAction(e -> closeDetailsPane());
-        searchTextField.setOnKeyReleased(e -> filteredProducts());
-        orderByChoiceBox.setOnAction(e -> orderBy());
+        searchTextField.setOnKeyReleased(e -> filterProducts());
+        orderByChoiceBox.setOnAction(e -> filterProducts());
+        GenereChoiceBox.setOnAction(e -> filterProducts());
     }
 
-    private void orderBy() {
-        //ArrayList<Product> products = new ArrayList(Store.getInstance().getProducts());
-        // Set<Product> products = new TreeSet<>(Store.getInstance().getProducts());
-//        switch(orderByChoiceBox.getValue()) {
+    private void filterProducts(){
+        clearCds();
+        ArrayList<Product> filteredProducts = new ArrayList<>(Store.getInstance().getFilteredProducts(searchTextField.getText(), orderByChoiceBox.getValue(), GenereChoiceBox.getValue()));
+        setTilePaneChildren(filteredProducts);
+    }
+
+//    private void setGenreFilter() {
+//        clearCds();
+//        ArrayList<Product> filteredProducts = new ArrayList<>(Store.getInstance().getGenreFilteredProducts(GenereChoiceBox.getValue()));
+//        setTilePaneChildren(filteredProducts);
+//    }
+//
+//    private void orderByFilter() {
+//        clearCds();
+//        ArrayList<Product> orderedProducts = new ArrayList<>(Store.getInstance().getProducts());
+//        switch (orderByChoiceBox.getValue()){
 //            case "Titolo":
-//                Collections.sort(products, Comparator.comparing(Product::getTitle));
+//                orderedProducts.sort(Comparator.comparing(Product::getTitle));
+//                break;
+//            case "Artista":
+//                orderedProducts.sort(Comparator.comparing(Product::getPerformer));
 //                break;
 //            case "Prezzo crescente":
-//                Collections.sort(products, Comparator.comparing(Product::getPrice));
+//                orderedProducts.sort(Comparator.comparing(Product::getPrice));
 //                break;
+//            case "Prezzo descrescente":
+//                orderedProducts.sort(Comparator.comparing(Product::getNegativePrice));
 //        }
-        //setTilePaneChildren(products);
-        System.out.println(orderByChoiceBox.getValue());
-        clearCds();
-        // Set<Product> newProducts = Store.getInstance().getFilteredProducts(searchTextField.getText());
-        ArrayList<Product> newProducts = new ArrayList<>(Store.getInstance().getOrderedProducts(orderByChoiceBox.getValue()));
-//        for (Product p : newProducts)
-//            System.out.println(p.getTitle());
-        setTilePaneChildren(newProducts);
-    }
-
-    private void filteredProducts() {
-        System.out.println(searchTextField.getText());
-        clearCds();
-        // Set<Product> newProducts = Store.getInstance().getFilteredProducts(searchTextField.getText());
-        ArrayList<Product> newProducts = new ArrayList<>(Store.getInstance().getFilteredProducts(searchTextField.getText()));
-        for (Product p : newProducts)
-            System.out.println(p.getTitle());
-        setTilePaneChildren(newProducts);
-    }
+//
+//        setTilePaneChildren(orderedProducts);
+//    }
+//
+//    private void searchProducts() {
+//        clearCds();
+//        ArrayList<Product> filteredProducts = new ArrayList<>(Store.getInstance().getFilteredProducts(searchTextField.getText()));
+//        setTilePaneChildren(filteredProducts);
+//    }
 
     private void clearCds() {
         productsTilePane.getChildren().clear();
@@ -256,7 +265,7 @@ public class StoreController implements Initializable {
         pInsertDate.setText(product.getInsertDate());
         pArtistLabel.setText(product.getPerformer());
         pInstrumentsLabel.setText(product.getMusicalInstruments());
-        pPriceLabel.setText(product.getPrice());
+        pPriceLabel.setText(String.valueOf(product.getPrice()));
         pPerformersLabel.setText(product.getPerformers());
         pTypeLabel.setText(product.getType());
         pGenreLabel.setText(product.getGenre());

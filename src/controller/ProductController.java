@@ -56,6 +56,6 @@ public class ProductController implements Initializable {
         productTypeLabel.setText(product.getType());
         productGenreLabel.setText(product.getGenre());
         productArtistLabel.setText(product.getPerformer());
-        productPriceLabel.setText(product.getPrice());
+        productPriceLabel.setText(String.valueOf(product.getPrice()));
     }
 }

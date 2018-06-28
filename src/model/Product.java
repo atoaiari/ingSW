@@ -71,9 +71,6 @@ public class Product implements Comparable{
         return performer;
     }
 
-    public static String getPrice() {
-        return String.valueOf(price);
-    }
 
     public String getPerformers() {
         return performers;
@@ -102,4 +99,12 @@ public class Product implements Comparable{
     }
 
     public String getGenre() { return genre; }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public Double getNegativePrice() {
+        return price * (-1);
+    }
 }
