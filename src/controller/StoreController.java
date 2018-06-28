@@ -48,6 +48,7 @@ public class StoreController implements Initializable {
     @FXML private Button CartButton;
 
     @FXML private ImageView pImage;
+    @FXML private Label pInsertDate;
     @FXML private Label pTitleLabel;
     @FXML private Label pArtistLabel;
     @FXML private Label pDescriptionLabel;
@@ -58,6 +59,13 @@ public class StoreController implements Initializable {
     @FXML private Label pGenreLabel;
     @FXML private Label pTracksLabel;
     @FXML private Button addToCartButton;
+    @FXML private Button closeDetailsButton;
+
+    //per animazione
+    private TranslateTransition animDP;
+    private TranslateTransition animDPclose;
+    private TranslateTransition animPSP;
+    private TranslateTransition animPSPclose;
 
     private boolean detailsOpened = false;
     private Stage primaryStage;
@@ -97,34 +105,44 @@ public class StoreController implements Initializable {
         logoutButton.setOnAction(e -> close());
         //CartButton.setOnAction(e -> bella());
         prepareDetailPaneAnimation();
+        closeDetailsButton.setOnAction(e -> closeDetailsPane());
 
     }
 
+    private void closeDetailsPane() {
+        animDPclose.setToY(-(DetailsPane.getHeight()));
+        animDPclose.play();
+        animPSPclose.setToY(0);
+        animPSPclose.play();
+        ProductScrollPane.prefHeightProperty().set(1010.0);
+        detailsOpened = false;
+    }
+
     private void prepareDetailPaneAnimation() {
-        TranslateTransition animDP=new TranslateTransition(new Duration(350), DetailsPane);
+        animDP=new TranslateTransition(new Duration(350), DetailsPane);
         animDP.setToY(0);
-        TranslateTransition animDPclose=new TranslateTransition(new Duration(350), DetailsPane);
-        TranslateTransition animPSP=new TranslateTransition(new Duration(350), ProductScrollPane);
+        animDPclose=new TranslateTransition(new Duration(350), DetailsPane);
+        animPSP=new TranslateTransition(new Duration(350), ProductScrollPane);
         animPSP.setToY(450);
-        TranslateTransition animPSPclose=new TranslateTransition(new Duration(350), ProductScrollPane);
-        CartButton.setOnAction(e->{
-            if(DetailsPane.getTranslateY()!=0){
-                animDP.play();
-                animPSP.play();
-                animPSP.setOnFinished(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        ProductScrollPane.prefHeightProperty().set(565.0);
-                    }
-                });
-            }else{
-                animDPclose.setToY(-(DetailsPane.getHeight()));
-                animDPclose.play();
-                animPSPclose.setToY(0);
-                animPSPclose.play();
-                ProductScrollPane.prefHeightProperty().set(1010.0);
-            }
-        });
+        animPSPclose=new TranslateTransition(new Duration(350), ProductScrollPane);
+//        CartButton.setOnAction(e->{
+//            if(DetailsPane.getTranslateY()!=0){
+//                animDP.play();
+//                animPSP.play();
+//                animPSP.setOnFinished(new EventHandler<ActionEvent>() {
+//                    @Override
+//                    public void handle(ActionEvent event) {
+//                        ProductScrollPane.prefHeightProperty().set(565.0);
+//                    }
+//                });
+//            }else{
+//                animDPclose.setToY(-(DetailsPane.getHeight()));
+//                animDPclose.play();
+//                animPSPclose.setToY(0);
+//                animPSPclose.play();
+//                ProductScrollPane.prefHeightProperty().set(1010.0);
+//            }
+//        });
     }
 
 //    private void bella() {
@@ -190,6 +208,7 @@ public class StoreController implements Initializable {
         pTitleLabel.setText(product.getTitle());
         File im = new File("data/products/img/" + product.getImg());
         pImage.setImage(new Image(im.toURI().toURL().toExternalForm()));
+        pInsertDate.setText(product.getInsertDate());
         pArtistLabel.setText(product.getPerformer());
         pInstrumentsLabel.setText(product.getMusicalInstruments());
         pPriceLabel.setText(product.getPrice());
@@ -197,7 +216,19 @@ public class StoreController implements Initializable {
         pTypeLabel.setText(product.getType());
         pGenreLabel.setText(product.getGenre());
 
+
         pDescriptionLabel.setText(product.getDescription());
         pTracksLabel.setText(product.getTracksString());
+
+        if(!detailsOpened){
+            animDP.play();
+            animPSP.play();
+            animPSP.setOnFinished(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    ProductScrollPane.prefHeightProperty().set(565.0); }
+                });
+            detailsOpened = true;
+        }
     }
 }

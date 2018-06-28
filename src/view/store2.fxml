@@ -150,9 +150,9 @@
                               <Insets bottom="20.0" left="20.0" />
                            </padding>
                         </ScrollPane>
-                        <Pane fx:id="DetailsPane" maxWidth="1.7976931348623157E308" prefHeight="450.0" style="-fx-background-color: lightgrey;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <Pane fx:id="DetailsPane" maxWidth="1.7976931348623157E308" prefHeight="450.0" style="-fx-background-color: lightgrey;" translateY="-450.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <ImageView fx:id="pImage" fitHeight="380.0" fitWidth="380.0" layoutX="37.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fx:id="pImage" fitHeight="360.0" fitWidth="360.0" layoutX="37.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
                               <Label fx:id="pTitleLabel" layoutX="480.0" layoutY="23.0" prefHeight="83.0" prefWidth="380.0" text="Titolo" wrapText="true">
                                  <font>
                                     <Font name="Roboto Bold Italic" size="35.0" />
@@ -217,13 +217,24 @@
                                     <Font name="Roboto Bold" size="17.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="pDescriptionLabel" alignment="TOP_LEFT" layoutX="1155.0" layoutY="83.0" prefHeight="333.0" prefWidth="280.0" text="Label" textAlignment="JUSTIFY" wrapText="true" />
-                              <Button fx:id="addToCartButton" layoutX="480.0" layoutY="373.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Add to Cart" textFill="WHITE">
+                              <Label fx:id="pDescriptionLabel" alignment="TOP_LEFT" layoutX="1155.0" layoutY="83.0" prefHeight="270.0" prefWidth="280.0" text="Label" textAlignment="JUSTIFY" wrapText="true" />
+                              <Button fx:id="addToCartButton" layoutX="480.0" layoutY="370.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Add to Cart" textFill="WHITE">
                                  <font>
                                     <Font name="Roboto Regular" size="24.0" />
                                  </font>
                               </Button>
                               <Label layoutX="480.0" layoutY="170.0" text="Instruments:" />
+                              <Label fx:id="pInsertDate" layoutX="100.0" layoutY="409.0" text="insertDate" />
+                              <Label layoutX="37.0" layoutY="408.0" text="Inserito il:">
+                                 <font>
+                                    <Font name="Roboto Regular" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="closeDetailsButton" layoutX="1394.0" layoutY="370.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="105.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Chiudi" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Regular" size="24.0" />
+                                 </font>
+                              </Button>
                            </children></Pane>
                      </children>
                   </AnchorPane>

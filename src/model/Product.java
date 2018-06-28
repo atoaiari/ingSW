@@ -83,9 +83,7 @@ public class Product implements Comparable{
         return description;
     }
 
-    public String getInsertDate() {
-        return insertDate;
-    }
+    public String getInsertDate() { return insertDate; }
 
     public String getMusicalInstruments() {
         return musicalInstruments;
@@ -103,7 +101,5 @@ public class Product implements Comparable{
         return tracksS;
     }
 
-    public String getGenre() {
-        return genre;
-    }
+    public String getGenre() { return genre; }
 }
