@@ -29,7 +29,6 @@ import javafx.fxml.FXML;
 import javafx.util.Duration;
 import model.Product;
 import model.Store;
-import org.json.JSONException;
 import org.json.simple.parser.ParseException;
 
 
@@ -46,7 +45,10 @@ public class StoreController implements Initializable {
     @FXML private AnchorPane FirstAnchorPane;
     @FXML private ScrollPane ProductScrollPane;
     @FXML private Button CartButton;
+    @FXML private Pane cartPane;
+    @FXML private Label userLabel;
 
+    // detail panel
     @FXML private ImageView pImage;
     @FXML private Label pInsertDate;
     @FXML private Label pTitleLabel;
@@ -61,11 +63,21 @@ public class StoreController implements Initializable {
     @FXML private Button addToCartButton;
     @FXML private Button closeDetailsButton;
 
-    //per animazione
+    // cart panel
+    @FXML private Button checkoutButton;
+    @FXML private Button emptyCartButton;
+    @FXML private Button closeCartButton;
+    @FXML private Label itemsInCart;
+
+
+    // per animazione
     private TranslateTransition animDP;
     private TranslateTransition animDPclose;
     private TranslateTransition animPSP;
     private TranslateTransition animPSPclose;
+    private TranslateTransition animCP;
+    private TranslateTransition animCPclose;
+
 
     private boolean detailsOpened = false;
     private Stage primaryStage;
@@ -79,9 +91,6 @@ public class StoreController implements Initializable {
 
     public void setStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-//        DetailsPane.setVisible(false);
-//        DetailsPane.setManaged(false);
-//        FirstAnchorPane.setTopAnchor(ProductScrollPane, 0.0);
     }
 
     public Stage getPrimaryStage() {
@@ -103,10 +112,9 @@ public class StoreController implements Initializable {
         setTilePaneChildren(products);
 
         logoutButton.setOnAction(e -> close());
-        //CartButton.setOnAction(e -> bella());
-        prepareDetailPaneAnimation();
+        prepareDetailsPaneAnimation();
+        prepareCartPaneAnimation();
         closeDetailsButton.setOnAction(e -> closeDetailsPane());
-
     }
 
     private void closeDetailsPane() {
@@ -118,7 +126,7 @@ public class StoreController implements Initializable {
         detailsOpened = false;
     }
 
-    private void prepareDetailPaneAnimation() {
+    private void prepareDetailsPaneAnimation() {
         animDP=new TranslateTransition(new Duration(350), DetailsPane);
         animDP.setToY(0);
         animDPclose=new TranslateTransition(new Duration(350), DetailsPane);
@@ -145,20 +153,23 @@ public class StoreController implements Initializable {
 //        });
     }
 
-//    private void bella() {
-//        if(detailsOpened){
-//            DetailsPane.setVisible(false);
-//            DetailsPane.setManaged(false);
-//            FirstAnchorPane.setTopAnchor(ProductScrollPane, 0.0);
-//            detailsOpened = false;
-//        }
-//        else {
-//            DetailsPane.setVisible(true);
-//            DetailsPane.setManaged(true);
-//            FirstAnchorPane.setTopAnchor(ProductScrollPane, null);
-//            detailsOpened = true;
-//        }
-//    }
+    private void prepareCartPaneAnimation() {
+        animCP=new TranslateTransition(new Duration(350), cartPane);
+        animCP.setToX(0);
+        animCPclose=new TranslateTransition(new Duration(350), cartPane);
+        CartButton.setOnAction(e->{
+            if(cartPane.getTranslateX()!=0){
+                animCP.play();
+                ProductScrollPane.setDisable(true);
+                DetailsPane.setDisable(true);
+            }else{
+                animCPclose.setToX((cartPane.getWidth()));
+                animCPclose.play();
+                ProductScrollPane.setDisable(false);
+                DetailsPane.setDisable(false);
+            }
+        });
+    }
 
     private void setTilePaneChildren(Set<Product> productsObj){
         ObservableList<AnchorPane> products = null;
@@ -180,7 +191,7 @@ public class StoreController implements Initializable {
         //Retrieving the observable list of the Tile Pane
         ObservableList list = productsTilePane.getChildren();
 
-        //Adding the array of buttons to the pane
+        //Adding the array of products
         list.addAll(products);
     }
 
@@ -193,7 +204,6 @@ public class StoreController implements Initializable {
             ProductController myController = (ProductController) productLoader.getController();
             myController.setProduct(product);
             myController.setFatherController(this);
-            // controller.setProduct(product)
             result.add(layout);
         }
         System.out.println(result);

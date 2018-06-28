@@ -40,12 +40,12 @@
             <Font name="Roboto Regular" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="addToCartButton" layoutX="254.0" layoutY="217.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Add to cart">
+      <Button fx:id="addToCartButton" layoutX="254.0" layoutY="217.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="113.0" styleClass="productButtons" stylesheets="@stylesh.css" text="Acquista">
          <font>
             <Font name="Roboto Regular" size="13.0" />
          </font>
       </Button>
-      <Button fx:id="productDetailsButton" layoutX="358.0" layoutY="217.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Details">
+      <Button fx:id="productDetailsButton" layoutX="373.0" layoutY="217.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="81.0" styleClass="productButtons" stylesheets="@stylesh.css" text="Dettagli">
          <font>
             <Font name="Roboto Regular" size="13.0" />
          </font>

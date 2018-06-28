@@ -5,6 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -105,7 +106,7 @@
                                     <Insets left="40.0" top="10.0" />
                                  </VBox.margin>
                               </ChoiceBox>
-                              <Button fx:id="FilterResetButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Reset Filtri">
+                              <Button fx:id="FilterResetButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" styleClass="reverseButtons" stylesheets="@stylesh.css" text="Reset Filtri">
                                  <VBox.margin>
                                     <Insets bottom="80.0" left="40.0" right="80.0" top="160.0" />
                                  </VBox.margin>
@@ -163,7 +164,7 @@
                                     <Font name="Roboto Regular" size="28.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="pPerformersLabel" alignment="TOP_LEFT" layoutX="480.0" layoutY="128.0" prefHeight="38.0" prefWidth="321.0" text="Performers" wrapText="true">
+                              <Label fx:id="pPerformersLabel" alignment="TOP_LEFT" layoutX="480.0" layoutY="128.0" prefHeight="38.0" prefWidth="321.0" text="Altri artisti" wrapText="true">
                                  <font>
                                     <Font name="Roboto Regular" size="13.0" />
                                  </font>
@@ -178,7 +179,7 @@
                                     <Font name="Roboto Bold" size="50.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="480.0" layoutY="227.0" text="Type:">
+                              <Label layoutX="480.0" layoutY="227.0" text="Tipo:">
                                  <font>
                                     <Font name="Roboto Regular" size="13.0" />
                                  </font></Label>
@@ -192,38 +193,38 @@
                                     <Font name="Roboto Bold" size="30.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="479.0" layoutY="253.0" text="Genre:">
+                              <Label layoutX="479.0" layoutY="253.0" text="Genere:">
                                  <font>
                                     <Font name="Roboto Regular" size="13.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="pGenreLabel" layoutX="526.0" layoutY="249.0" text="Genere">
+                              <Label fx:id="pGenreLabel" layoutX="528.0" layoutY="249.0" text="Genere">
                                  <font>
                                     <Font name="Roboto Regular" size="18.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="830.0" layoutY="52.0" text="Tracks">
+                              <Label layoutX="830.0" layoutY="52.0" text="Brani">
                                  <font>
                                     <Font name="Roboto Bold" size="17.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="pTracksLabel" alignment="TOP_LEFT" layoutX="835.0" layoutY="83.0" prefHeight="333.0" prefWidth="278.0" text="Label" wrapText="true">
+                              <Label fx:id="pTracksLabel" alignment="TOP_LEFT" layoutX="835.0" layoutY="83.0" prefHeight="333.0" prefWidth="278.0" text="Lista brani" wrapText="true">
                                  <font>
                                     <Font name="Roboto Italic" size="13.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="1150.0" layoutY="52.0" text="Description">
+                              <Label layoutX="1150.0" layoutY="52.0" text="Descrizione">
                                  <font>
                                     <Font name="Roboto Bold" size="17.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="pDescriptionLabel" alignment="TOP_LEFT" layoutX="1155.0" layoutY="83.0" prefHeight="270.0" prefWidth="280.0" text="Label" textAlignment="JUSTIFY" wrapText="true" />
-                              <Button fx:id="addToCartButton" layoutX="480.0" layoutY="370.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Add to Cart" textFill="WHITE">
+                              <Label fx:id="pDescriptionLabel" alignment="TOP_LEFT" layoutX="1155.0" layoutY="83.0" prefHeight="270.0" prefWidth="280.0" text="Descrizione" textAlignment="JUSTIFY" wrapText="true" />
+                              <Button fx:id="addToCartButton" layoutX="480.0" layoutY="370.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="210.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Aggiungi al carrello" textFill="WHITE">
                                  <font>
                                     <Font name="Roboto Regular" size="24.0" />
                                  </font>
                               </Button>
-                              <Label layoutX="480.0" layoutY="170.0" text="Instruments:" />
+                              <Label layoutX="480.0" layoutY="170.0" text="Strumenti:" />
                               <Label fx:id="pInsertDate" layoutX="100.0" layoutY="409.0" text="insertDate" />
                               <Label layoutX="37.0" layoutY="408.0" text="Inserito il:">
                                  <font>
@@ -236,6 +237,54 @@
                                  </font>
                               </Button>
                            </children></Pane>
+                        <Pane fx:id="cartPane" prefWidth="1000.0" style="-fx-background-color: darkcyan;" translateX="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label layoutX="58.0" layoutY="26.0" text="Carrello" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Bold Italic" size="60.0" />
+                                 </font>
+                              </Label>
+                              <ScrollPane layoutX="76.0" layoutY="121.0" prefHeight="706.0" prefWidth="885.0">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <ListView layoutX="76.0" layoutY="79.0" prefHeight="321.0" prefWidth="394.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                              <Button fx:id="checkoutButton" layoutX="80.0" layoutY="865.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" styleClass="reverseButtons" stylesheets="@stylesh.css" text="Checkout" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Regular" size="24.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="checkoutButton1" layoutX="245.0" layoutY="865.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="179.0" styleClass="reverseButtons" stylesheets="@stylesh.css" text="Svuota carrello" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Regular" size="24.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="checkoutButton11" layoutX="777.0" layoutY="865.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="179.0" styleClass="reverseButtons" stylesheets="@stylesh.css" text="Chiudi" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Regular" size="24.0" />
+                                 </font>
+                              </Button>
+                              <Label layoutX="287.0" layoutY="50.0" text="(" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Bold Italic" size="32.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="itemsInCart" layoutX="310.0" layoutY="50.0" text="#" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Bold Italic" size="32.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="345.0" layoutY="50.0" text="prodotti nel carrello )" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Bold Italic" size="32.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
                      </children>
                   </AnchorPane>
                   <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightgrey;">

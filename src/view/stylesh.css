@@ -32,3 +32,31 @@
     -fx-font-size: 20;
     -fx-text-fill: white;
 }
+
+.productButtons{
+    -fx-background-color: darkcyan;
+    -fx-font-family: Roboto;
+    -fx-font-size: 16;
+    -fx-text-fill: white;
+}
+
+.productButtons:hover {
+    -fx-background-color: #008b70;
+    -fx-font-family: Roboto;
+    -fx-font-size: 16;
+    -fx-text-fill: white;
+}
+
+.reverseButtons{
+    -fx-background-color: white;
+    -fx-font-family: Roboto;
+    -fx-font-size: 20;
+    -fx-text-fill: darkcyan;
+}
+
+.reverseButtons:hover {
+    -fx-background-color: antiquewhite ;
+    -fx-font-family: Roboto;
+    -fx-font-size: 20;
+    -fx-text-fill: darkcyan;
+}
