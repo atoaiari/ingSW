@@ -9,13 +9,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -25,7 +26,10 @@ import java.net.URL;
 import java.util.*;
 
 import javafx.fxml.FXML;
+import javafx.util.Callback;
 import javafx.util.Duration;
+import javafx.util.Pair;
+import model.Cart;
 import model.Product;
 import model.Store;
 
@@ -35,9 +39,9 @@ public class StoreController implements Initializable {
     @FXML private TextField searchTextField;
     @FXML private CheckBox CDCheckBox;
     @FXML private CheckBox DVDCheckBox;
-    @FXML private ChoiceBox<String> GenereChoiceBox;
+    @FXML private ChoiceBox<String> genreChoiceBox;
     @FXML private ChoiceBox<String> orderByChoiceBox;
-    @FXML private Button FilterResetButton;
+    @FXML private Button filterResetButton;
     @FXML private TilePane productsTilePane;
     @FXML private Pane DetailsPane;
     @FXML private AnchorPane FirstAnchorPane;
@@ -62,11 +66,11 @@ public class StoreController implements Initializable {
     @FXML private Button closeDetailsButton;
 
     // cart panel
+    @FXML private ListView<Pair<Product, Integer>> cartListview;
     @FXML private Button checkoutButton;
     @FXML private Button emptyCartButton;
     @FXML private Button closeCartButton;
     @FXML private Label itemsInCart;
-
 
     // per animazione
     private TranslateTransition animDP;
@@ -76,18 +80,16 @@ public class StoreController implements Initializable {
     private TranslateTransition animCP;
     private TranslateTransition animCPclose;
 
-    private ObservableList<String> genreList = FXCollections.observableArrayList("Tutti", "Rock", "House", "Classica");
+    private ObservableList<String> genreList = FXCollections.observableArrayList("Tutti", "Rock", "House", "Classica", "Pop", "Soul", "Latino", "Funk", "Folk");
     private ObservableList<String> orderByList = FXCollections.observableArrayList("Titolo", "Artista", "Prezzo crescente", "Prezzo descrescente");
 
     private boolean detailsOpened = false;
     private Stage primaryStage;
+
+    private String userMail;
     //private Store store;
 
-
-    public StoreController(){
-        //store = Store.getStore();
-    }
-
+    public StoreController(){ }
 
     public void setStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -105,8 +107,8 @@ public class StoreController implements Initializable {
         ArrayList<Product> products = new ArrayList(Store.getInstance().getProducts());
         products.sort(Comparator.comparing(Product::getTitle));
         setTilePaneChildren(products);
-        GenereChoiceBox.setItems(genreList);
-        GenereChoiceBox.setValue("Tutti");
+        genreChoiceBox.setItems(genreList);
+        genreChoiceBox.setValue("Tutti");
         orderByChoiceBox.setItems(orderByList);
         orderByChoiceBox.setValue("Titolo");
         CDCheckBox.setSelected(true);
@@ -118,48 +120,41 @@ public class StoreController implements Initializable {
         closeDetailsButton.setOnAction(e -> closeDetailsPane());
         searchTextField.setOnKeyReleased(e -> filterProducts());
         orderByChoiceBox.setOnAction(e -> filterProducts());
-        GenereChoiceBox.setOnAction(e -> filterProducts());
+        genreChoiceBox.setOnAction(e -> filterProducts());
         CDCheckBox.setOnAction(e -> filterProducts());
         DVDCheckBox.setOnAction(e -> filterProducts());
+        filterResetButton.setOnAction(e -> filterReset());
+
+        //////////////////////////////////////////
+        /*for(Product p : products) {
+            Cart.getInstance().addToCart(p, 1);
+        }*/
+
+        //Cart.getInstance().printCart();
+        //cartListview.getItems().addAll(Cart.getInstance().getCart().keySet());
+        System.out.println(Cart.getInstance().getCart());
+        cartListview.setItems(Cart.getInstance().getCart());
+        cartListview.setCellFactory(myListView -> new ProductInCartCell());
+        //////////////////////////////////////////
+    }
+
+
+    //////////////////////////////////////////
+
+    private void filterReset() {
+        searchTextField.setText("");
+        orderByChoiceBox.setValue("Titolo");
+        genreChoiceBox.setValue("Tutti");
+        CDCheckBox.setSelected(true);
+        DVDCheckBox.setSelected(true);
+        filterProducts();
     }
 
     private void filterProducts(){
         clearCds();
-        ArrayList<Product> filteredProducts = new ArrayList<>(Store.getInstance().getFilteredProducts(searchTextField.getText(), orderByChoiceBox.getValue(), GenereChoiceBox.getValue(), CDCheckBox.isSelected(), DVDCheckBox.isSelected()));
+        ArrayList<Product> filteredProducts = new ArrayList<>(Store.getInstance().getFilteredProducts(searchTextField.getText(), orderByChoiceBox.getValue(), genreChoiceBox.getValue(), CDCheckBox.isSelected(), DVDCheckBox.isSelected()));
         setTilePaneChildren(filteredProducts);
     }
-
-//    private void setGenreFilter() {
-//        clearCds();
-//        ArrayList<Product> filteredProducts = new ArrayList<>(Store.getInstance().getGenreFilteredProducts(GenereChoiceBox.getValue()));
-//        setTilePaneChildren(filteredProducts);
-//    }
-//
-//    private void orderByFilter() {
-//        clearCds();
-//        ArrayList<Product> orderedProducts = new ArrayList<>(Store.getInstance().getProducts());
-//        switch (orderByChoiceBox.getValue()){
-//            case "Titolo":
-//                orderedProducts.sort(Comparator.comparing(Product::getTitle));
-//                break;
-//            case "Artista":
-//                orderedProducts.sort(Comparator.comparing(Product::getPerformer));
-//                break;
-//            case "Prezzo crescente":
-//                orderedProducts.sort(Comparator.comparing(Product::getPrice));
-//                break;
-//            case "Prezzo descrescente":
-//                orderedProducts.sort(Comparator.comparing(Product::getNegativePrice));
-//        }
-//
-//        setTilePaneChildren(orderedProducts);
-//    }
-//
-//    private void searchProducts() {
-//        clearCds();
-//        ArrayList<Product> filteredProducts = new ArrayList<>(Store.getInstance().getFilteredProducts(searchTextField.getText()));
-//        setTilePaneChildren(filteredProducts);
-//    }
 
     private void clearCds() {
         productsTilePane.getChildren().clear();
@@ -181,24 +176,6 @@ public class StoreController implements Initializable {
         animPSP=new TranslateTransition(new Duration(350), ProductScrollPane);
         animPSP.setToY(450);
         animPSPclose=new TranslateTransition(new Duration(350), ProductScrollPane);
-//        CartButton.setOnAction(e->{
-//            if(DetailsPane.getTranslateY()!=0){
-//                animDP.play();
-//                animPSP.play();
-//                animPSP.setOnFinished(new EventHandler<ActionEvent>() {
-//                    @Override
-//                    public void handle(ActionEvent event) {
-//                        ProductScrollPane.prefHeightProperty().set(565.0);
-//                    }
-//                });
-//            }else{
-//                animDPclose.setToY(-(DetailsPane.getHeight()));
-//                animDPclose.play();
-//                animPSPclose.setToY(0);
-//                animPSPclose.play();
-//                ProductScrollPane.prefHeightProperty().set(1010.0);
-//            }
-//        });
     }
 
     private void prepareCartPaneAnimation() {
@@ -243,9 +220,9 @@ public class StoreController implements Initializable {
         list.addAll(products);
     }
 
-    private ObservableList getProductsLayout(List<Product> prodotti) throws IOException {
+    private ObservableList getProductsLayout(List<Product> products) throws IOException {
         ObservableList result = FXCollections.observableArrayList();
-        for(Product product : prodotti){
+        for(Product product : products){
             FXMLLoader productLoader = new FXMLLoader(Main.class.getResource("/view/product.fxml"));
             AnchorPane layout = productLoader.load();
             // ottieni controller
@@ -289,4 +266,13 @@ public class StoreController implements Initializable {
             detailsOpened = true;
         }
     }
+
+    public void setUserMail(String userMail) {
+        userLabel.setText(userMail);
+    }
+
+    public void addToCart(Product prod){
+        Cart.getInstance().addToCart(prod, 1);
+    }
 }
+

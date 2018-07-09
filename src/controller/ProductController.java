@@ -45,6 +45,8 @@ public class ProductController implements Initializable {
                 e.printStackTrace();
             }
         });
+
+        addToCartButton.setOnAction(e -> fatherController.addToCart(this.product));
     }
 
 

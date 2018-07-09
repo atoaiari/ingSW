@@ -10,7 +10,6 @@ import java.util.List;
 
 public class Store {
     private static Store ourInstance = null;
-    // private Set<Product> productsSet;
     private List<Product> productsList;
     private List<Product> iterableProductList;
 
@@ -50,73 +49,29 @@ public class Store {
         return real_files;
     }
 
-//    public Set<Product> getProducts(){
-//        return productsSet;
-//    }
     public List<Product> getProducts(){
         return productsList;
     }
 
-//    public List<Product> getFilteredProducts(String text) {
-//        if(text == "")
-//            actualProductList = productsList;
-//
-//        List<Product> filteredProducts = new ArrayList<>();
-//        for(Product prod:actualProductList){
-//            if(prod.getTitle().toLowerCase().startsWith(text.toLowerCase()) || text == ""){
-//                filteredProducts.add(prod);
-//            }
-//        }
-//
-//        actualProductList = filteredProducts;
-//        filteredProducts.sort(Comparator.comparing(Product::getTitle));
-//        return filteredProducts;
-//    }
-//
-//    public List<Product> getGenreFilteredProducts(String value) {
-//        if(value == "Tutti")
-//            actualProductList = productsList;
-//
-//        List<Product> genreFilteredProducts = new ArrayList<>();
-//        for(Product prod:actualProductList){
-//            if(value.compareTo(prod.getGenre()) == 0 || value == "Tutti"){
-//                genreFilteredProducts.add(prod);
-//            }
-//        }
-//
-//        actualProductList = genreFilteredProducts;
-//        genreFilteredProducts.sort(Comparator.comparing(Product::getTitle));
-//        return genreFilteredProducts;
-//    }
-
     public List<Product> getFilteredProducts(String searchText, String orderByValue, String genreValue, Boolean CD, Boolean DVD) {
         List<Product> filteredProducts = new ArrayList<>(productsList);
 
-        System.out.println("Inizio filtraggio");
-        for(Product p:filteredProducts)
-            System.out.println(p);
-
-        for(Product prod:iterableProductList){
-            if(!(prod.getTitle().toLowerCase().startsWith(searchText.toLowerCase()))){
-                filteredProducts.remove(prod);
-            }
-        }
-
-        System.out.println("Dopo search");
-        for(Product p:filteredProducts)
-            System.out.println(p);
-
-        if(genreValue != "Tutti"){
-            for(Product prod:iterableProductList){
-                if(genreValue.compareTo(prod.getGenre()) != 0 && filteredProducts.contains(prod)){
+        if(searchText != "") {
+            for (Product prod : iterableProductList) {
+                if (!(prod.getTitle().toLowerCase().startsWith(searchText.toLowerCase()))) {
                     filteredProducts.remove(prod);
                 }
             }
         }
 
-        System.out.println("Dopo genere");
-        for(Product p:filteredProducts)
-            System.out.println(p);
+        if(genreValue != "Tutti"){
+            for(Product prod:iterableProductList){
+                // if(genreValue.compareTo(prod.getGenre()) != 0 && filteredProducts.contains(prod)){
+                if(!(prod.getGenre().toLowerCase().contains(genreValue.toLowerCase())) && filteredProducts.contains(prod)){
+                    filteredProducts.remove(prod);
+                }
+            }
+        }
 
         if(!CD && !DVD)
             filteredProducts = null;

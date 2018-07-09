@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="cellAnchorPane" prefHeight="100.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="prodInCartImageView" fitHeight="80.0" fitWidth="80.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@empty_cd.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="prodInCartTitleLabel" layoutX="114.0" layoutY="16.0" text="Titolo">
+         <font>
+            <Font name="Roboto Bold Italic" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="prodInCartArtistLabel" layoutX="115.0" layoutY="50.0" text="Artista">
+         <font>
+            <Font name="Roboto Regular" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="prodInCartTypeLabel" layoutX="378.0" layoutY="21.0" text="Tipo">
+         <font>
+            <Font name="Roboto Regular" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="prodInCartPriceLabel" layoutX="395.0" layoutY="47.0" text="0.00">
+         <font>
+            <Font name="Roboto Bold" size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="381.0" layoutY="50.0" text="€">
+         <font>
+            <Font name="Roboto Bold" size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="prodInCartQuantityChoiceBox" layoutX="480.0" layoutY="30.0" prefHeight="40.0" prefWidth="70.0" styleClass="productButtons" stylesheets="@stylesh.css" />
+      <Button fx:id="prodInCartRemoveButton" layoutX="570.0" layoutY="30.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="productButtons" stylesheets="@stylesh.css" text="Rimuovi" />
+   </children>
+</AnchorPane>

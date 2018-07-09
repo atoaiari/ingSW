@@ -27,6 +27,7 @@ public class Main extends Application {
 
     private Stage primaryStage;
     private StoreController myController;
+    private String userMail;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -42,10 +43,10 @@ public class Main extends Application {
         if (! eseguitoLogin())
             return;
 
-        openStore();
+        openStore(userMail);
     }
 
-    private void openStore() {
+    private void openStore(String userMail) {
         FXMLLoader storeLoader = new FXMLLoader();
         storeLoader.setLocation(getClass().getResource("/view/store2.fxml"));
 
@@ -58,6 +59,8 @@ public class Main extends Application {
         }
 
         myController = storeLoader.getController();
+        // TODO
+        myController.setUserMail(userMail);
         myController.setStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
@@ -91,6 +94,7 @@ public class Main extends Application {
             loginStage.setResizable(false);
 
             loginStage.showAndWait();
+            userMail = myController.getMail();
             return myController.esitoLogin();
         } catch (IOException e) {
             System.err.println("File " + LOGIN_FXML_PATH + " non trovato");

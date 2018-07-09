@@ -60,7 +60,7 @@ public class LoginController implements Initializable {
         this.loginStage = loginStage;
     }
 
-    private String getMail(){
+    public String getMail(){
         return emailTextfield.getText();
     }
 

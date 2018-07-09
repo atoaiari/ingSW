@@ -88,7 +88,7 @@
                                     <Insets left="40.0" top="40.0" />
                                  </VBox.margin>
                               </Label>
-                              <ChoiceBox fx:id="GenereChoiceBox" prefHeight="40.0" prefWidth="250.0">
+                              <ChoiceBox fx:id="genreChoiceBox" prefHeight="40.0" prefWidth="250.0">
                                  <VBox.margin>
                                     <Insets left="40.0" top="10.0" />
                                  </VBox.margin>
@@ -106,7 +106,7 @@
                                     <Insets left="40.0" top="10.0" />
                                  </VBox.margin>
                               </ChoiceBox>
-                              <Button fx:id="FilterResetButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" styleClass="reverseButtons" stylesheets="@stylesh.css" text="Reset Filtri">
+                              <Button fx:id="filterResetButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" styleClass="reverseButtons" stylesheets="@stylesh.css" text="Reset Filtri">
                                  <VBox.margin>
                                     <Insets bottom="80.0" left="40.0" right="80.0" top="160.0" />
                                  </VBox.margin>
@@ -244,15 +244,6 @@
                                     <Font name="Roboto Bold Italic" size="60.0" />
                                  </font>
                               </Label>
-                              <ScrollPane layoutX="76.0" layoutY="121.0" prefHeight="706.0" prefWidth="885.0">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                                       <children>
-                                          <ListView layoutX="76.0" layoutY="79.0" prefHeight="692.0" prefWidth="875.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </ScrollPane>
                               <Button fx:id="checkoutButton" layoutX="80.0" layoutY="865.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" styleClass="reverseButtons" stylesheets="@stylesh.css" text="Checkout" textFill="WHITE">
                                  <font>
                                     <Font name="Roboto Regular" size="24.0" />
@@ -283,6 +274,7 @@
                                     <Font name="Roboto Bold Italic" size="32.0" />
                                  </font>
                               </Label>
+                              <ListView fx:id="cartListview" layoutX="80.0" layoutY="122.0" prefHeight="715.0" prefWidth="800.0" />
                            </children>
                         </Pane>
                      </children>
