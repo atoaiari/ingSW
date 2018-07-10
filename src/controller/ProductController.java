@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import model.Cart;
 import model.Product;
 
 public class ProductController implements Initializable {
@@ -35,7 +36,6 @@ public class ProductController implements Initializable {
         this.fatherController = controller;
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         productDetailsButton.setOnAction(event -> {
@@ -46,7 +46,7 @@ public class ProductController implements Initializable {
             }
         });
 
-        addToCartButton.setOnAction(e -> fatherController.addToCart(this.product));
+        // addToCartButton.setOnAction(e -> fatherController.addToCart(this.product));
     }
 
 
@@ -59,5 +59,6 @@ public class ProductController implements Initializable {
         productGenreLabel.setText(product.getGenre());
         productArtistLabel.setText(product.getPerformer());
         productPriceLabel.setText(String.valueOf(product.getPrice()));
+        addToCartButton.setOnAction(event -> Cart.getInstance().addToCart(this.product, 1));
     }
 }

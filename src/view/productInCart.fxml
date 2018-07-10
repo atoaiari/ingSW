@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane fx:id="cellAnchorPane" prefHeight="100.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -41,7 +40,7 @@
             <Font name="Roboto Bold" size="18.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="prodInCartQuantityChoiceBox" layoutX="480.0" layoutY="30.0" prefHeight="40.0" prefWidth="70.0" styleClass="productButtons" stylesheets="@stylesh.css" />
       <Button fx:id="prodInCartRemoveButton" layoutX="570.0" layoutY="30.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="productButtons" stylesheets="@stylesh.css" text="Rimuovi" />
+      <ComboBox fx:id="prodInCartQuantityComboBox" layoutX="483.0" layoutY="30.0" prefHeight="40.0" prefWidth="70.0" styleClass="productButtons" stylesheets="@stylesh.css" />
    </children>
 </AnchorPane>

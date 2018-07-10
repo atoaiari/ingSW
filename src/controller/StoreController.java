@@ -134,7 +134,8 @@ public class StoreController implements Initializable {
         //cartListview.getItems().addAll(Cart.getInstance().getCart().keySet());
         System.out.println(Cart.getInstance().getCart());
         cartListview.setItems(Cart.getInstance().getCart());
-        cartListview.setCellFactory(myListView -> new ProductInCartCell());
+        cartListview.setCellFactory(cartListview -> new ProductInCartCell());
+        cartListview.setManaged(true);
         //////////////////////////////////////////
     }
 
@@ -258,11 +259,7 @@ public class StoreController implements Initializable {
         if(!detailsOpened){
             animDP.play();
             animPSP.play();
-            animPSP.setOnFinished(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    ProductScrollPane.prefHeightProperty().set(565.0); }
-                });
+            animPSP.setOnFinished(event -> ProductScrollPane.prefHeightProperty().set(565.0));
             detailsOpened = true;
         }
     }
