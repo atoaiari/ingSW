@@ -79,8 +79,9 @@ public class ProductInCartCell extends ListCell<Pair<Product, Integer>> {
             // prodInCartQuantityComboBox.setOnAction(event -> Cart.getInstance().updateQuantity(prod, prodInCartQuantityComboBox.getValue()));
             prodInCartQuantityComboBox.setOnAction(event -> Cart.getInstance().addToCart(prod.getKey(), prodInCartQuantityComboBox.getValue() - prod.getValue()));
             //prodInCartQuantityChoiceBox.setValue(prod.getValue());;
-            prodInCartRemoveButton.setOnAction(event -> Cart.getInstance().removeFromCart(prod.getKey()));
+
             // prodInCartQuantityComboBox.setPromptText(String.valueOf(Cart.getInstance().getValueOfProduct(prod.getKey())));
+            prodInCartRemoveButton.setOnMouseClicked(event -> Cart.getInstance().removeFromCart(prod));
             prodInCartQuantityComboBox.setValue(prod.getValue());
 
             setText(null);

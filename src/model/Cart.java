@@ -1,10 +1,13 @@
 package model;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class Cart {
     private static Cart ourInstance = null;
@@ -48,36 +51,40 @@ public class Cart {
                 added = true;
             }
         }
-        if (!added) productsInCart.add(new Pair<>(product, quantita));
+        if (!added) Platform.runLater(() -> productsInCart.add(new Pair<>(product, quantita)));
         else {
-            productsInCart.set(indexOfPairToUpdate, new Pair<>(product, oldQ + quantita));
+            int finalIndexOfPairToUpdate = indexOfPairToUpdate;
+            int finalOldQ = oldQ;
+            Platform.runLater(() -> productsInCart.set(finalIndexOfPairToUpdate, new Pair<>(product, finalOldQ + quantita)));
 //            productsInCart.remove(oldP);
 //            productsInCart.add(newP);
         }
         System.out.println(productsInCart);
     }
 
-    public void removeFromCart(Product product) {
+    public void removeFromCart(Pair<Product, Integer> product) {
         // Pair<Product, Integer> pairToDelete = null;
-        ObservableList<Pair<Product, Integer>> backup = FXCollections.observableArrayList();
-        FXCollections.copy(backup, productsInCart);
-        System.out.println("backup_pre : " + backup);
+        // List<Pair<Product, Integer>> backup = new ArrayList<>();
+        // System.out.println("backup_pre : " + backup);
         int oldValue = 0;
         int indexOfPairToRemove = 0;
-        for (Pair<Product, Integer> pair: backup) {
-            if (pair.getKey().equals(product)) {
-                indexOfPairToRemove = backup.indexOf(pair);
+        for (Pair<Product, Integer> pair: productsInCart) {
+            if (pair.getKey().equals(product.getKey())) {
+                indexOfPairToRemove = productsInCart.indexOf(pair);
                 oldValue = pair.getValue();
                 // pairToDelete = pair;
             }
         }
-        if ((oldValue-1) > 0)
-            backup.set(indexOfPairToRemove, new Pair<>(product, oldValue - 1));
+        if ((oldValue-1) > 0) {
+            int finalIndexOfPairToRemove = indexOfPairToRemove;
+            int finalOldValue = oldValue;
+            Platform.runLater(() -> productsInCart.set(finalIndexOfPairToRemove, new Pair<>(product.getKey(), finalOldValue - 1)));
+        }
         else
-            backup.remove(indexOfPairToRemove);
+            Platform.runLater(() -> productsInCart.remove(product));
 
-        //FXCollections.copy(productsInCart, backup);
-        System.out.println("backup_post: " + backup);
+        // FXCollections.copy(productsInCart, backup);
+        // System.out.println("backup_post: " + backup);
         // productsInCart.remove(pairToDelete);
         System.out.println("prodincart: " + productsInCart);
     }
