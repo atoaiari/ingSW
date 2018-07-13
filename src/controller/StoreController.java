@@ -2,21 +2,22 @@ package controller;
 
 import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -24,9 +25,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 import javafx.fxml.FXML;
-import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import model.Cart;
@@ -72,6 +73,26 @@ public class StoreController implements Initializable {
     @FXML private Button closeCartButton;
     @FXML private Label itemsInCart;
     @FXML private Label cartTotLabel;
+
+    // checkout panel
+    @FXML private Pane checkoutPane;
+    @FXML private Button buyButton;
+    @FXML private Button backToCartButton;
+    @FXML private Label checkoutTotLabel;
+    @FXML private Label checkoutNameLabel;
+    @FXML private Label checkoutLastLabel;
+    @FXML private Label checkoutMailLabel;
+    @FXML private TextField whereTextField;
+    @FXML private ListView<Pair<Product, Integer>> recapListview;
+    @FXML private ImageView cardImageView;
+    @FXML private TextField cardNumberTextField;
+    @FXML private TextField cardCodTextField;
+    @FXML private ComboBox<?> cardYearCombo;
+    @FXML private ComboBox<?> cardMonthCombo;
+    @FXML private Label cardNumberError;
+    @FXML private Label cardCodError;
+    @FXML private Label whereError;
+
 
     // per animazione
     private TranslateTransition animDP;
@@ -126,17 +147,14 @@ public class StoreController implements Initializable {
         DVDCheckBox.setOnAction(e -> filterProducts());
         filterResetButton.setOnAction(e -> filterReset());
 
-        //////////////////////////////////////////
-        /*for(Product p : products) {
-            Cart.getInstance().addToCart(p, 1);
-        }*/
-
-        //Cart.getInstance().printCart();
-        //cartListview.getItems().addAll(Cart.getInstance().getCart().keySet());
         System.out.println(Cart.getInstance().getCart());
         cartListview.setItems(Cart.getInstance().getCart());
         cartListview.setCellFactory(cartListview -> new ProductInCartCell());
         cartListview.setManaged(true);
+
+        recapListview.setItems(Cart.getInstance().getCart());
+        recapListview.setCellFactory(recapListview -> new ProductInRecapCell());
+        recapListview.setManaged(true);
 
         try {
             userLabel.setText(User.getInstance().getName() + " " + User.getInstance().getLastName() );
@@ -144,7 +162,110 @@ public class StoreController implements Initializable {
             e.printStackTrace();
         }
 
+        Cart.getInstance().getCart().addListener((ListChangeListener<Pair<Product, Integer>>) c ->
+                cartTotLabel.setText(String.format("%.2f", Cart.getInstance().getCartTotal())));
+
+        Cart.getInstance().getCart().addListener((ListChangeListener<Pair<Product, Integer>>) c ->
+                itemsInCart.setText(String.valueOf(Cart.getInstance().getTotItems())));
+
+        Cart.getInstance().getCart().addListener((ListChangeListener<Pair<Product, Integer>>) c ->
+                CartButton.setText(String.valueOf(Cart.getInstance().getTotItems())));
+
+        // cart
+        emptyCartButton.setOnAction(event -> Cart.getInstance().getCart().clear());
+
+        // checkout
+        checkoutPane.setVisible(false);
+        checkoutPane.setManaged(false);
+        checkoutButton.setOnAction(event -> {
+            try {
+                checkout();
+            } catch (User.UnloadedUserException e) {
+                e.printStackTrace();
+            }
+        });
+
+        cardNumberTextField.setOnKeyTyped(event -> {
+            try {
+                changeCardImage();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        });
+
     }
+
+    private void checkout() throws User.UnloadedUserException {
+        if (Cart.getInstance().getTotItems() != 0) {
+            checkoutPane.setVisible(true);
+            checkoutPane.setManaged(true);
+            CartButton.setDisable(true);
+            checkoutNameLabel.setText(User.getInstance().getName());
+            checkoutLastLabel.setText(User.getInstance().getLastName());
+            checkoutMailLabel.setText(User.getInstance().getPsw());
+            checkoutTotLabel.setText(cartTotLabel.getText());
+
+            buyButton.setOnAction(event -> buy());
+            backToCartButton.setOnAction(event -> backToCart());
+        }
+    }
+
+    private void buy() {
+        if (whereTextField.getText() == null || whereTextField.getText().length() == 0)
+            whereError.setText("Inserire un indirizzo");
+        else if (cardNumberTextField.getText() == null || cardNumberTextField.getText().length() != 16)
+            cardNumberError.setText("Inserire il numero della carta (16 cifre)");
+        else if (cardCodTextField.getText() == null || cardCodTextField.getText().length() != 3)
+            cardCodError.setText("Inserire il codice a 3 cifre");
+        else {
+            System.out.println("Acquista");
+        }
+    }
+
+    @FXML
+    public void noErrorWhere() {
+        if (whereTextField.getText() != null || whereTextField.getText().length() != 0)
+            whereError.setText("");
+    }
+
+    @FXML
+    public void noCardNumberError() {
+        if (cardNumberTextField.getText() != null || cardNumberTextField.getText().length() != 0)
+            cardNumberError.setText("");
+    }
+
+    @FXML
+    public void noCardCodError() {
+        if (cardCodTextField.getText() != null || cardCodTextField.getText().length() != 0)
+            cardCodError.setText("");
+    }
+
+    private void changeCardImage() throws MalformedURLException {
+        if (cardNumberTextField.getText().startsWith("4")){
+            File im = new File("src/view/visa.png");
+            cardImageView.setImage(new Image(im.toURI().toURL().toExternalForm()));
+        }
+        else if (cardNumberTextField.getText().startsWith("5")){
+            File im = new File("src/view/mastercard.png");
+            cardImageView.setImage(new Image(im.toURI().toURL().toExternalForm()));
+        }
+        else if(cardNumberTextField.getText().startsWith("3")){
+            File im = new File("src/view/americanexpress.png");
+            cardImageView.setImage(new Image(im.toURI().toURL().toExternalForm()));
+        }
+        else{
+            File im = new File("src/view/creditcard.png");
+            cardImageView.setImage(new Image(im.toURI().toURL().toExternalForm()));
+        }
+
+    }
+
+    private void backToCart() {
+        checkoutPane.setVisible(false);
+        checkoutPane.setManaged(false);
+        CartButton.setDisable(false);
+    }
+
 
 
     //////////////////////////////////////////

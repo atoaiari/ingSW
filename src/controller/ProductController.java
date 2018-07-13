@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -59,6 +60,17 @@ public class ProductController implements Initializable {
         productGenreLabel.setText(product.getGenre());
         productArtistLabel.setText(product.getPerformer());
         productPriceLabel.setText(String.valueOf(product.getPrice()));
-        addToCartButton.setOnAction(event -> Cart.getInstance().addToCart(this.product, 1));
+        // addToCartButton.setOnAction(event -> Cart.getInstance().addToCart(this.product, 1));
+        addToCartButton.setOnAction(event -> addToCart(this.product));
+    }
+
+    private void addToCart(Product product) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Info");
+        alert.setHeaderText(null);
+        alert.setContentText("Hai aggiunto un nuovo prodotto al carrello!");
+
+        alert.showAndWait();
+        Cart.getInstance().addToCart(product, 1);
     }
 }

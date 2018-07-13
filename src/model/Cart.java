@@ -108,6 +108,14 @@ public class Cart {
         return total;
     }
 
+    public int getTotItems() {
+        int total = 0;
+        for (Pair<Product, Integer> pair: productsInCart){
+            total += pair.getValue();
+        }
+        return total;
+    }
+
     /*public void removeFromCart(Pair<CD, Integer> selezionato) {
         giacenza.remove(selezionato);
     }*/

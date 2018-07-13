@@ -107,4 +107,9 @@ public class Product implements Comparable{
     public Double getNegativePrice() {
         return price * (-1);
     }
+
+    @Override
+    public String toString() {
+        return "Articolo: " + title;
+    }
 }

@@ -61,35 +61,68 @@ public class RegistrationController implements Initializable {
 
     private void registrationClick() {
         // inserisco entry nel database
-        System.out.println("Registrazione");
-        int res;
-        File out = new File("data/users/" + String.valueOf(emailTextfield.getText().hashCode()) + ".json");
-        if (out.exists()) {
-            System.out.println("Utente già registrato!");
-            res = 1;
-        }
-        else{
-            JSONObject obj = new JSONObject();
+        if (nameTextfield.getText() == null || nameTextfield.getText().length() == 0)
+            nameError.setText("Inserire nome");
+        else if (lastnameTextfield.getText() == null || lastnameTextfield.getText().length() == 0)
+            lastnameError.setText("Inserisci cognome");
+        else if (emailTextfield.getText() == null || emailTextfield.getText().length() == 0)
+            emailError.setText("Inserire email");
+        else if (pswField.getText() == null || pswField.getText().length() == 0)
+            pswError.setText("Inserisci password");
+        else {
+            System.out.println("Registrazione");
+            int res;
+            File out = new File("data/users/" + String.valueOf(emailTextfield.getText().hashCode()) + ".json");
+            if (out.exists()) {
+                System.out.println("Utente già registrato!");
+                res = 1;
+            } else {
+                JSONObject obj = new JSONObject();
 
-            obj.put("userId", String.valueOf(emailTextfield.getText().hashCode()));
-            obj.put("name", nameTextfield.getText());
-            obj.put("last", lastnameTextfield.getText());
-            obj.put("email", emailTextfield.getText());
-            obj.put("psw", String.valueOf(pswField.getText().hashCode()));
-            LocalDate localDate = LocalDate.now();
-            obj.put("registrationDate", DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate));
-            obj.put("bonus", false);
+                obj.put("userId", String.valueOf(emailTextfield.getText().hashCode()));
+                obj.put("name", nameTextfield.getText());
+                obj.put("last", lastnameTextfield.getText());
+                obj.put("email", emailTextfield.getText());
+                obj.put("psw", String.valueOf(pswField.getText().hashCode()));
+                LocalDate localDate = LocalDate.now();
+                obj.put("registrationDate", DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate));
+                obj.put("bonus", false);
 
-            System.out.print(obj);
-            try (FileWriter file = new FileWriter(out)) {
-                file.write(obj.toJSONString());
-            } catch (IOException e) {
-                e.printStackTrace();
+                System.out.print(obj);
+                try (FileWriter file = new FileWriter(out)) {
+                    file.write(obj.toJSONString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                res = 2;
             }
-            res = 2;
-        }
 
-        loginController.restoreScene(res);
+            loginController.restoreScene(res);
+        }
+    }
+
+    @FXML
+    public void noErrorName() {
+        if (nameTextfield.getText() != null || nameTextfield.getText().length() != 0)
+            nameError.setText("");
+    }
+
+    @FXML
+    public void noErrorLastName() {
+        if (lastnameTextfield.getText() != null || lastnameTextfield.getText().length() != 0)
+            lastnameError.setText("");
+    }
+
+    @FXML
+    public void noErrorMail() {
+        if (emailTextfield.getText() != null || emailTextfield.getText().length() != 0)
+            emailError.setText("");
+    }
+
+    @FXML
+    public void noErrorPsw() {
+        if (pswField.getText() != null || pswField.getText().length() != 0)
+            pswError.setText("");
     }
 
     private void loginClick() {

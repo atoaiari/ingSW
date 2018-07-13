@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="cellAnchorPane" prefHeight="40.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="recapTitleLabel" layoutX="17.0" layoutY="9.0" text="Titolo">
+         <font>
+            <Font name="Roboto Regular" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="recapTypeLabel" layoutX="304.0" layoutY="9.0" text="Tipo">
+         <font>
+            <Font name="Roboto Regular" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="468.0" layoutY="9.0" text="#">
+         <font>
+            <Font name="Roboto Regular" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="recapQuantityLabel" layoutX="486.0" layoutY="9.0" text="Quant">
+         <font>
+            <Font name="Roboto Regular" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="recapPriceLabel" alignment="CENTER_RIGHT" layoutX="617.0" layoutY="9.0" prefHeight="22.0" prefWidth="66.0" text="0.00">
+         <font>
+            <Font name="Roboto Regular" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="601.0" layoutY="9.0" text="€">
+         <font>
+            <Font name="Roboto Regular" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
