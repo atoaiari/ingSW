@@ -21,9 +21,13 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 
@@ -34,6 +38,7 @@ import model.Cart;
 import model.Product;
 import model.Store;
 import model.User;
+import org.json.simple.JSONObject;
 
 
 public class StoreController implements Initializable {
@@ -87,8 +92,8 @@ public class StoreController implements Initializable {
     @FXML private ImageView cardImageView;
     @FXML private TextField cardNumberTextField;
     @FXML private TextField cardCodTextField;
-    @FXML private ComboBox<?> cardYearCombo;
-    @FXML private ComboBox<?> cardMonthCombo;
+    @FXML private ComboBox<Integer> cardYearCombo;
+    @FXML private ComboBox<Integer> cardMonthCombo;
     @FXML private Label cardNumberError;
     @FXML private Label cardCodError;
     @FXML private Label whereError;
@@ -173,6 +178,7 @@ public class StoreController implements Initializable {
 
         // cart
         emptyCartButton.setOnAction(event -> Cart.getInstance().getCart().clear());
+        closeCartButton.setOnAction(event -> closeCartPane());
 
         // checkout
         checkoutPane.setVisible(false);
@@ -185,14 +191,30 @@ public class StoreController implements Initializable {
             }
         });
 
-        cardNumberTextField.setOnKeyTyped(event -> {
+        /*cardNumberTextField.setOnKeyTyped(event -> {
             try {
                 changeCardImage();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-        });
+        });*/
 
+
+        ObservableList<Integer> months = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+        ObservableList<Integer> years = FXCollections.observableArrayList(18, 19, 20, 21, 22, 23, 24, 25, 26, 27);
+
+        cardMonthCombo.setItems(months);
+        cardMonthCombo.setValue(1);
+        cardYearCombo.setItems(years);
+        cardYearCombo.setValue(18);
+
+    }
+
+    private void closeCartPane() {
+        animCPclose.setToX((cartPane.getWidth()));
+        animCPclose.play();
+        ProductScrollPane.setDisable(false);
+        DetailsPane.setDisable(false);
     }
 
     private void checkout() throws User.UnloadedUserException {
@@ -205,12 +227,18 @@ public class StoreController implements Initializable {
             checkoutMailLabel.setText(User.getInstance().getPsw());
             checkoutTotLabel.setText(cartTotLabel.getText());
 
-            buyButton.setOnAction(event -> buy());
+            buyButton.setOnAction(event -> {
+                try {
+                    buy();
+                } catch (User.UnloadedUserException e) {
+                    e.printStackTrace();
+                }
+            });
             backToCartButton.setOnAction(event -> backToCart());
         }
     }
 
-    private void buy() {
+    private void buy() throws User.UnloadedUserException {
         if (whereTextField.getText() == null || whereTextField.getText().length() == 0)
             whereError.setText("Inserire un indirizzo");
         else if (cardNumberTextField.getText() == null || cardNumberTextField.getText().length() != 16)
@@ -219,6 +247,40 @@ public class StoreController implements Initializable {
             cardCodError.setText("Inserire il codice a 3 cifre");
         else {
             System.out.println("Acquista");
+
+            LocalDate localDate = LocalDate.now();
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            File out = new File("data/shop/" + User.getInstance().getID() + "_" + timestamp.getTime() + ".json");
+
+            JSONObject obj = new JSONObject();
+
+            obj.put("userId", User.getInstance().getID());
+            obj.put("products", Cart.getInstance().getCart());
+            obj.put("date", DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate));
+            obj.put("total", Cart.getInstance().getCartTotal());
+            obj.put("address", whereTextField.getText());
+            obj.put("card_number", cardNumberTextField.getText());
+
+            System.out.print(obj);
+            try (FileWriter file = new FileWriter(out)) {
+                file.write(obj.toJSONString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Info");
+            alert.setHeaderText(null);
+            alert.setContentText("Acquisto effettuato!\nNumero di articoli acquistati: " + Cart.getInstance().getTotItems() + "\nCosto totale: € " + Cart.getInstance().getCartTotal());
+
+            alert.showAndWait();
+
+            Cart.getInstance().getCart().clear();
+
+            checkoutPane.setVisible(false);
+            checkoutPane.setManaged(false);
+            CartButton.setDisable(false);
+            closeCartPane();
         }
     }
 
@@ -232,6 +294,11 @@ public class StoreController implements Initializable {
     public void noCardNumberError() {
         if (cardNumberTextField.getText() != null || cardNumberTextField.getText().length() != 0)
             cardNumberError.setText("");
+        try {
+            changeCardImage();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

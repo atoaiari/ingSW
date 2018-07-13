@@ -108,8 +108,8 @@ public class Product implements Comparable{
         return price * (-1);
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "Articolo: " + title;
-    }
+    }*/
 }

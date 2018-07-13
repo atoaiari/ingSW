@@ -1,9 +1,22 @@
 package model;
 
+import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Cart {
     private static Cart ourInstance = null;
@@ -14,13 +27,36 @@ public class Cart {
 
     public static Cart getInstance() {
         if (ourInstance == null) {
-            ourInstance = new Cart();
+            try {
+                ourInstance = new Cart();
+            } catch (User.UnloadedUserException e) {
+                e.printStackTrace();
+            }
         }
         return ourInstance;
     }
 
-    private Cart() {
+    private Cart() throws User.UnloadedUserException {
         productsInCart = FXCollections.observableArrayList();
+
+        /*File c = new File("data/cart/" + User.getInstance().getID() + ".json");
+        if (c.exists()){
+            JSONParser parser = new JSONParser();
+            JSONObject prod = null;
+            try {
+                prod = (JSONObject) parser.parse(new FileReader(c));
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            List<Pair<Product, Integer>> p = new Gson().fromJson(prod, List<Pair<Product,Integer>>);
+            for (Pair<Product, Integer> pair : p){
+                System.out.println(pair);
+                productsInCart.add(pair);
+            }
+        }*/
+
     }
 
     public ObservableList<Pair<Product, Integer>> getCart() {
@@ -55,6 +91,11 @@ public class Cart {
 //            productsInCart.remove(oldP);
 //            productsInCart.add(newP);
         }
+        /*try {
+            saveCart();
+        } catch (User.UnloadedUserException e) {
+            e.printStackTrace();
+        }*/
         System.out.println(productsInCart);
     }
 
@@ -79,26 +120,31 @@ public class Cart {
         else
             Platform.runLater(() -> productsInCart.remove(product));
 
-        // FXCollections.copy(productsInCart, backup);
-        // System.out.println("backup_post: " + backup);
-        // productsInCart.remove(pairToDelete);
-        System.out.println("prodincart: " + productsInCart);
+        /*try {
+            saveCart();
+        } catch (User.UnloadedUserException e) {
+            e.printStackTrace();
+        }*/
     }
 
-    public void updateQuantity(Pair<Product, Integer> pair, Integer newValue) {
-        // Pair<Product, Integer> newP = new Pair<>(pair.getKey(), newValue);
-        productsInCart.set(productsInCart.indexOf(pair), new Pair<>(pair.getKey(), newValue));
-        System.out.println(productsInCart);
-    }
+    /*private void saveCart() throws User.UnloadedUserException {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        File out = new File("data/cart/" + User.getInstance().getID() + ".json");
 
-    public Integer getValueOfProduct(Product product) {
-        for (Pair<Product, Integer> pair: productsInCart) {
-            if (pair.getKey().equals(product)) {
-                return pair.getValue();
-            }
+        JSONObject obj = new JSONObject();
+
+        obj.put("userId", User.getInstance().getID());
+        obj.put("products", new Gson().toJson(Cart.getInstance().getCart()));
+        obj.put("update", String.valueOf(timestamp));
+        obj.put("total", Cart.getInstance().getCartTotal());
+
+        System.out.print(obj);
+        try (FileWriter file = new FileWriter(out)) {
+            file.write(obj.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return null;
-    }
+    }*/
 
     public float getCartTotal() {
         float total = 0;

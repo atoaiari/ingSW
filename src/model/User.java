@@ -39,13 +39,13 @@ public class User {
         JSONParser parser = new JSONParser();
         JSONObject u = (JSONObject) parser.parse(new FileReader(myUser));
 
-        userId = (String) u.get("uderId");
+        userId = (String) u.get("userId");
         name = (String) u.get("name");
         last = (String) u.get("last");
         email = (String) u.get("email");
         psw = (String) u.get("psw");
         registrationDate = (String) u.get("registrationDate");
-        bonus =(boolean) u.get("bonus");
+        bonus = (boolean) u.get("bonus");
         loaded = true;
     }
 
@@ -66,6 +66,10 @@ public class User {
 
     public String getLastName() {
         return last;
+    }
+
+    public String getID() {
+        return userId;
     }
 
     public static class UnloadedUserException extends Exception {
