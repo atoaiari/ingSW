@@ -3,29 +3,18 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import javafx.application.Application;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import model.User;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -61,6 +50,7 @@ public class LoginController implements Initializable {
     }
 
     public String getMail(){
+        // System.out.println(emailTextfield.getText().hashCode());
         return emailTextfield.getText();
     }
 
@@ -69,14 +59,44 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void loginClick() {
+    public void loginClick() throws User.UnloadedUserException {
         if (getMail() == null || getMail().length() == 0)
             emailError.setText("Inserire email");
         else if (getPassword() == null || getPassword().length() == 0)
             pswError.setText("Inserisci password");
         else {
-            logged=true;
-            loginStage.close();
+            try {
+                User.loadUser(getMail());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                alert1.setTitle("Errore");
+                alert1.setHeaderText(null);
+                alert1.setContentText("Utente non registrato!");
+
+                alert1.showAndWait();
+            }
+            System.out.println("mail: " + User.getInstance().getUserMail());
+            System.out.println("psw: " + User.getInstance().getPsw());
+            System.out.println("psw da controllare: " + String.valueOf(getPassword().hashCode()));
+            if (User.getInstance().getPsw().equals(String.valueOf(getPassword().hashCode()))) {
+                logged = true;
+                System.out.println("Logged");
+                loginStage.close();
+            }
+            else {
+                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                alert1.setTitle("Errore");
+                alert1.setHeaderText(null);
+                alert1.setContentText("Password errata!");
+
+                alert1.showAndWait();
+            }
+
+            /*logged = true;
+            System.out.println("Logged");
+            loginStage.close();*/
         }
     }
 
@@ -104,9 +124,29 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void restoreScene(){
+    public void restoreScene(int res){
         loginStage.setTitle("Login");
         loginStage.setScene(basckupScene);
+        switch (res){
+            case 1:
+                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                alert1.setTitle("Info");
+                alert1.setHeaderText(null);
+                alert1.setContentText("Utente già registrato! Necessario effettuare login per accedere.");
+
+                alert1.showAndWait();
+                break;
+            case 2:
+                Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+                alert2.setTitle("Info");
+                alert2.setHeaderText(null);
+                alert2.setContentText("Registrazione avvenuta con successo! Effettuare login per accedere.");
+
+                alert2.showAndWait();
+                break;
+            case 3:
+                break;
+        }
     }
 
     @FXML

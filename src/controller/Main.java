@@ -27,7 +27,7 @@ public class Main extends Application {
 
     private Stage primaryStage;
     private StoreController myController;
-    private String userMail;
+    // private String userMail;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -43,10 +43,10 @@ public class Main extends Application {
         if (! eseguitoLogin())
             return;
 
-        openStore(userMail);
+        openStore();
     }
 
-    private void openStore(String userMail) {
+    private void openStore() {
         FXMLLoader storeLoader = new FXMLLoader();
         storeLoader.setLocation(getClass().getResource("/view/store2.fxml"));
 
@@ -60,7 +60,7 @@ public class Main extends Application {
 
         myController = storeLoader.getController();
         // TODO
-        myController.setUserMail(userMail);
+        // myController.setUserMail(userMail);
         myController.setStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
@@ -94,7 +94,7 @@ public class Main extends Application {
             loginStage.setResizable(false);
 
             loginStage.showAndWait();
-            userMail = myController.getMail();
+            //userMail = myController.getMail();
             return myController.esitoLogin();
         } catch (IOException e) {
             System.err.println("File " + LOGIN_FXML_PATH + " non trovato");
@@ -103,35 +103,6 @@ public class Main extends Application {
         }
         return false;
     }
-
-
-//    private boolean registration() {
-//        try {
-//            FXMLLoader registrationLoader = new FXMLLoader(Main.class.getResource(REGISTRAZIONE_FXML_PATH));
-//            AnchorPane registrationRoot = registrationLoader.load();
-//
-//            //creo stage e scene
-//            Stage registrationStage = new Stage();
-//            registrationStage.setTitle("Registrazione");
-//            registrationStage.initModality(Modality.APPLICATION_MODAL);
-//            registrationStage.initOwner(primaryStage);
-//            Scene registrationMainScene = new Scene(registrationRoot);
-//            registrationStage.setScene(registrationMainScene);
-//
-//            //Assegno controller
-//            RegistrationController myController = (RegistrationController) registrationLoader.getController();
-//            System.out.println(myController);
-//            myController.setRegistrationStage(registrationStage);
-//
-//            registrationStage.showAndWait();
-//            //return myController.esitoLogin();
-//        } catch (IOException e) {
-//            System.err.println("File " + LOGIN_FXML_PATH + " non trovato");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
 
     public void closeStore(Event event){
         Alert alert = new Alert(AlertType.CONFIRMATION);

@@ -5,10 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 public class Cart {
     private static Cart ourInstance = null;
     // private Set<Product> productsSet;
@@ -102,6 +98,14 @@ public class Cart {
             }
         }
         return null;
+    }
+
+    public float getCartTotal() {
+        float total = 0;
+        for (Pair<Product, Integer> pair: productsInCart){
+            total += pair.getKey().getPrice() * pair.getValue();
+        }
+        return total;
     }
 
     /*public void removeFromCart(Pair<CD, Integer> selezionato) {

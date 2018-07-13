@@ -32,6 +32,7 @@ import javafx.util.Pair;
 import model.Cart;
 import model.Product;
 import model.Store;
+import model.User;
 
 
 public class StoreController implements Initializable {
@@ -62,7 +63,6 @@ public class StoreController implements Initializable {
     @FXML private Label pTypeLabel;
     @FXML private Label pGenreLabel;
     @FXML private Label pTracksLabel;
-    @FXML private Button addToCartButton;
     @FXML private Button closeDetailsButton;
 
     // cart panel
@@ -71,6 +71,7 @@ public class StoreController implements Initializable {
     @FXML private Button emptyCartButton;
     @FXML private Button closeCartButton;
     @FXML private Label itemsInCart;
+    @FXML private Label cartTotLabel;
 
     // per animazione
     private TranslateTransition animDP;
@@ -86,7 +87,7 @@ public class StoreController implements Initializable {
     private boolean detailsOpened = false;
     private Stage primaryStage;
 
-    private String userMail;
+    // private String userMail;
     //private Store store;
 
     public StoreController(){ }
@@ -136,7 +137,13 @@ public class StoreController implements Initializable {
         cartListview.setItems(Cart.getInstance().getCart());
         cartListview.setCellFactory(cartListview -> new ProductInCartCell());
         cartListview.setManaged(true);
-        //////////////////////////////////////////
+
+        try {
+            userLabel.setText(User.getInstance().getName() + " " + User.getInstance().getLastName() );
+        } catch (User.UnloadedUserException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -264,12 +271,8 @@ public class StoreController implements Initializable {
         }
     }
 
-    public void setUserMail(String userMail) {
+    /*public void setUserMail(String userMail) {
         userLabel.setText(userMail);
-    }
-
-    public void addToCart(Product prod){
-        Cart.getInstance().addToCart(prod, 1);
-    }
+    }*/
 }
 
