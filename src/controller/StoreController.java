@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
@@ -147,7 +148,7 @@ public class StoreController implements Initializable {
         CDCheckBox.setSelected(true);
         DVDCheckBox.setSelected(true);
 
-        logoutButton.setOnAction(e -> close());
+        logoutButton.setOnAction(e -> closeStore(e));
         prepareDetailsPaneAnimation();
         prepareCartPaneAnimation();
         closeDetailsButton.setOnAction(e -> closeDetailsPane());
@@ -506,6 +507,24 @@ public class StoreController implements Initializable {
         cardImageView.setDisable(false);
     }
 
+    public void closeStore(Event event){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Conferma");
+        alert.setHeaderText("Vuoi davvero uscire?");
+        alert.setContentText(null);
+
+        ButtonType si = new ButtonType("Si");
+        ButtonType annulla = new ButtonType("Annulla", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(si, annulla);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == si){
+            close();
+        }
+        else if (result.get() == annulla) {
+            event.consume();
+        }
+    }
     /*public void setUserMail(String userMail) {
         userLabel.setText(userMail);
     }*/

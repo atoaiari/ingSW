@@ -67,7 +67,9 @@ public class RegistrationController implements Initializable {
 
     private void registrationClick() {
         // inserisco entry nel database
-        if (nameTextfield.getText() == null || nameTextfield.getText().length() == 0)
+        if (codFiscaleTextField.getText() == null || codFiscaleTextField.getText().length() != 16)
+            codFiscaleError.setText("Inserire codice fiscale");
+        else if (nameTextfield.getText() == null || nameTextfield.getText().length() == 0)
             nameError.setText("Inserire nome");
         else if (lastnameTextfield.getText() == null || lastnameTextfield.getText().length() == 0)
             lastnameError.setText("Inserire cognome");
@@ -75,12 +77,10 @@ public class RegistrationController implements Initializable {
             emailError.setText("Inserire email");
         else if (pswField.getText() == null || pswField.getText().length() == 0)
             pswError.setText("Inserire password");
-        else if (telTextField.getText() == null || telTextField.getText().length() == 0)
-            telError.setText("Inserire telefono");
         else if (cityTextField.getText() == null || cityTextField.getText().length() == 0)
             cityError.setText("Inserire città");
-        else if (codFiscaleTextField.getText() == null || codFiscaleTextField.getText().length() != 16)
-            codFiscaleError.setText("Inserire codice fiscale");
+        else if (telTextField.getText() == null || telTextField.getText().length() == 0)
+            telError.setText("Inserire telefono");
         else {
             System.out.println("Registrazione");
             int res;
