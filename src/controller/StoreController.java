@@ -97,7 +97,12 @@ public class StoreController implements Initializable {
     @FXML private Label cardNumberError;
     @FXML private Label cardCodError;
     @FXML private Label whereError;
-
+    @FXML private RadioButton corriereRadio;
+    @FXML private RadioButton corriereERadio;
+    @FXML private RadioButton postaRadio;
+    @FXML private RadioButton ccRadio;
+    @FXML private RadioButton bonificoRadio;
+    @FXML private RadioButton paypalRadio;
 
     // per animazione
     private TranslateTransition animDP;
@@ -208,6 +213,18 @@ public class StoreController implements Initializable {
         cardYearCombo.setItems(years);
         cardYearCombo.setValue(18);
 
+        final ToggleGroup groupSpedizione = new ToggleGroup();
+        corriereRadio.setToggleGroup(groupSpedizione);
+        corriereRadio.setSelected(true);
+        corriereERadio.setToggleGroup(groupSpedizione);
+        postaRadio.setToggleGroup(groupSpedizione);
+
+        final ToggleGroup groupPagamento = new ToggleGroup();
+        ccRadio.setToggleGroup(groupPagamento);
+        ccRadio.setSelected(true);
+        bonificoRadio.setToggleGroup(groupPagamento);
+        paypalRadio.setToggleGroup(groupPagamento);
+
     }
 
     private void closeCartPane() {
@@ -241,14 +258,13 @@ public class StoreController implements Initializable {
     private void buy() throws User.UnloadedUserException {
         if (whereTextField.getText() == null || whereTextField.getText().length() == 0)
             whereError.setText("Inserire un indirizzo");
-        else if (cardNumberTextField.getText() == null || cardNumberTextField.getText().length() != 16)
+        else if ((cardNumberTextField.getText() == null || cardNumberTextField.getText().length() != 16) && ccRadio.isSelected())
             cardNumberError.setText("Inserire il numero della carta (16 cifre)");
-        else if (cardCodTextField.getText() == null || cardCodTextField.getText().length() != 3)
+        else if ((cardCodTextField.getText() == null || cardCodTextField.getText().length() != 3) && ccRadio.isSelected())
             cardCodError.setText("Inserire il codice a 3 cifre");
         else {
             System.out.println("Acquista");
 
-            LocalDate localDate = LocalDate.now();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             File out = new File("data/shop/" + User.getInstance().getID() + "_" + timestamp.getTime() + ".json");
 
@@ -256,10 +272,24 @@ public class StoreController implements Initializable {
 
             obj.put("userId", User.getInstance().getID());
             obj.put("products", Cart.getInstance().getCart());
-            obj.put("date", DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate));
+            obj.put("timestamp", timestamp);
             obj.put("total", Cart.getInstance().getCartTotal());
             obj.put("address", whereTextField.getText());
-            obj.put("card_number", cardNumberTextField.getText());
+            if (ccRadio.isSelected()) {
+                obj.put("payment_method", "Carta di credito");
+                obj.put("card_number", cardNumberTextField.getText());
+            }
+            else if (bonificoRadio.isSelected())
+                obj.put("payment_method", "Bonifico bancario");
+            else if (paypalRadio.isSelected())
+                obj.put("payment_method", "Paypal");
+
+            if (corriereRadio.isSelected())
+                obj.put("spedition_method", "Corriere (standard)");
+            else if (corriereERadio.isSelected())
+                obj.put("spedition_method", "Corriere (express)");
+            else if (postaRadio.isSelected())
+                obj.put("spedition_method", "Posta");
 
             System.out.print(obj);
             try (FileWriter file = new FileWriter(out)) {

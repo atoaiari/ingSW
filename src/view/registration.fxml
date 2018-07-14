@@ -19,13 +19,13 @@
       </ImageView>
       <Pane layoutX="840.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="440.0">
          <children>
-            <ImageView fitHeight="104.0" fitWidth="331.0" layoutX="44.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="104.0" fitWidth="331.0" layoutX="44.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@logo.png" />
                </image>
             </ImageView>
-            <Button fx:id="registrationButton" layoutX="35.0" layoutY="540.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="350.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Registrati" />
-            <Label layoutX="32.0" layoutY="181.0" text="Registrati">
+            <Button fx:id="registrationButton" layoutX="35.0" layoutY="548.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="350.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Registrati" />
+            <Label layoutX="32.0" layoutY="123.0" text="Registrati">
                <font>
                   <Font name="Roboto Regular" size="31.0" />
                </font>
@@ -36,26 +36,44 @@
                </font>
             </Label>
             <Button fx:id="loginButton" layoutX="255.0" layoutY="643.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="127.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Accedi" />
-            <TextField fx:id="nameTextfield" layoutX="35.0" layoutY="250.0" onKeyTyped="#noErrorName" prefHeight="40.0" prefWidth="350.0" promptText="Nome" />
-            <TextField fx:id="lastnameTextfield" layoutX="35.0" layoutY="320.0" onKeyTyped="#noErrorLastName" prefHeight="40.0" prefWidth="350.0" promptText="Cognome" />
-            <TextField fx:id="emailTextfield" layoutX="35.0" layoutY="390.0" onKeyTyped="#noErrorMail" prefHeight="40.0" prefWidth="350.0" promptText="eMail" />
-            <PasswordField fx:id="pswField" layoutX="35.0" layoutY="460.0" onKeyTyped="#noErrorPsw" prefHeight="40.0" prefWidth="350.0" promptText="Password" />
+            <TextField fx:id="nameTextfield" layoutX="35.0" layoutY="250.0" onKeyTyped="#noErrorName" prefHeight="40.0" prefWidth="165.0" promptText="Nome" />
+            <TextField fx:id="lastnameTextfield" layoutX="218.0" layoutY="250.0" onKeyTyped="#noErrorLastName" prefHeight="40.0" prefWidth="165.0" promptText="Cognome" />
+            <TextField fx:id="emailTextfield" layoutX="35.0" layoutY="320.0" onKeyTyped="#noErrorMail" prefHeight="40.0" prefWidth="350.0" promptText="eMail" />
+            <PasswordField fx:id="pswField" layoutX="35.0" layoutY="390.0" onKeyTyped="#noErrorPsw" prefHeight="40.0" prefWidth="350.0" promptText="Password" />
             <Label fx:id="nameError" layoutX="35.0" layoutY="295.0" textFill="RED">
                <font>
                   <Font name="Roboto Regular" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="lastnameError" layoutX="34.0" layoutY="365.0" textFill="RED">
+            <Label fx:id="lastnameError" layoutX="217.0" layoutY="295.0" textFill="RED">
                <font>
                   <Font name="Roboto Regular" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="emailError" layoutX="34.0" layoutY="435.0" textFill="RED">
+            <Label fx:id="emailError" layoutX="34.0" layoutY="364.0" textFill="RED">
                <font>
                   <Font name="Roboto Regular" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="pswError" layoutX="33.0" layoutY="505.0" textFill="RED">
+            <Label fx:id="pswError" layoutX="33.0" layoutY="434.0" textFill="RED">
+               <font>
+                  <Font name="Roboto Regular" size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="cityTextField" layoutX="36.0" layoutY="460.0" onKeyTyped="#noErrorCity" prefHeight="40.0" prefWidth="165.0" promptText="Città" />
+            <TextField fx:id="telTextField" layoutX="219.0" layoutY="460.0" onKeyTyped="#noErrorTel" prefHeight="40.0" prefWidth="165.0" promptText="Telefono" />
+            <Label fx:id="cityError" layoutX="36.0" layoutY="505.0" textFill="RED">
+               <font>
+                  <Font name="Roboto Regular" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="telError" layoutX="218.0" layoutY="505.0" textFill="RED">
+               <font>
+                  <Font name="Roboto Regular" size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="codFiscaleTextField" layoutX="36.0" layoutY="180.0" onKeyTyped="#noErrorCF" prefHeight="40.0" prefWidth="350.0" promptText="Codice Fiscale" />
+            <Label fx:id="codFiscaleError" layoutX="35.0" layoutY="225.0" textFill="RED">
                <font>
                   <Font name="Roboto Regular" size="13.0" />
                </font>

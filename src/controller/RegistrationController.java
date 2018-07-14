@@ -34,6 +34,12 @@ public class RegistrationController implements Initializable {
     @FXML private Label lastnameError;
     @FXML private Label emailError;
     @FXML private Label pswError;
+    @FXML private TextField cityTextField;
+    @FXML private TextField telTextField;
+    @FXML private Label cityError;
+    @FXML private Label telError;
+    @FXML private TextField codFiscaleTextField;
+    @FXML private Label codFiscaleError;
     private LoginController loginController;
 
     public RegistrationController() {}
@@ -64,11 +70,17 @@ public class RegistrationController implements Initializable {
         if (nameTextfield.getText() == null || nameTextfield.getText().length() == 0)
             nameError.setText("Inserire nome");
         else if (lastnameTextfield.getText() == null || lastnameTextfield.getText().length() == 0)
-            lastnameError.setText("Inserisci cognome");
+            lastnameError.setText("Inserire cognome");
         else if (emailTextfield.getText() == null || emailTextfield.getText().length() == 0)
             emailError.setText("Inserire email");
         else if (pswField.getText() == null || pswField.getText().length() == 0)
-            pswError.setText("Inserisci password");
+            pswError.setText("Inserire password");
+        else if (telTextField.getText() == null || telTextField.getText().length() == 0)
+            telError.setText("Inserire telefono");
+        else if (cityTextField.getText() == null || cityTextField.getText().length() == 0)
+            cityError.setText("Inserire città");
+        else if (codFiscaleTextField.getText() == null || codFiscaleTextField.getText().length() != 16)
+            codFiscaleError.setText("Inserire codice fiscale");
         else {
             System.out.println("Registrazione");
             int res;
@@ -80,12 +92,15 @@ public class RegistrationController implements Initializable {
                 JSONObject obj = new JSONObject();
 
                 obj.put("userId", String.valueOf(emailTextfield.getText().hashCode()));
+                obj.put("cf", codFiscaleTextField.getText());
                 obj.put("name", nameTextfield.getText());
                 obj.put("last", lastnameTextfield.getText());
                 obj.put("email", emailTextfield.getText());
                 obj.put("psw", String.valueOf(pswField.getText().hashCode()));
                 LocalDate localDate = LocalDate.now();
                 obj.put("registrationDate", DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate));
+                obj.put("city", cityTextField.getText());
+                obj.put("tel", telTextField.getText());
                 obj.put("bonus", false);
 
                 System.out.print(obj);
@@ -123,6 +138,24 @@ public class RegistrationController implements Initializable {
     public void noErrorPsw() {
         if (pswField.getText() != null || pswField.getText().length() != 0)
             pswError.setText("");
+    }
+
+    @FXML
+    public void noErrorTel() {
+        if (telTextField.getText() != null || telTextField.getText().length() != 0)
+            telError.setText("");
+    }
+
+    @FXML
+    public void noErrorCity() {
+        if (cityTextField.getText() != null || cityTextField.getText().length() != 0)
+            cityError.setText("");
+    }
+
+    @FXML
+    public void noErrorCF() {
+        if (codFiscaleTextField.getText() != null || codFiscaleTextField.getText().length() != 0)
+            codFiscaleError.setText("");
     }
 
     private void loginClick() {
