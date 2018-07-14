@@ -61,7 +61,7 @@ public class ProductInCartCell extends ListCell<Pair<Product, Integer>> {
             prodInCartTitleLabel.setText(prod.getKey().getTitle());
             prodInCartArtistLabel.setText(prod.getKey().getPerformer());
             prodInCartTypeLabel.setText(prod.getKey().getType());
-            prodInCartPriceLabel.setText(String.valueOf(prod.getKey().getPrice()));
+            prodInCartPriceLabel.setText(String.format("%.2f", prod.getKey().getPrice()));
             prodInCartQuantityComboBox.setItems(quantity);
 
             File im = new File("data/products/img/" + prod.getKey().getImg());

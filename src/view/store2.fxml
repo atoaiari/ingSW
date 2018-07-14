@@ -402,17 +402,17 @@
                                     <Font name="Roboto Regular" size="16.0" />
                                  </font>
                               </RadioButton>
-                              <RadioButton fx:id="ccRadio" layoutX="73.0" layoutY="638.0" mnemonicParsing="false" text="Carta di credito" textFill="WHITE">
+                              <RadioButton fx:id="ccRadio" layoutX="73.0" layoutY="638.0" mnemonicParsing="false" text="Carta di credito" textFill="WHITE" onAction="#enableCC">
                                  <font>
                                     <Font name="Roboto Regular" size="16.0" />
                                  </font>
                               </RadioButton>
-                              <RadioButton fx:id="bonificoRadio" layoutX="73.0" layoutY="668.0" mnemonicParsing="false" text="Bonifico bancario" textFill="WHITE">
+                              <RadioButton fx:id="bonificoRadio" layoutX="73.0" layoutY="668.0" mnemonicParsing="false" text="Bonifico bancario" textFill="WHITE" onAction="#disableCC">
                                  <font>
                                     <Font name="Roboto Regular" size="16.0" />
                                  </font>
                               </RadioButton>
-                              <RadioButton fx:id="paypalRadio" layoutX="73.0" layoutY="698.0" mnemonicParsing="false" text="Paypal" textFill="WHITE">
+                              <RadioButton fx:id="paypalRadio" layoutX="73.0" layoutY="698.0" mnemonicParsing="false" text="Paypal" textFill="WHITE" onAction="#disableCC">
                                  <font>
                                     <Font name="Roboto Regular" size="16.0" />
                                  </font>

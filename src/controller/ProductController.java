@@ -59,7 +59,7 @@ public class ProductController implements Initializable {
         productTypeLabel.setText(product.getType());
         productGenreLabel.setText(product.getGenre());
         productArtistLabel.setText(product.getPerformer());
-        productPriceLabel.setText(String.valueOf(product.getPrice()));
+        productPriceLabel.setText(String.format("%.2f", product.getPrice()));
         // addToCartButton.setOnAction(event -> Cart.getInstance().addToCart(this.product, 1));
         addToCartButton.setOnAction(event -> addToCart(this.product));
     }

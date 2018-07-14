@@ -4,6 +4,7 @@ import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
@@ -487,6 +488,22 @@ public class StoreController implements Initializable {
             animPSP.setOnFinished(event -> ProductScrollPane.prefHeightProperty().set(565.0));
             detailsOpened = true;
         }
+    }
+
+    public void disableCC(ActionEvent actionEvent) {
+        cardNumberTextField.setDisable(true);
+        cardYearCombo.setDisable(true);
+        cardMonthCombo.setDisable(true);
+        cardCodTextField.setDisable(true);
+        cardImageView.setDisable(true);
+    }
+
+    public void enableCC(ActionEvent actionEvent) {
+        cardNumberTextField.setDisable(false);
+        cardYearCombo.setDisable(false);
+        cardMonthCombo.setDisable(false);
+        cardCodTextField.setDisable(false);
+        cardImageView.setDisable(false);
     }
 
     /*public void setUserMail(String userMail) {

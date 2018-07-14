@@ -56,7 +56,7 @@ public class ProductInRecapCell extends ListCell<Pair<Product, Integer>> {
             recapTitleLabel.setText(prod.getKey().getTitle());
             recapTypeLabel.setText(prod.getKey().getType());
             recapQuantityLabel.setText(String.valueOf(prod.getValue()));
-            recapPriceLabel.setText(String.valueOf(prod.getKey().getPrice()));
+            recapPriceLabel.setText(String.format("%.2f", prod.getKey().getPrice()));
 
             setText(null);
             setGraphic(cellAnchorPane);
