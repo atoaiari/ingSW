@@ -1,0 +1,37 @@
+@startuml
+title Acquisto prodotti
+
+actor Cliente
+
+
+    Cliente -> Sistema : apri carrello
+    activate Sistema
+    Sistema -> Sistema : carica prodotti nel carrello
+    Sistema --> Cliente : mostra carrello
+    deactivate Sistema
+    Cliente -> Sistema: click su Checkout
+    activate Sistema
+    loop
+        Cliente -> Sistema : inserimento dati ordine
+
+        opt carta di credito selezionata
+            Cliente -> Sistema : inserimento dati carta di credito
+        end
+
+        Cliente -> Sistema: click su acquista
+        activate Sistema
+        Sistema -> Sistema : controllo dati inseriti
+        activate Sistema
+        alt dati non corretti o mancanti
+            Sistema -> Cliente : inserire dati corretti
+        else dati corretti
+            Sistema --> Cliente : acquisto effettuato
+            Sistema -> DB : inserimento entry nuovo acquisto
+            deactivate Sistema
+            deactivate Sistema
+            deactivate Sistema
+        end
+    end
+
+
+@enduml

@@ -1,0 +1,30 @@
+@startuml
+actor Cliente
+
+
+Sistema --> Cliente : invio catalogo
+loop
+    group "Filtri di ricerca"
+        Cliente -> Sistema : inserimento ricerca per nome
+        activate Sistema
+        Cliente -> Sistema : selezione tipo prodotti
+        Cliente -> Sistema : selezione genere
+        Cliente -> Sistema : selezione ordinamento dei prodotti
+    end
+
+    Sistema -> Sistema : ricalcolo lista dei prodotti
+    activate Sistema
+    Sistema --> Cliente : invio nuova lista di prodotti
+    deactivate Sistema
+    deactivate Sistema
+end
+Cliente -> Sistema : visualizza dettagli prodotto
+activate Sistema
+Sistema --> Cliente : mostra dettagli
+deactivate Sistema
+
+
+
+
+
+@enduml

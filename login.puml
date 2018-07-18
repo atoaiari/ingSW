@@ -1,0 +1,31 @@
+@startuml
+title Login
+
+actor Cliente
+
+    Cliente -> Sistema : inserimento credenziali
+    activate Sistema
+
+    Sistema -> Sistema : controllo se utente è registrato
+    activate Sistema
+
+    alt utente non registrato
+        Sistema -> Cliente: error(necessaria registrazione)
+
+    else utente registrato
+        Sistema -> Sistema: controllo password
+        alt password errata
+            Sistema -> Cliente : error(password errata)
+        else password corretta
+                    Sistema -> Cliente : accesso consentito
+            deactivate Sistema
+        deactivate Sistema
+        end
+    end
+
+
+
+deactivate Sistema
+
+
+@enduml

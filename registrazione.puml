@@ -1,0 +1,36 @@
+@startuml
+title Regitrazione
+
+actor Cliente
+
+    Cliente -> Sistema : inserimento dati cliente
+    activate Sistema
+
+    Sistema -> Sistema : controllo se utente è già registrato
+    activate Sistema
+
+    alt utente già registrato
+        Sistema -> Cliente: error(utente già registrato)
+        Sistema -> Cliente: login
+
+    else utente non registrato
+        Sistema -> Sistema: controllo se tutti i dati sono inseriti correttamente
+        activate Sistema
+        alt dati non corretti
+            loop
+                Sistema -> Cliente : error(inserire dati errati o mancanti)
+                Cliente -> Sistema : inserimento dati
+            end
+        else dati corretti
+            Sistema -> Cliente : registrazione avvenuta
+            Sistema -> DB : inserimento entry nuovo cliente
+            Sistema -> Cliente : login
+        deactivate Sistema
+    deactivate Sistema
+        end
+    end
+
+deactivate Sistema
+
+
+@enduml
