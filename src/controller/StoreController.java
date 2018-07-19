@@ -32,6 +32,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.fxml.FXML;
 import javafx.util.Duration;
@@ -168,11 +170,7 @@ public class StoreController implements Initializable {
         recapListview.setCellFactory(recapListview -> new ProductInRecapCell());
         recapListview.setManaged(true);
 
-        try {
-            userLabel.setText(User.getInstance().getName() + " " + User.getInstance().getLastName() );
-        } catch (User.UnloadedUserException e) {
-            e.printStackTrace();
-        }
+        userLabel.setText(User.getInstance().getName() + " " + User.getInstance().getLastName() );
 
         Cart.getInstance().getCart().addListener((ListChangeListener<Pair<Product, Integer>>) c ->
                 cartTotLabel.setText(String.format("%.2f", Cart.getInstance().getCartTotal())));
@@ -190,13 +188,7 @@ public class StoreController implements Initializable {
         // checkout
         checkoutPane.setVisible(false);
         checkoutPane.setManaged(false);
-        checkoutButton.setOnAction(event -> {
-            try {
-                checkout();
-            } catch (User.UnloadedUserException e) {
-                e.printStackTrace();
-            }
-        });
+        checkoutButton.setOnAction(event -> checkout());
 
         /*cardNumberTextField.setOnKeyTyped(event -> {
             try {
@@ -236,62 +228,64 @@ public class StoreController implements Initializable {
         DetailsPane.setDisable(false);
     }
 
-    private void checkout() throws User.UnloadedUserException {
+    private void checkout(){
         if (Cart.getInstance().getTotItems() != 0) {
             checkoutPane.setVisible(true);
             checkoutPane.setManaged(true);
             CartButton.setDisable(true);
             checkoutNameLabel.setText(User.getInstance().getName());
             checkoutLastLabel.setText(User.getInstance().getLastName());
-            checkoutMailLabel.setText(User.getInstance().getPsw());
+            checkoutMailLabel.setText(User.getInstance().getUserMail());
             checkoutTotLabel.setText(cartTotLabel.getText());
 
-            buyButton.setOnAction(event -> {
-                try {
-                    buy();
-                } catch (User.UnloadedUserException e) {
-                    e.printStackTrace();
-                }
-            });
+            buyButton.setOnAction(event -> buy());
             backToCartButton.setOnAction(event -> backToCart());
         }
     }
 
-    private void buy() throws User.UnloadedUserException {
+    private void buy() {
+        Pattern p = Pattern.compile("^[0-9]{16}$");
+        Matcher cardNumberMatcher = p.matcher(cardNumberTextField.getText());
+        p = Pattern.compile("[0-9]{3}");
+        Matcher cardCodMatcher = p.matcher(cardCodTextField.getText());
         if (whereTextField.getText() == null || whereTextField.getText().length() == 0)
             whereError.setText("Inserire un indirizzo");
-        else if ((cardNumberTextField.getText() == null || cardNumberTextField.getText().length() != 16) && ccRadio.isSelected())
+        else if ((cardNumberTextField.getText() == null || cardNumberTextField.getText().length() != 16 || !cardNumberMatcher.matches()) && ccRadio.isSelected())
             cardNumberError.setText("Inserire il numero della carta (16 cifre)");
-        else if ((cardCodTextField.getText() == null || cardCodTextField.getText().length() != 3) && ccRadio.isSelected())
+        else if ((cardCodTextField.getText() == null || cardCodTextField.getText().length() != 3 || !cardCodMatcher.matches()) && ccRadio.isSelected())
             cardCodError.setText("Inserire il codice a 3 cifre");
         else {
             System.out.println("Acquista");
 
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             File out = new File("data/shop/" + User.getInstance().getID() + "_" + timestamp.getTime() + ".json");
-
             JSONObject obj = new JSONObject();
 
             obj.put("userId", User.getInstance().getID());
             obj.put("products", Cart.getInstance().getCart());
             obj.put("timestamp", timestamp);
-            obj.put("total", Cart.getInstance().getCartTotal());
+            obj.put("total", String.format("%.2f", Cart.getInstance().getCartTotal()));
             obj.put("address", whereTextField.getText());
             if (ccRadio.isSelected()) {
                 obj.put("payment_method", "Carta di credito");
                 obj.put("card_number", cardNumberTextField.getText());
             }
-            else if (bonificoRadio.isSelected())
+            else if (bonificoRadio.isSelected()) {
                 obj.put("payment_method", "Bonifico bancario");
-            else if (paypalRadio.isSelected())
+            }
+            else if (paypalRadio.isSelected()) {
                 obj.put("payment_method", "Paypal");
+            }
 
-            if (corriereRadio.isSelected())
+            if (corriereRadio.isSelected()) {
                 obj.put("spedition_method", "Corriere (standard)");
-            else if (corriereERadio.isSelected())
+            }
+            else if (corriereERadio.isSelected()) {
                 obj.put("spedition_method", "Corriere (express)");
-            else if (postaRadio.isSelected())
+            }
+            else if (postaRadio.isSelected()) {
                 obj.put("spedition_method", "Posta");
+            }
 
             System.out.print(obj);
             try (FileWriter file = new FileWriter(out)) {
@@ -303,7 +297,12 @@ public class StoreController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Info");
             alert.setHeaderText(null);
-            alert.setContentText("Acquisto effettuato!\nNumero di articoli acquistati: " + Cart.getInstance().getTotItems() + "\nCosto totale: € " + Cart.getInstance().getCartTotal());
+            alert.setContentText("Acquisto effettuato!\nCliente: " + User.getInstance().getName() + " " + User.getInstance().getLastName() +
+                    "\nNumero di articoli acquistati: " + Cart.getInstance().getTotItems() +
+                    "\nCosto totale: € " + String.format("%.2f", Cart.getInstance().getCartTotal()) +
+                    "\nMedoto di spedizione: " + obj.get("spedition_method") +
+                    "\nIndirizzo : " + obj.get("address") +
+                    "\nMetodo di pagamento: " + obj.get("payment_method"));
 
             alert.showAndWait();
 
@@ -364,10 +363,6 @@ public class StoreController implements Initializable {
         checkoutPane.setManaged(false);
         CartButton.setDisable(false);
     }
-
-
-
-    //////////////////////////////////////////
 
     private void filterReset() {
         searchTextField.setText("");
@@ -474,7 +469,7 @@ public class StoreController implements Initializable {
         pInsertDate.setText(product.getInsertDate());
         pArtistLabel.setText(product.getPerformer());
         pInstrumentsLabel.setText(product.getMusicalInstruments());
-        pPriceLabel.setText(String.valueOf(product.getPrice()));
+        pPriceLabel.setText(String.format("%.2f", product.getPrice()));
         pPerformersLabel.setText(product.getPerformers());
         pTypeLabel.setText(product.getType());
         pGenreLabel.setText(product.getGenre());
@@ -499,12 +494,31 @@ public class StoreController implements Initializable {
         cardImageView.setDisable(true);
     }
 
+    public void disableCC_paypal(ActionEvent actionEvent) {
+        cardNumberTextField.setDisable(true);
+        cardYearCombo.setDisable(true);
+        cardMonthCombo.setDisable(true);
+        cardCodTextField.setDisable(true);
+        File im = new File("src/view/pp.png");
+        try {
+            cardImageView.setImage(new Image(im.toURI().toURL().toExternalForm()));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void enableCC(ActionEvent actionEvent) {
         cardNumberTextField.setDisable(false);
         cardYearCombo.setDisable(false);
         cardMonthCombo.setDisable(false);
         cardCodTextField.setDisable(false);
         cardImageView.setDisable(false);
+        File im = new File("src/view/creditcard.png");
+        try {
+            cardImageView.setImage(new Image(im.toURI().toURL().toExternalForm()));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void closeStore(Event event){
@@ -525,6 +539,7 @@ public class StoreController implements Initializable {
             event.consume();
         }
     }
+
     /*public void setUserMail(String userMail) {
         userLabel.setText(userMail);
     }*/

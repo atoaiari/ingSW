@@ -41,6 +41,6 @@
          </font>
       </Label>
       <Button fx:id="prodInCartRemoveButton" layoutX="570.0" layoutY="30.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="productButtons" stylesheets="@stylesh.css" text="Rimuovi" />
-      <ComboBox fx:id="prodInCartQuantityComboBox" layoutX="477.0" layoutY="30.0" prefHeight="40.0" prefWidth="80.0" styleClass="productButtons" stylesheets="@stylesh.css" />
+      <ComboBox fx:id="prodInCartQuantityComboBox" layoutX="477.0" layoutY="30.0" prefHeight="40.0" prefWidth="86.0" styleClass="productButtons" stylesheets="@stylesh.css" />
    </children>
 </AnchorPane>

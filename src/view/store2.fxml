@@ -362,7 +362,7 @@
                                     <Font name="Roboto Regular" size="20.0" />
                                  </font>
                               </Label>
-                              <ImageView fx:id="cardImageView" fitHeight="110.0" fitWidth="200.0" layoutX="390.0" layoutY="639.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="cardImageView" fitHeight="110.0" fitWidth="200.0" layoutX="368.0" layoutY="639.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@creditcard.png" />
                                  </image>
@@ -402,17 +402,17 @@
                                     <Font name="Roboto Regular" size="16.0" />
                                  </font>
                               </RadioButton>
-                              <RadioButton fx:id="ccRadio" layoutX="73.0" layoutY="638.0" mnemonicParsing="false" text="Carta di credito" textFill="WHITE" onAction="#enableCC">
+                              <RadioButton fx:id="ccRadio" layoutX="73.0" layoutY="638.0" mnemonicParsing="false" onAction="#enableCC" text="Carta di credito" textFill="WHITE">
                                  <font>
                                     <Font name="Roboto Regular" size="16.0" />
                                  </font>
                               </RadioButton>
-                              <RadioButton fx:id="bonificoRadio" layoutX="73.0" layoutY="668.0" mnemonicParsing="false" text="Bonifico bancario" textFill="WHITE" onAction="#disableCC">
+                              <RadioButton fx:id="bonificoRadio" layoutX="73.0" layoutY="668.0" mnemonicParsing="false" onAction="#disableCC" text="Bonifico bancario" textFill="WHITE">
                                  <font>
                                     <Font name="Roboto Regular" size="16.0" />
                                  </font>
                               </RadioButton>
-                              <RadioButton fx:id="paypalRadio" layoutX="73.0" layoutY="698.0" mnemonicParsing="false" text="Paypal" textFill="WHITE" onAction="#disableCC">
+                              <RadioButton fx:id="paypalRadio" layoutX="73.0" layoutY="698.0" mnemonicParsing="false" onAction="#disableCC_paypal" text="Paypal" textFill="WHITE">
                                  <font>
                                     <Font name="Roboto Regular" size="16.0" />
                                  </font>

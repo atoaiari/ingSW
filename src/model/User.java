@@ -25,7 +25,7 @@ public class User {
 
     private static User ourInstance = null;
 
-    public static User getInstance() throws UnloadedUserException {
+    public static User getInstance() {
         if (ourInstance == null && loaded) {
             ourInstance = new User();
         }

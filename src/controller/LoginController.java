@@ -18,6 +18,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LoginController implements Initializable {
 
@@ -59,8 +61,10 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void loginClick() throws User.UnloadedUserException {
-        if (getMail() == null || getMail().length() == 0)
+    public void loginClick() {
+        Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher mail = p.matcher(emailTextfield.getText());
+        if (getMail() == null || getMail().length() == 0 || !mail.matches())
             emailError.setText("Inserire email");
         else if (getPassword() == null || getPassword().length() == 0)
             pswError.setText("Inserisci password");
@@ -76,10 +80,13 @@ public class LoginController implements Initializable {
                 alert1.setContentText("Utente non registrato!");
 
                 alert1.showAndWait();
+                return;
             }
+
             System.out.println("mail: " + User.getInstance().getUserMail());
             System.out.println("psw: " + User.getInstance().getPsw());
             System.out.println("psw da controllare: " + String.valueOf(getPassword().hashCode()));
+
             if (User.getInstance().getPsw().equals(String.valueOf(getPassword().hashCode()))) {
                 logged = true;
                 System.out.println("Logged");
@@ -90,10 +97,8 @@ public class LoginController implements Initializable {
                 alert1.setTitle("Errore");
                 alert1.setHeaderText(null);
                 alert1.setContentText("Password errata!");
-
                 alert1.showAndWait();
             }
-
             /*logged = true;
             System.out.println("Logged");
             loginStage.close();*/

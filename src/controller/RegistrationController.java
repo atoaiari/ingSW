@@ -19,6 +19,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegistrationController implements Initializable {
 
@@ -67,19 +69,26 @@ public class RegistrationController implements Initializable {
 
     private void registrationClick() {
         // inserisco entry nel database
-        if (codFiscaleTextField.getText() == null || codFiscaleTextField.getText().length() != 16)
+        Pattern p = Pattern.compile("^([A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1})|([0-9]{11})$");
+        Matcher cf = p.matcher(codFiscaleTextField.getText());
+        p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher mail = p.matcher(emailTextfield.getText());
+        p = Pattern.compile("^[0-9]{10}$", Pattern.CASE_INSENSITIVE);
+        Matcher phone = p.matcher(telTextField.getText());
+        //boolean b = m.matches();
+        if (codFiscaleTextField.getText() == null || codFiscaleTextField.getText().length() != 16 || !cf.matches())
             codFiscaleError.setText("Inserire codice fiscale");
         else if (nameTextfield.getText() == null || nameTextfield.getText().length() == 0)
             nameError.setText("Inserire nome");
         else if (lastnameTextfield.getText() == null || lastnameTextfield.getText().length() == 0)
             lastnameError.setText("Inserire cognome");
-        else if (emailTextfield.getText() == null || emailTextfield.getText().length() == 0)
+        else if (emailTextfield.getText() == null || emailTextfield.getText().length() == 0 || !mail.matches())
             emailError.setText("Inserire email");
         else if (pswField.getText() == null || pswField.getText().length() == 0)
             pswError.setText("Inserire password");
         else if (cityTextField.getText() == null || cityTextField.getText().length() == 0)
             cityError.setText("Inserire città");
-        else if (telTextField.getText() == null || telTextField.getText().length() == 0)
+        else if (telTextField.getText() == null || telTextField.getText().length() == 0 || !phone.matches())
             telError.setText("Inserire telefono");
         else {
             System.out.println("Registrazione");
