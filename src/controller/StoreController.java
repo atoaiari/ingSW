@@ -28,8 +28,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -122,9 +120,6 @@ public class StoreController implements Initializable {
     private boolean detailsOpened = false;
     private Stage primaryStage;
 
-    // private String userMail;
-    //private Store store;
-
     public StoreController(){ }
 
     public void setStage(Stage primaryStage) {
@@ -139,7 +134,7 @@ public class StoreController implements Initializable {
     @Override
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        // Set<Product> products = Store.getInstance().getProducts();
+        // inizializzazione dello store e dei filtri
         ArrayList<Product> products = new ArrayList(Store.getInstance().getProducts());
         products.sort(Comparator.comparing(Product::getTitle));
         setTilePaneChildren(products);
@@ -149,7 +144,6 @@ public class StoreController implements Initializable {
         orderByChoiceBox.setValue("Titolo");
         CDCheckBox.setSelected(true);
         DVDCheckBox.setSelected(true);
-
         logoutButton.setOnAction(e -> closeStore(e));
         prepareDetailsPaneAnimation();
         prepareCartPaneAnimation();
@@ -161,17 +155,21 @@ public class StoreController implements Initializable {
         DVDCheckBox.setOnAction(e -> filterProducts());
         filterResetButton.setOnAction(e -> filterReset());
 
+        // inizializzazione del carrello
         System.out.println(Cart.getInstance().getCart());
         cartListview.setItems(Cart.getInstance().getCart());
         cartListview.setCellFactory(cartListview -> new ProductInCartCell());
         cartListview.setManaged(true);
 
+        // inizializzazione del riepilogo ordine
         recapListview.setItems(Cart.getInstance().getCart());
         recapListview.setCellFactory(recapListview -> new ProductInRecapCell());
         recapListview.setManaged(true);
 
+        // inizializzazione etichetta user
         userLabel.setText(User.getInstance().getName() + " " + User.getInstance().getLastName() );
 
+        // aggiungo listener al carrello per aggiornare dinamicamente il numero di prodotti e il costo totale
         Cart.getInstance().getCart().addListener((ListChangeListener<Pair<Product, Integer>>) c ->
                 cartTotLabel.setText(String.format("%.2f", Cart.getInstance().getCartTotal())));
 
@@ -181,23 +179,14 @@ public class StoreController implements Initializable {
         Cart.getInstance().getCart().addListener((ListChangeListener<Pair<Product, Integer>>) c ->
                 CartButton.setText(String.valueOf(Cart.getInstance().getTotItems())));
 
-        // cart
+        // inizializzazione bottoni del carrello
         emptyCartButton.setOnAction(event -> Cart.getInstance().getCart().clear());
         closeCartButton.setOnAction(event -> closeCartPane());
 
-        // checkout
+        // inizializzazione degli elementi della scheda di checkout
         checkoutPane.setVisible(false);
         checkoutPane.setManaged(false);
         checkoutButton.setOnAction(event -> checkout());
-
-        /*cardNumberTextField.setOnKeyTyped(event -> {
-            try {
-                changeCardImage();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        });*/
-
 
         ObservableList<Integer> months = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
         ObservableList<Integer> years = FXCollections.observableArrayList(18, 19, 20, 21, 22, 23, 24, 25, 26, 27);
@@ -221,6 +210,9 @@ public class StoreController implements Initializable {
 
     }
 
+    /**
+     * Metodo per la chiusura del pannello carrello.
+     */
     private void closeCartPane() {
         animCPclose.setToX((cartPane.getWidth()));
         animCPclose.play();
@@ -228,6 +220,9 @@ public class StoreController implements Initializable {
         DetailsPane.setDisable(false);
     }
 
+    /**
+     * Metodo per l'avvio dell'operazione di checkout.
+     */
     private void checkout(){
         if (Cart.getInstance().getTotItems() != 0) {
             checkoutPane.setVisible(true);
@@ -243,6 +238,11 @@ public class StoreController implements Initializable {
         }
     }
 
+    /**
+     * Metodo che gestisce l'acquisto dei prodotti nel carrello.
+     * Controlla che tutti i dati siano inseriti correttamente.
+     * Registra inoltre l'acquisto su file json.
+     */
     private void buy() {
         Pattern p = Pattern.compile("^[0-9]{16}$");
         Matcher cardNumberMatcher = p.matcher(cardNumberTextField.getText());
@@ -258,6 +258,7 @@ public class StoreController implements Initializable {
             System.out.println("Acquista");
 
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            // file che regista l'acquisto è nella forma userID_timestamp.json
             File out = new File("data/shop/" + User.getInstance().getID() + "_" + timestamp.getTime() + ".json");
             JSONObject obj = new JSONObject();
 
@@ -315,12 +316,18 @@ public class StoreController implements Initializable {
         }
     }
 
+    /**
+     * Metodo che gestisce la label di errore per l'indirizzo.
+     */
     @FXML
     public void noErrorWhere() {
         if (whereTextField.getText() != null || whereTextField.getText().length() != 0)
             whereError.setText("");
     }
 
+    /**
+     * Metodo che gestisce la label di errore per il numero di carta di credito e il cambio di immagine della stessa.
+     */
     @FXML
     public void noCardNumberError() {
         if (cardNumberTextField.getText() != null || cardNumberTextField.getText().length() != 0)
@@ -332,12 +339,18 @@ public class StoreController implements Initializable {
         }
     }
 
+    /**
+     * Metodo che gestisce la label di errore per il codice della carta di credito.
+     */
     @FXML
     public void noCardCodError() {
         if (cardCodTextField.getText() != null || cardCodTextField.getText().length() != 0)
             cardCodError.setText("");
     }
 
+    /**
+     * Metodo che gestisce il cambio di immagine della carta di credito.
+     */
     private void changeCardImage() throws MalformedURLException {
         if (cardNumberTextField.getText().startsWith("4")){
             File im = new File("src/view/visa.png");
@@ -358,12 +371,18 @@ public class StoreController implements Initializable {
 
     }
 
+    /**
+     * Metodo che permette di tornare alla scheda carrello da quella di checkout.
+     */
     private void backToCart() {
         checkoutPane.setVisible(false);
         checkoutPane.setManaged(false);
         CartButton.setDisable(false);
     }
 
+    /**
+     * Metodo per il reset dei filtri.
+     */
     private void filterReset() {
         searchTextField.setText("");
         orderByChoiceBox.setValue("Titolo");
@@ -373,16 +392,25 @@ public class StoreController implements Initializable {
         filterProducts();
     }
 
+    /**
+     * Metodo che permette il filtraggio dei prodotti attraverso i filtri di ricerca inseriti.
+     */
     private void filterProducts(){
         clearCds();
         ArrayList<Product> filteredProducts = new ArrayList<>(Store.getInstance().getFilteredProducts(searchTextField.getText(), orderByChoiceBox.getValue(), genreChoiceBox.getValue(), CDCheckBox.isSelected(), DVDCheckBox.isSelected()));
         setTilePaneChildren(filteredProducts);
     }
 
+    /**
+     * Metodo che pulisce la tilepane prima di caricarne una nuova.
+     */
     private void clearCds() {
         productsTilePane.getChildren().clear();
     }
 
+    /**
+     * Metodo che permette la chiusura della scheda dedicata ai dettagli.
+     */
     private void closeDetailsPane() {
         animDPclose.setToY(-(DetailsPane.getHeight()));
         animDPclose.play();
@@ -392,6 +420,9 @@ public class StoreController implements Initializable {
         detailsOpened = false;
     }
 
+    /**
+     * Metodo che prepara l'animazione del pannello dedicato ai dettagli di ogni prodotto.
+     */
     private void prepareDetailsPaneAnimation() {
         animDP=new TranslateTransition(new Duration(350), DetailsPane);
         animDP.setToY(0);
@@ -401,6 +432,9 @@ public class StoreController implements Initializable {
         animPSPclose=new TranslateTransition(new Duration(350), ProductScrollPane);
     }
 
+    /**
+     * Metodo che prepara l'animazione del pannello carrello.
+     */
     private void prepareCartPaneAnimation() {
         animCP=new TranslateTransition(new Duration(350), cartPane);
         animCP.setToX(0);
@@ -419,6 +453,9 @@ public class StoreController implements Initializable {
         });
     }
 
+    /**
+     * Metodo che carica il tilepane con i vari prodotti.
+     */
     private void setTilePaneChildren(List<Product> productsObj){
         ObservableList<AnchorPane> products = null;
         try {
@@ -443,6 +480,10 @@ public class StoreController implements Initializable {
         list.addAll(products);
     }
 
+    /**
+     * Metodo che carica le scene per ogni prodotto nello store.
+     * @return result lista dei prodotti caricati.
+     */
     private ObservableList getProductsLayout(List<Product> products) throws IOException {
         ObservableList result = FXCollections.observableArrayList();
         for(Product product : products){
@@ -458,10 +499,16 @@ public class StoreController implements Initializable {
         return result;
     }
 
+    /**
+     * Metodo per la chiusura dello store.
+     */
     private void close(){
         primaryStage.close();
     }
 
+    /**
+     * Metodo che setta tutti i valori nella scheda dei dettagli.
+     */
     public void setDetails(Product product) throws MalformedURLException {
         pTitleLabel.setText(product.getTitle());
         File im = new File("data/products/img/" + product.getImg());
@@ -486,6 +533,9 @@ public class StoreController implements Initializable {
         }
     }
 
+    /**
+     * Metodo che permette la disattivazione della carta di credito se si sceglie un altro metodo di pagamento.
+     */
     public void disableCC(ActionEvent actionEvent) {
         cardNumberTextField.setDisable(true);
         cardYearCombo.setDisable(true);
@@ -494,6 +544,10 @@ public class StoreController implements Initializable {
         cardImageView.setDisable(true);
     }
 
+    /**
+     * Metodo che permette la disattivazione della carta di credito se si scegli paypal come metodo di pagamento.
+     * Imposta inoltre l'immagine di paypal.
+     */
     public void disableCC_paypal(ActionEvent actionEvent) {
         cardNumberTextField.setDisable(true);
         cardYearCombo.setDisable(true);
@@ -507,6 +561,9 @@ public class StoreController implements Initializable {
         }
     }
 
+    /**
+     * Abilita l'inserimento dei dati della carte di credito in caso venga scelta come metodo di pagamento.
+     */
     public void enableCC(ActionEvent actionEvent) {
         cardNumberTextField.setDisable(false);
         cardYearCombo.setDisable(false);
@@ -521,6 +578,9 @@ public class StoreController implements Initializable {
         }
     }
 
+    /**
+     * Metodo per la chiusura dello store che utilizza un alert per un doppio controllo.
+     */
     public void closeStore(Event event){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Conferma");
@@ -539,9 +599,5 @@ public class StoreController implements Initializable {
             event.consume();
         }
     }
-
-    /*public void setUserMail(String userMail) {
-        userLabel.setText(userMail);
-    }*/
 }
 

@@ -1,30 +1,55 @@
 @startuml
-title Regitrazione
+skinparam sequence {
+	ArrowColor Darkcyan
+	ActorBorderColor Darkcyan
+	LifeLineBorderColor Darkcyan
+	LifeLineBackgroundColor #A9DCDF
+
+	ParticipantBorderColor Darkcyan
+	ParticipantBackgroundColor Darkcyan
+	ParticipantFontName Roboto
+	ParticipantFontSize 17
+	ParticipantFontColor white
+
+	ActorBackgroundColor Darkcyan
+	ActorFontColor Darkcyan
+	ActorFontSize 17
+	ActorFontName Roboto
+
+}
+skinparam shadowing false
+skinparam SequenceGroupBorderColor Darkcyan
+
 
 actor Cliente
 
     Cliente -> Sistema : inserimento dati cliente
     activate Sistema
 
+    Sistema -> DB : richiesta lista utenti registrati
+    activate DB
+    DB --> Sistema : lista utenti registrati
+    deactivate DB
+
     Sistema -> Sistema : controllo se utente è già registrato
     activate Sistema
 
     alt utente già registrato
-        Sistema -> Cliente: error(utente già registrato)
-        Sistema -> Cliente: login
+        Sistema --> Cliente: error(utente già registrato)
+        Sistema --> Cliente: login
 
     else utente non registrato
         Sistema -> Sistema: controllo se tutti i dati sono inseriti correttamente
         activate Sistema
         alt dati non corretti
             loop
-                Sistema -> Cliente : error(inserire dati errati o mancanti)
+                Sistema --> Cliente : error(inserire dati errati o mancanti)
                 Cliente -> Sistema : inserimento dati
             end
         else dati corretti
-            Sistema -> Cliente : registrazione avvenuta
+            Sistema --> Cliente : registrazione avvenuta
             Sistema -> DB : inserimento entry nuovo cliente
-            Sistema -> Cliente : login
+            Sistema --> Cliente : login
         deactivate Sistema
     deactivate Sistema
         end

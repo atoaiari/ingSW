@@ -24,14 +24,9 @@
                   <Image url="@logo.png" />
                </image>
             </ImageView>
-            <Button fx:id="loginButton" layoutX="32.0" layoutY="436.0" mnemonicParsing="false" onAction="#loginClick" prefHeight="40.0" prefWidth="350.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Login" />
+            <Button fx:id="loginButton" layoutX="32.0" layoutY="417.0" mnemonicParsing="false" onAction="#loginClick" prefHeight="40.0" prefWidth="350.0" styleClass="sendButton" stylesheets="@stylesh.css" text="Login" />
             <TextField fx:id="emailTextfield" layoutX="32.0" layoutY="245.0" onKeyTyped="#noErrorMail" prefHeight="40.0" prefWidth="350.0" promptText="eMail" />
             <PasswordField fx:id="pswPasswordField" layoutX="32.0" layoutY="320.0" onKeyTyped="#noErrorPsw" prefHeight="40.0" prefWidth="350.0" promptText="Password" />
-            <Label fx:id="forgetpswLabel" layoutX="246.0" layoutY="402.0" styleClass="forgetPSW" stylesheets="@stylesh.css" text="Password dimenticata?">
-               <font>
-                  <Font name="Roboto Regular" size="13.0" />
-               </font>
-            </Label>
             <Label layoutX="32.0" layoutY="157.0" text="Accedi">
                <font>
                   <Font name="Roboto Regular" size="31.0" />

@@ -1,5 +1,24 @@
 @startuml
-title Acquisto prodotti
+skinparam sequence {
+	ArrowColor Darkcyan
+	ActorBorderColor Darkcyan
+	LifeLineBorderColor Darkcyan
+	LifeLineBackgroundColor #A9DCDF
+
+	ParticipantBorderColor Darkcyan
+	ParticipantBackgroundColor Darkcyan
+	ParticipantFontName Roboto
+	ParticipantFontSize 17
+	ParticipantFontColor white
+
+	ActorBackgroundColor Darkcyan
+	ActorFontColor Darkcyan
+	ActorFontSize 17
+	ActorFontName Roboto
+
+}
+skinparam shadowing false
+skinparam SequenceGroupBorderColor Darkcyan
 
 actor Cliente
 
@@ -23,7 +42,7 @@ actor Cliente
         Sistema -> Sistema : controllo dati inseriti
         activate Sistema
         alt dati non corretti o mancanti
-            Sistema -> Cliente : inserire dati corretti
+            Sistema --> Cliente : inserire dati corretti
         else dati corretti
             Sistema --> Cliente : acquisto effettuato
             Sistema -> DB : inserimento entry nuovo acquisto

@@ -1,6 +1,33 @@
 @startuml
+
+
+skinparam sequence {
+	ArrowColor Darkcyan
+	ActorBorderColor Darkcyan
+	LifeLineBorderColor Darkcyan
+	LifeLineBackgroundColor #A9DCDF
+
+	ParticipantBorderColor Darkcyan
+	ParticipantBackgroundColor Darkcyan
+	ParticipantFontName Roboto
+	ParticipantFontSize 17
+	ParticipantFontColor white
+
+	ActorBackgroundColor Darkcyan
+	ActorFontColor Darkcyan
+	ActorFontSize 17
+	ActorFontName Roboto
+
+}
+skinparam shadowing false
+skinparam SequenceGroupBorderColor Darkcyan
+
 actor Cliente
 
+Sistema -> DB : richiesta lista prodotti
+activate DB
+DB --> Sistema : lista prodotti
+deactivate DB
 
 Sistema --> Cliente : invio catalogo
 loop

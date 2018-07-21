@@ -13,21 +13,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
 public class Main extends Application {
     private static final String LOGIN_FXML_PATH = "/view/login.fxml";
-    private static final String REGISTRAZIONE_FXML_PATH = "/view/registration.fxml";
-    private static final String STORE_FXML_PATH = "/view/store.fxml";
 
     private Stage primaryStage;
     private StoreController myController;
-    // private String userMail;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -46,21 +41,22 @@ public class Main extends Application {
         openStore();
     }
 
+    /**
+     * Metodo che carica la scena principale del negozio.
+     */
     private void openStore() {
         FXMLLoader storeLoader = new FXMLLoader();
         storeLoader.setLocation(getClass().getResource("/view/store2.fxml"));
 
         Parent root = null;
         try {
-            root = (Parent) storeLoader.load();
+            root = storeLoader.load();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
         myController = storeLoader.getController();
-        // TODO
-        // myController.setUserMail(userMail);
         myController.setStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
@@ -94,7 +90,6 @@ public class Main extends Application {
             loginStage.setResizable(false);
 
             loginStage.showAndWait();
-            //userMail = myController.getMail();
             return myController.esitoLogin();
         } catch (IOException e) {
             System.err.println("File " + LOGIN_FXML_PATH + " non trovato");
@@ -104,6 +99,10 @@ public class Main extends Application {
         return false;
     }
 
+    /**
+     * Metodo che permette la chiusura del programma con alert.
+     * @param event click sul tasto di chiusura.
+     */
     public void closeStore(Event event){
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Conferma");

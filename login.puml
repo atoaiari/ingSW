@@ -1,23 +1,47 @@
 @startuml
-title Login
+skinparam sequence {
+	ArrowColor Darkcyan
+	ActorBorderColor Darkcyan
+	LifeLineBorderColor Darkcyan
+	LifeLineBackgroundColor #A9DCDF
+
+	ParticipantBorderColor Darkcyan
+	ParticipantBackgroundColor Darkcyan
+	ParticipantFontName Roboto
+	ParticipantFontSize 17
+	ParticipantFontColor white
+
+	ActorBackgroundColor Darkcyan
+	ActorFontColor Darkcyan
+	ActorFontSize 17
+	ActorFontName Roboto
+
+}
+skinparam shadowing false
+skinparam SequenceGroupBorderColor Darkcyan
 
 actor Cliente
 
     Cliente -> Sistema : inserimento credenziali
     activate Sistema
 
+    Sistema -> DB : richiesta lista utenti
+    activate DB
+    DB --> Sistema : lista utenti
+    deactivate DB
+
     Sistema -> Sistema : controllo se utente è registrato
     activate Sistema
 
     alt utente non registrato
-        Sistema -> Cliente: error(necessaria registrazione)
+        Sistema --> Cliente: error(necessaria registrazione)
 
     else utente registrato
         Sistema -> Sistema: controllo password
         alt password errata
-            Sistema -> Cliente : error(password errata)
+            Sistema --> Cliente : error(password errata)
         else password corretta
-                    Sistema -> Cliente : accesso consentito
+                    Sistema --> Cliente : accesso consentito
             deactivate Sistema
         deactivate Sistema
         end

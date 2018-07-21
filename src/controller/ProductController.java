@@ -33,6 +33,10 @@ public class ProductController implements Initializable {
     public ProductController() {
     }
 
+    /**
+     * Metodo che setta il controller padre per poterne utilizzare i metodi.
+     * @param controller controller padre.
+     */
     public void setFatherController(StoreController controller){
         this.fatherController = controller;
     }
@@ -46,11 +50,12 @@ public class ProductController implements Initializable {
                 e.printStackTrace();
             }
         });
-
-        // addToCartButton.setOnAction(e -> fatherController.addToCart(this.product));
     }
 
-
+    /**
+     * Metodo setta i valori della scheda di ogni prodotto.
+     * @param product istanza di un prodotto.
+     */
     public void setProduct(Product product) throws MalformedURLException {
         this.product = product;
         productTitleLabel.setText(product.getTitle());
@@ -64,6 +69,10 @@ public class ProductController implements Initializable {
         addToCartButton.setOnAction(event -> addToCart(this.product));
     }
 
+    /**
+     * Metodo che permette di aggiungere un prodotto al carrello tramite l'apposito bottone.
+     * @param product istanza di un prodotto.
+     */
     private void addToCart(Product product) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Info");

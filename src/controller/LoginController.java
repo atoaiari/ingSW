@@ -14,7 +14,6 @@ import javafx.scene.layout.AnchorPane;
 import model.User;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,15 +23,13 @@ import java.util.regex.Pattern;
 public class LoginController implements Initializable {
 
     private static final String REGISTRAZIONE_FXML_PATH = "/view/registration.fxml";
-    private static final String LOGIN_FXML_PATH = "/view/login.fxml";
 
     private boolean logged = false;
     private Stage loginStage;
-    private Scene basckupScene = null;
+    private Scene backupScene = null;
 
     @FXML private TextField emailTextfield;
     @FXML private PasswordField pswPasswordField;
-    @FXML private Label forgetpswLabel;
     @FXML private Button loginButton;
     @FXML private Button registerButton;
     @FXML private Label emailError;
@@ -41,25 +38,43 @@ public class LoginController implements Initializable {
     public LoginController(){
     }
 
+    /**
+     * Metodo che restituisce l'esito del login.
+     * @return true se l'utente inserisce username e password validi.
+     */
     public boolean esitoLogin() {
         // TODO Auto-generated method stub
         return logged;
     }
 
+    /**
+     * Metodo che setta lo stage del login.
+     * @param loginStage stage da settare.
+     */
     public void setLoginStage(Stage loginStage) {
         // TODO Auto-generated method stub
         this.loginStage = loginStage;
     }
 
+    /**
+     * Metodo che ritorna la email inserita dall'utente.
+     * @return email inserita dall'utente.
+     */
     public String getMail(){
-        // System.out.println(emailTextfield.getText().hashCode());
         return emailTextfield.getText();
     }
 
+    /**
+     * Metodo che ritorna la password inserita dall'utente.
+     * @return password inserita dall'utente.
+     */
     private String getPassword(){
         return pswPasswordField.getText();
     }
 
+    /**
+     * Metodo che controlla se lo user è già registrato e se i dati inseriti sono corretti.
+     */
     @FXML
     public void loginClick() {
         Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -105,6 +120,9 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Metodo che carica la pagina di registrazione.
+     */
     @FXML
     public void registrationClick() {
         try {
@@ -114,7 +132,7 @@ public class LoginController implements Initializable {
             //creo stage e scene
             loginStage.setTitle("Registrazione");
             Scene registrationMainScene = new Scene(registrationRoot);
-            basckupScene = loginStage.getScene();
+            backupScene = loginStage.getScene();
             loginStage.setScene(registrationMainScene);
 
             //Assegno controller
@@ -129,9 +147,13 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Metodo che ripristana la scena di login dopo la registrazione, segnalando anche eventuali errori con un alert.
+     * @param res esito della registrazione
+     */
     public void restoreScene(int res){
         loginStage.setTitle("Login");
-        loginStage.setScene(basckupScene);
+        loginStage.setScene(backupScene);
         switch (res){
             case 1:
                 Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
@@ -154,12 +176,18 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Metodo che gestisce il messaggio di errore della mail.
+     */
     @FXML
     public void noErrorMail() {
         if (getMail() != null || getMail().length() != 0)
             emailError.setText("");
     }
 
+    /**
+     * Metodo che gestisce il messaggio di errore della password.
+     */
     @FXML
     public void noErrorPsw() {
         if (getPassword() != null || getPassword().length() != 0)

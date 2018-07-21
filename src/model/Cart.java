@@ -1,64 +1,31 @@
 package model;
 
-import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class Cart {
     private static Cart ourInstance = null;
-    // private Set<Product> productsSet;
-    // private List<Pair<Product, Integer>> productsInCart;
-    // private HashMap<Product, Integer> productsInCart;
+    // il carrello è organizzato come una lista di coppie <prodotto, quantità>
     private ObservableList<Pair<Product, Integer>> productsInCart;
 
+    // metodo per gestire la classe singleton
     public static Cart getInstance() {
         if (ourInstance == null) {
-            try {
-                ourInstance = new Cart();
-            } catch (User.UnloadedUserException e) {
-                e.printStackTrace();
-            }
+            ourInstance = new Cart();
         }
         return ourInstance;
     }
 
-    private Cart() throws User.UnloadedUserException {
+    private Cart() {
         productsInCart = FXCollections.observableArrayList();
-
-        /*File c = new File("data/cart/" + User.getInstance().getID() + ".json");
-        if (c.exists()){
-            JSONParser parser = new JSONParser();
-            JSONObject prod = null;
-            try {
-                prod = (JSONObject) parser.parse(new FileReader(c));
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            List<Pair<Product, Integer>> p = new Gson().fromJson(prod, List<Pair<Product,Integer>>);
-            for (Pair<Product, Integer> pair : p){
-                System.out.println(pair);
-                productsInCart.add(pair);
-            }
-        }*/
-
     }
 
+    /**
+     * Metodo che restituisce la lista dei prodotti nel carrello.
+     * @return productsInCart prodotti nel carrello.
+     */
     public ObservableList<Pair<Product, Integer>> getCart() {
         return productsInCart;
     }

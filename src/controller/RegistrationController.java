@@ -14,7 +14,6 @@ import org.json.simple.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -46,6 +45,10 @@ public class RegistrationController implements Initializable {
 
     public RegistrationController() {}
 
+    /**
+     * Metodo che setta lo stage corrente.
+     * @param registrationStage stage della registrazione.
+     */
     public void setRegistrationStage(Stage registrationStage) {
         // TODO Auto-generated method stub
         this.registrationStage = registrationStage;
@@ -57,6 +60,10 @@ public class RegistrationController implements Initializable {
             registrationButton.fire();
     }
 
+    /**
+     * Metodo che setta il login controller.
+     * @param loginController controller del login.
+     */
     public void setLoginController(LoginController loginController) {
         this.loginController = loginController;
     }
@@ -67,15 +74,17 @@ public class RegistrationController implements Initializable {
         registrationButton.setOnAction(e -> registrationClick());
     }
 
+    /**
+     * Metodo che effettua la registrazione su file json di un nuovo utente dopo aver controllato che non esista già
+     * e che tutti i dati inseriti siano corretti.
+     */
     private void registrationClick() {
-        // inserisco entry nel database
         Pattern p = Pattern.compile("^([A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1})|([0-9]{11})$");
         Matcher cf = p.matcher(codFiscaleTextField.getText());
         p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher mail = p.matcher(emailTextfield.getText());
         p = Pattern.compile("^[0-9]{10}$", Pattern.CASE_INSENSITIVE);
         Matcher phone = p.matcher(telTextField.getText());
-        //boolean b = m.matches();
         if (codFiscaleTextField.getText() == null || codFiscaleTextField.getText().length() != 16 || !cf.matches())
             codFiscaleError.setText("Inserire codice fiscale");
         else if (nameTextfield.getText() == null || nameTextfield.getText().length() == 0)
@@ -125,48 +134,72 @@ public class RegistrationController implements Initializable {
         }
     }
 
+    /**
+     * Metodo per la gestione della label di errore per il nome.
+     */
     @FXML
     public void noErrorName() {
         if (nameTextfield.getText() != null || nameTextfield.getText().length() != 0)
             nameError.setText("");
     }
 
+    /**
+     * Metodo per la gestione della label di errore per il cognome.
+     */
     @FXML
     public void noErrorLastName() {
         if (lastnameTextfield.getText() != null || lastnameTextfield.getText().length() != 0)
             lastnameError.setText("");
     }
 
+    /**
+     * Metodo per la gestione della label di errore per la email.
+     */
     @FXML
     public void noErrorMail() {
         if (emailTextfield.getText() != null || emailTextfield.getText().length() != 0)
             emailError.setText("");
     }
 
+    /**
+     * Metodo per la gestione della label di errore per la password.
+     */
     @FXML
     public void noErrorPsw() {
         if (pswField.getText() != null || pswField.getText().length() != 0)
             pswError.setText("");
     }
 
+    /**
+     * Metodo per la gestione della label di errore per il numero di telefono.
+     */
     @FXML
     public void noErrorTel() {
         if (telTextField.getText() != null || telTextField.getText().length() != 0)
             telError.setText("");
     }
 
+    /**
+     * Metodo per la gestione della label di errore per la città.
+     */
     @FXML
     public void noErrorCity() {
         if (cityTextField.getText() != null || cityTextField.getText().length() != 0)
             cityError.setText("");
     }
 
+    /**
+     * Metodo per la gestione della label di errore per il codice fiscale.
+     */
     @FXML
     public void noErrorCF() {
         if (codFiscaleTextField.getText() != null || codFiscaleTextField.getText().length() != 0)
             codFiscaleError.setText("");
     }
 
+    /**
+     * Metodo che ripristina la scena di login.
+     */
     private void loginClick() {
         loginController.restoreScene(3);
     }
