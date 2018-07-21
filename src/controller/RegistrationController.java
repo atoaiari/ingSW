@@ -119,7 +119,6 @@ public class RegistrationController implements Initializable {
                 obj.put("registrationDate", DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate));
                 obj.put("city", cityTextField.getText());
                 obj.put("tel", telTextField.getText());
-                obj.put("bonus", false);
 
                 System.out.print(obj);
                 try (FileWriter file = new FileWriter(out)) {

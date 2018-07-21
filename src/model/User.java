@@ -16,7 +16,6 @@ public class User {
     private static String psw;
     private static String registrationDate;
 
-    private static boolean bonus;
     private static boolean loaded = false;
 
     private static User ourInstance = null;
@@ -44,7 +43,6 @@ public class User {
         email = (String) u.get("email");
         psw = (String) u.get("psw");
         registrationDate = (String) u.get("registrationDate");
-        bonus = (boolean) u.get("bonus");
         loaded = true;
     }
 
