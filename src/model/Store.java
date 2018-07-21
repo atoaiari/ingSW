@@ -13,6 +13,7 @@ public class Store {
     private List<Product> productsList;
     private List<Product> iterableProductList;
 
+    // metodo statico per classe singleton
     public static Store getInstance() {
         if (ourInstance == null) {
             try {
@@ -24,6 +25,9 @@ public class Store {
         return ourInstance;
     }
 
+    /**
+     * Costruttore che carica tutti i prodotti da file.
+     */
     private Store() throws ParseException, IOException {
         productsList = new ArrayList<>();
         for (File document : getProductsJson()){
@@ -33,9 +37,11 @@ public class Store {
         iterableProductList = new ArrayList<>(productsList);
     }
 
+    /**
+     * Metodo che cerca i file nella cartella products.
+     * @return real_files file json contenenti i prodotti.
+     */
     private ArrayList<File> getProductsJson() {
-        //TODO costruisci arraylist di document di json, leggili da disco
-
         File myDirectory = new File("data/products");
         File[] files = myDirectory.listFiles();
         ArrayList real_files = new ArrayList<File>();
@@ -49,10 +55,18 @@ public class Store {
         return real_files;
     }
 
+    /**
+     * Metodo che restituisce la lista dei prodotti.
+     * @return productsList lista dei prodotti.
+     */
     public List<Product> getProducts(){
         return productsList;
     }
 
+    /**
+     * Metodo che riceve in input vari parametri di filtraggio e restituisce la lista dei prodotti filtrata.
+     * @return filteredProducts lista dei prodotti filtrati.
+     */
     public List<Product> getFilteredProducts(String searchText, String orderByValue, String genreValue, Boolean CD, Boolean DVD) {
         List<Product> filteredProducts = new ArrayList<>(productsList);
 
@@ -88,6 +102,7 @@ public class Store {
             }
         }
 
+        // ordinamento con compare
         switch (orderByValue) {
             case "Titolo":
                 filteredProducts.sort(Comparator.comparing(Product::getTitle));

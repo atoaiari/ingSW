@@ -9,7 +9,6 @@ import org.json.simple.parser.ParseException;
 
 
 public class Product implements Comparable{
-    //TODO costruisci la classe
     private String id;
 
     private String title;
@@ -26,6 +25,10 @@ public class Product implements Comparable{
     private ArrayList<String> tracks;
 
 
+    /**
+     * Costruttore della classe product che carica da file un prodotto.
+     * @param product file contenente un prodotto.
+     */
     public Product(File product) throws IOException, ParseException {
         JSONParser parser = new JSONParser();
         JSONObject prod = (JSONObject) parser.parse(new FileReader(product));
@@ -45,14 +48,15 @@ public class Product implements Comparable{
 
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-
     @Override
     public int compareTo(Object o) {
         return id.compareTo(((Product)o).getId());
+    }
+
+    // metodi get per tutti gli attributi di prodotto.
+
+    public String getTitle() {
+        return title;
     }
 
     private String getId() {
@@ -107,9 +111,4 @@ public class Product implements Comparable{
     public Double getNegativePrice() {
         return price * (-1);
     }
-
-    /*@Override
-    public String toString() {
-        return "Articolo: " + title;
-    }*/
 }

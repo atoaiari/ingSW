@@ -5,14 +5,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class User {
-    //TODO costruisci la classe
     private static String userId;
     private static String name;
     private static String last;
@@ -29,10 +25,13 @@ public class User {
         if (ourInstance == null && loaded) {
             ourInstance = new User();
         }
-        // else throw new UnloadedUserException();
         return ourInstance;
     }
 
+    /**
+     * Metodo statico che carica un utente se lo trova registrato.
+     * @param user indica l'utente.
+     */
     public static void loadUser(String user) throws IOException, ParseException {
         File myUser = new File("data/users/" + user.hashCode() + ".json");
 
@@ -52,6 +51,8 @@ public class User {
     private User() {
     }
 
+    // metodi get dei vari attributi
+
     public String getUserMail() {
         return email;
     }
@@ -70,8 +71,5 @@ public class User {
 
     public String getID() {
         return userId;
-    }
-
-    public static class UnloadedUserException extends Exception {
     }
 }

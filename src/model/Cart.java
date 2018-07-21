@@ -30,22 +30,19 @@ public class Cart {
         return productsInCart;
     }
 
+    /**
+     * Metodo che aggiunge una nuova coppia <prodotto, quantità> al carrello.
+     * @param product prodotto da aggiungere.
+     * @param quantita quantità del prodotto.
+     */
     public void addToCart(Product product, int quantita){
         boolean added = false;
-        Pair<Product, Integer> newP = null;
-        Pair<Product, Integer> oldP = null;
         int indexOfPairToUpdate = 0;
         int oldQ = 0;
-        
-        //System.out.println("Aggiunto " + product);
+
         for (Pair<Product, Integer> pair: productsInCart) {
             if (pair.getKey().equals(product)) {
-                /*productsInCart.remove(pair);
-                productsInCart.add(new Pair<>(product, pair.getValue() + quantita));
-                added = true;*/
                 indexOfPairToUpdate = productsInCart.indexOf(pair);
-//                oldP = pair;
-//                newP = new Pair<>(product, pair.getValue() + quantita);
                 oldQ = pair.getValue();
                 added = true;
             }
@@ -54,44 +51,34 @@ public class Cart {
         else {
             int finalIndexOfPairToUpdate = indexOfPairToUpdate;
             int finalOldQ = oldQ;
+            // operazione asincrona
             Platform.runLater(() -> productsInCart.set(finalIndexOfPairToUpdate, new Pair<>(product, finalOldQ + quantita)));
-//            productsInCart.remove(oldP);
-//            productsInCart.add(newP);
         }
-        /*try {
-            saveCart();
-        } catch (User.UnloadedUserException e) {
-            e.printStackTrace();
-        }*/
         System.out.println(productsInCart);
     }
 
+    /**
+     * Metodo che rimuove una singola unità di un prodotto dal carrello.
+     * @param product prodotto da rimuovere.
+     */
     public void removeFromCart(Pair<Product, Integer> product) {
-        // Pair<Product, Integer> pairToDelete = null;
-        // List<Pair<Product, Integer>> backup = new ArrayList<>();
-        // System.out.println("backup_pre : " + backup);
         int oldValue = 0;
         int indexOfPairToRemove = 0;
         for (Pair<Product, Integer> pair: productsInCart) {
             if (pair.getKey().equals(product.getKey())) {
                 indexOfPairToRemove = productsInCart.indexOf(pair);
                 oldValue = pair.getValue();
-                // pairToDelete = pair;
             }
         }
         if ((oldValue-1) > 0) {
             int finalIndexOfPairToRemove = indexOfPairToRemove;
             int finalOldValue = oldValue;
+            // operazione asincrona
             Platform.runLater(() -> productsInCart.set(finalIndexOfPairToRemove, new Pair<>(product.getKey(), finalOldValue - 1)));
         }
         else
+            // operazione asincrona
             Platform.runLater(() -> productsInCart.remove(product));
-
-        /*try {
-            saveCart();
-        } catch (User.UnloadedUserException e) {
-            e.printStackTrace();
-        }*/
     }
 
     /*private void saveCart() throws User.UnloadedUserException {
@@ -113,6 +100,10 @@ public class Cart {
         }
     }*/
 
+    /**
+     * Metodo che restituisce il prezzo totale dei prodotti nel carrello.
+     * @return total costo totale.
+     */
     public float getCartTotal() {
         float total = 0;
         for (Pair<Product, Integer> pair: productsInCart){
@@ -121,6 +112,10 @@ public class Cart {
         return total;
     }
 
+    /**
+     * Metodo che restituisce il numero totale di prodotti nel carrello.
+     * @return total prodotti nel carrello.
+     */
     public int getTotItems() {
         int total = 0;
         for (Pair<Product, Integer> pair: productsInCart){
@@ -128,12 +123,4 @@ public class Cart {
         }
         return total;
     }
-
-    /*public void removeFromCart(Pair<CD, Integer> selezionato) {
-        giacenza.remove(selezionato);
-    }*/
-    /*public void rifornisci(Pair<CD, Integer> prodotto, int quantita) {
-        giacenza.remove(prodotto);
-        giacenza.add(new Pair<CD, Integer>(prodotto.getKey(), prodotto.getValue()+quantita));
-    }*/
 }
